@@ -23,7 +23,6 @@ import {
   InputGroup,
   Container
 } from "native-base";
-import { Banco } from "./instancias/conexao.js";
 import LoginForm from "./componentes/loginForm.js";
 
 // const analytics = require("./instancias/analytics");
@@ -155,7 +154,7 @@ export default class Principal extends React.Component {
           </View>
 
           <View style={{ paddingHorizontal: 30 }}>
-            <LoginForm />
+            <LoginForm navigate={navigate} />
           </View>
           <View
             style={{

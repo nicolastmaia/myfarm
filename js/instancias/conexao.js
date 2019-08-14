@@ -1,15 +1,15 @@
 import PouchDB from "../constantes/pouchdbPlugins.js";
 import { Toast } from "native-base";
 import { AsyncStorage } from "react-native";
+
+const LOCALHOST = "http://192.168.0.109:5984";
 export const Banco = {
   local: new PouchDB("myfarmlocal"),
-  remoto: new PouchDB("http://10.56.216.67:5984"),
+  remoto: new PouchDB(LOCALHOST),
 
   syncDB: function(currentUser) {
     this.remoto = new PouchDB(
-      `http://192.168.0.109:5984/userdb-${Buffer.from(
-        currentUser.username
-      ).toString(
+      `${LOCALHOST}/userdb-${Buffer.from(currentUser.username).toString(
         "hex"
       )}` /* ,
       {
@@ -30,12 +30,12 @@ export const Banco = {
     });
   },
 
-  checkLogin: function(currentUser) {
+  checkLogin: function(username, password) {
+    const currentUser = { username, password };
     return new Promise((resolve, reject) => {
       this.remoto
         .logIn(currentUser.username, currentUser.password)
         .then(response => {
-          console.log("logou (conexao.js): ", response);
           AsyncStorage.setItem("logado", "1");
           this.syncDB(currentUser);
           resolve(response);
