@@ -13,7 +13,6 @@ export const Banco = {
         "hex"
       )}` /* ,
       {
-        skipSetup: true,
         ajax: {
           headers: {
             "X-Auth-CouchDB-UserName": `${currentUser.id}`,
@@ -31,6 +30,7 @@ export const Banco = {
   },
 
   checkLogin: function(username, password) {
+    username = username.toLowerCase();
     const currentUser = { username, password };
     return new Promise((resolve, reject) => {
       this.remoto
