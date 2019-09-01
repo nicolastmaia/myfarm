@@ -131,6 +131,7 @@ export default class Home extends React.Component {
           <View style={{ marginTop: 35 }}>
             <View
               style={{
+                marginTop: 25,
                 flexDirection: "row",
                 alignItems: "center",
                 justifyContent: "center"
