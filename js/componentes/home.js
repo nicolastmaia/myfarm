@@ -57,34 +57,33 @@ export default class Home extends React.Component {
       );
     } else {
       tmp = (
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center"
-          }}
-        >
+        <>
           <View
             style={{
-              flex: 1,
-              justifyContent: "center",
-              alignItems: "center"
+              alignItems: "center",
+              justifyContent: "center"
             }}
           >
-            {this.state.tempo.icone}
+            <View>{this.state.tempo.icone}</View>
             <Text
               style={{
-                color: "#dfd"
+                color: "#fff"
               }}
             >
               {this.state.tempo.cidade}
             </Text>
           </View>
+
           <View
             style={{
-              flex: 1,
               borderStyle: "solid",
-              borderLeftWidth: 2
+              borderLeftWidth: 2,
+              alignItems: "center",
+              justifyContent: "center",
+              paddingLeft: 15,
+              paddingBottom: 5,
+              paddingTop: 15,
+              marginLeft: 15
             }}
           >
             <Text
@@ -95,15 +94,16 @@ export default class Home extends React.Component {
             >
               {this.state.tempo.temperatura}
             </Text>
+
             <Text
               style={{
-                color: "#dfd"
+                color: "#fff"
               }}
             >
               {this.state.tempo.descricao}
             </Text>
           </View>
-        </View>
+        </>
       );
     }
 
@@ -131,6 +131,7 @@ export default class Home extends React.Component {
           <View style={{ marginTop: 35 }}>
             <View
               style={{
+                flexDirection: "row",
                 alignItems: "center",
                 justifyContent: "center"
               }}
