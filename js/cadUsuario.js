@@ -10,7 +10,6 @@ import {
 	Dimensions,
 	Keyboard
 } from "react-native";
-
 import {
 	Root,
 	Toast,
@@ -92,7 +91,7 @@ var formularios = [
 	]
 ];
 
-class cadastro extends React.Component {
+export default class CadUsuario extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -494,5 +493,3 @@ const styles = StyleSheet.create({
 		left: 0
 	}
 });
-
-export default cadastro;

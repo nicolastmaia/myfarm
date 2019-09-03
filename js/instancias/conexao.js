@@ -2,7 +2,7 @@ import PouchDB from "../constantes/pouchdbPlugins.js";
 import { Toast } from "native-base";
 import { AsyncStorage } from "react-native";
 
-const LOCALHOST = "http://192.168.0.109:5984";
+const LOCALHOST = "http://192.168.43.54:5984";
 export const Banco = {
   local: new PouchDB("myfarmlocal"),
   remoto: new PouchDB(LOCALHOST),

@@ -16,7 +16,7 @@ import Sanduiche from "./sanduiche";
 //=========| TELAS |=========//
 import Principal from "../principal";
 import Sobre from "../sobre";
-import cadPropriedade from "../cadPropriedade";
+import CadUsuario from "../cadUsuario";
 import cadPropriedadeNova from "../cadPropriedadeNova";
 import Talhao from "../talhao";
 import CadTalhao from "../cadTalhao";
@@ -66,7 +66,7 @@ const Stack = createAppContainer(
       CadTalhao: CadTalhao,
       CadAplicacao: CadAplicacao,
       CadColheita: CadColheita,
-      "Cadastro de propriedade": cadPropriedade,
+      CadUsuario: CadUsuario,
       CadPropriedadeNova: cadPropriedadeNova
     },
     { headerMode: "none" }
@@ -78,7 +78,7 @@ const Deslogado = createAppContainer(
     {
       Inicio: Principal,
       Sobre: Sobre,
-      "Cadastro de propriedade": cadPropriedade
+      CadUsuario: CadUsuario
     },
     { headerMode: "none" }
   )

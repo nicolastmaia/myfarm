@@ -166,7 +166,7 @@ export default class Principal extends React.Component {
             <Text
               style={styles.texto}
               onPress={() => {
-                navigate("Cadastro de propriedade");
+                navigate("CadUsuario");
               }}
             >
               Cadastrar
