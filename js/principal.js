@@ -27,25 +27,6 @@ import LoginForm from "./componentes/loginForm.js";
 
 // const analytics = require("./instancias/analytics");
 
-var currentUser = {
-  username: "nicolas",
-  password: "123"
-};
-
-/* function Texto(props) {
-  return (
-    <InputGroup rounded style={styles.input}>
-      <Icon name={props.icone} style={{ color: "#ffffff" }} />
-      <Input
-        style={{ color: "#ffffff" }}
-        placeholder={props.placeholder}
-        placeholderTextColor="#ffffff"
-        {...props}
-      />
-    </InputGroup>
-  );
-} */
-
 export default class Principal extends React.Component {
   constructor(props) {
     super(props);
@@ -82,6 +63,8 @@ export default class Principal extends React.Component {
     let logoMyFarm = null;
     let logoRural = null;
     let logoPet = null;
+
+    //configs das logos
     if (!this.state.teclado) {
       logoMyFarm = (
         <Image
@@ -111,14 +94,7 @@ export default class Principal extends React.Component {
         <Icon
           active
           name="ios-information-circle"
-          style={{
-            color: "#fff",
-            fontSize: 26,
-            position: "absolute",
-            zIndex: 999,
-            right: 15,
-            top: 35
-          }}
+          style={styles.infoIcon}
           onPress={() => navigate("Sobre")}
         />
         <KeyboardAvoidingView
@@ -126,6 +102,7 @@ export default class Principal extends React.Component {
           keyboardVerticalOffset={0}
           style={{ flex: 1 }}
         >
+          {/* insercao das logos */}
           <View
             style={{
               flex: 1,
@@ -153,9 +130,12 @@ export default class Principal extends React.Component {
             </View>
           </View>
 
+          {/* form de login */}
           <View style={{ paddingHorizontal: 30 }}>
             <LoginForm navigate={navigate} />
           </View>
+
+          {/* bottom com opcoes de cadastrar e de recuperar senha */}
           <View
             style={{
               flexDirection: "row",
@@ -186,6 +166,7 @@ export default class Principal extends React.Component {
   }
 }
 
+//estilos da pagina
 const styles = StyleSheet.create({
   imageContainer: {
     width: Dimensions.get("window").width,
@@ -200,6 +181,14 @@ const styles = StyleSheet.create({
   logosMenores: {
     flex: 1,
     resizeMode: "contain"
+  },
+  infoIcon: {
+    color: "#fff",
+    fontSize: 26,
+    position: "absolute",
+    zIndex: 999,
+    right: 15,
+    top: 35
   },
   texto: {
     color: "#fff",

@@ -87,6 +87,8 @@ export default class Sanduiche extends React.Component {
     );
   }
 }
+
+//estilos da pagina
 const styles = StyleSheet.create({
   container: {
     flex: 1,
