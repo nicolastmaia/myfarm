@@ -125,7 +125,10 @@ export default class CadTalhao extends React.Component {
           paddingTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight
         }}
       >
-        <Header>
+        <Header
+          androidStatusBarColor="green"
+          style={{ backgroundColor: "green" }}
+        >
           <Left>
             <Icon
               style={{

@@ -60,7 +60,10 @@ export default class CadColheita extends React.Component {
           paddingTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight
         }}
       >
-        <Header>
+        <Header
+          androidStatusBarColor="green"
+          style={{ backgroundColor: "green" }}
+        >
           <Left>
             <Icon
               style={{
@@ -110,7 +113,11 @@ export default class CadColheita extends React.Component {
 
           <Button
             block
-            style={{ marginTop: 15, marginBottom: 25 }}
+            style={{
+              marginTop: 15,
+              marginBottom: 25,
+              backgroundColor: "green"
+            }}
             onPress={() => {
               var tmp = this._formulario1.getValores();
               console.warn(tmp);

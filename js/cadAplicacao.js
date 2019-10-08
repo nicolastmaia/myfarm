@@ -73,7 +73,10 @@ export default class CadAplicacao extends React.Component {
           paddingTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight
         }}
       >
-        <Header>
+        <Header
+          androidStatusBarColor="green"
+          style={{ backgroundColor: "green" }}
+        >
           <Left>
             <Icon
               style={{
@@ -125,7 +128,11 @@ export default class CadAplicacao extends React.Component {
 
           <Button
             block
-            style={{ marginTop: 15, marginBottom: 25 }}
+            style={{
+              marginTop: 15,
+              marginBottom: 25,
+              backgroundColor: "green"
+            }}
             onPress={() => {
               if (!this._formulario1.verificaRequisitos()) return;
 
@@ -144,7 +151,7 @@ export default class CadAplicacao extends React.Component {
                 title: "Aplicação de " + tmp.produto,
                 description: tmp.quantidade + " ml"
               });
-              //MUDAR /\ DEPOIS PORRA !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! TODO
+              //MUDAR /\ DEPOIS! TODO
 
               this.props.navigation.dispatch(NavigationActions.back());
             }}
