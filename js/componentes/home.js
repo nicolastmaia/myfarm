@@ -137,7 +137,7 @@ export default class Home extends React.Component {
             {/* previsao do tempo */}
             <View
               style={{
-                marginTop: 25,
+                marginTop: 50,
                 flexDirection: "row",
                 alignItems: "center",
                 justifyContent: "center"
@@ -192,7 +192,7 @@ export default class Home extends React.Component {
                   style={styles.botoes}
                   onPress={() => this.props.navigation.navigate("CadColheita")}
                 >
-                  <Ionicon name="md-nutrition" style={styles.icone} />
+                  <Ionicon name="md-basket" style={styles.icone} />
                   <Text style={styles.texto}>Colheita</Text>
                 </TouchableOpacity>
               </View>

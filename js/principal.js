@@ -135,7 +135,7 @@ export default class Principal extends React.Component {
             <LoginForm navigate={navigate} />
           </View>
 
-          {/* bottom com opcoes de cadastrar e de recuperar senha */}
+          {/* botoes com opcoes de cadastrar e de recuperar senha */}
           <View
             style={{
               flexDirection: "row",

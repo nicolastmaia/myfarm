@@ -77,7 +77,7 @@ export default class LoginForm extends React.Component {
   }
 }
 
-//estilos da pagina
+//estilos do componente
 const styles = StyleSheet.create({
   input: {
     backgroundColor: "rgba(0,0,0,.5)",

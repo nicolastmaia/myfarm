@@ -20,13 +20,14 @@ import {
   Text,
   Toast,
   Fab,
+  Icon,
   Badge,
   Container
 } from "native-base";
 import Lightbox from "react-native-lightbox";
 import Ionicon from "react-native-vector-icons/Ionicons";
 
-import {Banco} from "../instancias/conexao.js";
+import { Banco } from "../instancias/conexao.js";
 
 var contador = 0;
 
@@ -41,11 +42,6 @@ export default class Galeria extends React.Component {
         id: "1",
         local:
           "http://portal.ufrrj.br/wp-content/uploads/2015/08/Foto-12-Veiculos-novos-para-UFRRJ-1150x300_c.jpg"
-      },
-      {
-        id: "2",
-        local:
-          "https://www.brasil247.com/images/cache/1000x357/crop/images%7Ccms-image-000341599.jpg"
       },
       {
         id: "3",
@@ -234,44 +230,43 @@ export default class Galeria extends React.Component {
                 {this.renderizaFotos()}
               </View>
             </ScrollView>
+          </View>
+          {/* botao de ações flutuante */}
+          <Fab
+            active={this.state.active}
+            direction="up"
+            style={{ backgroundColor: "#000" }}
+            onPress={() =>
+              this.setState({
+                active: !this.state.active
+              })
+            }
+          >
+            <Icon name="md-camera" />
 
-            {/* botao de ações flutuante */}
-            <Fab
-              active={this.state.fabAtivo}
-              direction="up"
-              style={{ backgroundColor: "#3F51B5" }}
+            <Button
+              style={{ backgroundColor: "#E53935" }}
               onPress={() =>
                 this.setState({
-                  fabAtivo: !this.state.fabAtivo
+                  apagar: !this.state.apagar
                 })
               }
             >
-              <Ionicon name="md-camera" />
-
-              <Button
-                style={{ backgroundColor: "#E53935" }}
-                onPress={() =>
-                  this.setState({
-                    apagar: !this.state.apagar
-                  })
-                }
-              >
-                <Ionicon
-                  name="md-trash"
-                  style={{ color: "#FFFFFF", fontSize: 20 }}
-                />
-              </Button>
-              <Button
-                style={{ backgroundColor: "#2E7D32" }}
-                onPress={() => this.props.navigation.navigate("Camera")}
-              >
-                <Ionicon
-                  name="md-aperture"
-                  style={{ color: "#FFFFFF", fontSize: 20 }}
-                />
-              </Button>
-            </Fab>
-          </View>
+              <Icon
+                name="md-trash"
+                style={{ color: "#FFFFFF", fontSize: 20 }}
+              />
+            </Button>
+            <Button
+              style={{ backgroundColor: "green" }}
+              onPress={() => this.props.navigation.navigate("Camera")}
+            >
+              <Icon
+                name="md-aperture"
+                style={{ color: "#FFFFFF", fontSize: 20 }}
+              />
+            </Button>
+          </Fab>
         </ImageBackground>
       </Container>
     );

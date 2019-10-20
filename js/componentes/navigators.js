@@ -50,7 +50,8 @@ const Tab = createAppContainer(
         inactiveTintColor: "black",
         inactiveBackgroundColor: "#629c44",
         style: { height: 50 }
-      }
+      },
+      headerMode: "none"
     }
   )
 );
@@ -91,7 +92,8 @@ const Logado = createAppContainer(
     },
     {
       DrawerConfig,
-      contentComponent: Sanduiche
+      contentComponent: Sanduiche,
+      headerMode: "none"
     }
   )
 );
@@ -103,7 +105,7 @@ const Navegador = createAppContainer(
       Deslogado: Deslogado,
       Logado: Logado
     },
-    { initialRouteName: "Carregando" }
+    { initialRouteName: "Carregando", headerMode: "none" }
   )
 );
 
