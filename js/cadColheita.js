@@ -34,6 +34,7 @@ import { NavigationActions } from "react-navigation";
 const { registraHistorico } = require("./instancias/conexao.js");
 
 import { Texto, Formulario } from "./componentes/customizado";
+import CustomHeader from "./componentes/customHeader";
 
 var form1 = [
   { nome: "data", placeholder: "Data da colheita", tipo: "data" },
@@ -54,39 +55,14 @@ export default class CadColheita extends React.Component {
   };
 
   render() {
+    var navigation = this.props.navigation;
     return (
       <Container
         style={{
           paddingTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight
         }}
       >
-        <Header
-          androidStatusBarColor="green"
-          style={{ backgroundColor: "green" }}
-        >
-          <Left>
-            <Icon
-              style={{
-                color: Platform.OS === "ios" ? "black" : "white"
-              }}
-              name="arrow-back"
-              onPress={() =>
-                this.props.navigation.dispatch(NavigationActions.back())
-              }
-            />
-          </Left>
-          <Body>
-            <Text
-              style={{
-                color: Platform.OS === "ios" ? "black" : "white",
-                width: 200
-              }}
-            >
-              Cadastro de colheitas
-            </Text>
-          </Body>
-          <Right />
-        </Header>
+        <CustomHeader navigation={navigation} titulo="Cadastro de Colheitas" />
 
         <Content style={{ backgroundColor: "#eee", padding: 15 }}>
           <Text style={{ fontSize: 18, marginLeft: 5 }}>COLHEITA</Text>
@@ -103,7 +79,7 @@ export default class CadColheita extends React.Component {
 
           <Card style={{ borderRadius: 5, padding: 10 }}>
             <Formulario
-              tamanho={40}
+              tamanho={45}
               campos={form1}
               cor="#000"
               corP="#555"

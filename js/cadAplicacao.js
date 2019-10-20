@@ -32,9 +32,9 @@ import {
 import { NavigationActions } from "react-navigation";
 
 // const analytics = require("./instancias/analytics");
-const { registraHistorico } = require("./instancias/conexao.js");
-
+import CustomHeader from "./componentes/customHeader";
 import { Texto, Formulario } from "./componentes/customizado";
+const { registraHistorico } = require("./instancias/conexao.js");
 
 var form1 = [
   { nome: "praga", placeholder: "Praga/doença (nome científico)" },
@@ -67,39 +67,15 @@ export default class CadAplicacao extends React.Component {
   }
 
   render() {
+    var navigation = this.props.navigation;
+
     return (
       <Container
         style={{
           paddingTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight
         }}
       >
-        <Header
-          androidStatusBarColor="green"
-          style={{ backgroundColor: "green" }}
-        >
-          <Left>
-            <Icon
-              style={{
-                color: Platform.OS === "ios" ? "black" : "white"
-              }}
-              name="arrow-back"
-              onPress={() =>
-                this.props.navigation.dispatch(NavigationActions.back())
-              }
-            />
-          </Left>
-          <Body>
-            <Text
-              style={{
-                color: Platform.OS === "ios" ? "black" : "white",
-                width: 200
-              }}
-            >
-              Cadastro de Aplicações
-            </Text>
-          </Body>
-          <Right />
-        </Header>
+        <CustomHeader navigation={navigation} titulo="Aplicações de Produtos" />
 
         <Content style={{ backgroundColor: "#eee", padding: 15 }}>
           <Text style={{ fontSize: 18, marginLeft: 5 }}>APLICAÇÕES</Text>
@@ -117,7 +93,7 @@ export default class CadAplicacao extends React.Component {
           <Card style={{ borderRadius: 5, padding: 10 }}>
             <Form>
               <Formulario
-                tamanho={40}
+                tamanho={45}
                 campos={form1}
                 cor="#000"
                 corP="#555"

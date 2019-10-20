@@ -32,6 +32,7 @@ import ModalSelector from "react-native-modal-selector";
 // const analytics = require("./instancias/analytics");
 import { Banco } from "./instancias/conexao.js";
 import { secao, data } from "./constantes/perdas";
+import CustomHeader from "./componentes/customHeader";
 
 //==========| Fim dos Imports |==========//
 
@@ -201,38 +202,15 @@ export default class Perdas extends React.Component {
   }
 
   render() {
+    var navigation = this.props.navigation;
+
     return (
       <Container
         style={{
           paddingTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight
         }}
       >
-        <Header
-          androidStatusBarColor="green"
-          style={{ backgroundColor: "green" }}
-        >
-          <Left>
-            <Icon
-              style={{
-                color: Platform.OS === "ios" ? "black" : "white"
-              }}
-              name="arrow-back"
-              onPress={() =>
-                this.props.navigation.dispatch(NavigationActions.back())
-              }
-            />
-          </Left>
-          <Body>
-            <Text
-              style={{
-                color: Platform.OS === "ios" ? "black" : "white"
-              }}
-            >
-              Perdas
-            </Text>
-          </Body>
-          <Right />
-        </Header>
+        <CustomHeader navigation={navigation} titulo="Perdas" />
 
         <Content style={{ backgroundColor: "#fff" }}>
           <List>

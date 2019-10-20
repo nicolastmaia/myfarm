@@ -33,6 +33,7 @@ import MapView, { MAP_TYPES, Polygon } from "react-native-maps";
 
 // const analytics = require("./instancias/analytics");
 import { Banco } from "./instancias/conexao.js";
+import CustomHeader from "./componentes/customHeader";
 
 import { Texto, Formulario } from "./componentes/customizado";
 
@@ -116,6 +117,8 @@ export default class CadTalhao extends React.Component {
   };
 
   render() {
+    var navigation = this.props.navigation;
+
     var confMapa = {};
     confMapa.scrollEnabled = this.state.mapaAtivo;
     if (!this.state.mapaAtivo) confMapa.onPress = e => this.mapaSelecionado(e);
@@ -125,33 +128,7 @@ export default class CadTalhao extends React.Component {
           paddingTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight
         }}
       >
-        <Header
-          androidStatusBarColor="green"
-          style={{ backgroundColor: "green" }}
-        >
-          <Left>
-            <Icon
-              style={{
-                color: Platform.OS === "ios" ? "black" : "white"
-              }}
-              name="arrow-back"
-              onPress={() =>
-                this.props.navigation.dispatch(NavigationActions.back())
-              }
-            />
-          </Left>
-          <Body>
-            <Text
-              style={{
-                color: Platform.OS === "ios" ? "black" : "white",
-                width: 200
-              }}
-            >
-              Cadastro de Talhão
-            </Text>
-          </Body>
-          <Right />
-        </Header>
+        <CustomHeader navigation={navigation} titulo="Cadastro de Talhão" />
 
         <Content style={{ backgroundColor: "#eee", padding: 15 }}>
           <Text style={{ fontSize: 18, marginLeft: 5 }}>INFORMAÇÕES</Text>
@@ -168,7 +145,7 @@ export default class CadTalhao extends React.Component {
 
           <Card style={{ borderRadius: 5, padding: 10 }}>
             <Formulario
-              tamanho={40}
+              tamanho={45}
               campos={form1}
               cor="#000"
               corP="#555"
@@ -192,7 +169,7 @@ export default class CadTalhao extends React.Component {
 
           <Card style={{ borderRadius: 5, padding: 10 }}>
             <Formulario
-              tamanho={40}
+              tamanho={45}
               campos={form2}
               cor="#000"
               corP="#555"
@@ -261,7 +238,11 @@ export default class CadTalhao extends React.Component {
 
           <Button
             block
-            style={{ marginTop: 15, marginBottom: 25 }}
+            style={{
+              marginTop: 15,
+              marginBottom: 25,
+              backgroundColor: "green"
+            }}
             onPress={() => {
               var tmp = Object.assign(
                 this._formulario1.getValores(),

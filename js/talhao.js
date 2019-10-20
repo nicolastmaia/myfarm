@@ -31,6 +31,7 @@ import { NavigationActions } from "react-navigation";
 
 // const analytics = require("./instancias/analytics");
 import { Banco } from "./instancias/conexao.js";
+import CustomHeader from "./componentes/customHeader";
 
 //==========| Fim dos Imports |==========//
 
@@ -40,6 +41,7 @@ export default class Talhao extends React.Component {
     this.state = { flag: false, talhoes: [] };
     this.atualiza();
   }
+
   /* componentWillMount() {
 		analytics.trackScreenView("Cadastro de Talhão");
 	} */
@@ -63,39 +65,14 @@ export default class Talhao extends React.Component {
 
   render() {
     const { navigate } = this.props.navigation;
+    var navigation = this.props.navigation;
     return (
       <Container
         style={{
           paddingTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight
         }}
       >
-        <Header
-          androidStatusBarColor="green"
-          style={{ backgroundColor: "green" }}
-        >
-          <Left>
-            <Icon
-              style={{
-                color: Platform.OS === "ios" ? "black" : "white"
-              }}
-              name="arrow-back"
-              onPress={() =>
-                this.props.navigation.dispatch(NavigationActions.back())
-              }
-            />
-          </Left>
-          <Body>
-            <Text
-              style={{
-                color: Platform.OS === "ios" ? "black" : "white",
-                width: 200
-              }}
-            >
-              Cadastro de Talhão
-            </Text>
-          </Body>
-          <Right />
-        </Header>
+        <CustomHeader navigation={navigation} titulo="Cadastro de Talhão" />
 
         <Content style={{ backgroundColor: "#fff" }}>
           <FlatList
