@@ -10,7 +10,6 @@ import {
 	Dimensions,
 	Keyboard
 } from "react-native";
-
 import {
 	Root,
 	Toast,
@@ -25,16 +24,54 @@ import {
 	View,
 	Picker
 } from "native-base";
-
 import { NavigationActions } from "react-navigation";
 import MapView, { MAP_TYPES, Polygon } from "react-native-maps";
 import StepIndicator from "react-native-step-indicator";
 import { HideWithKeyboard } from "react-native-hide-with-keyboard";
 
-// const analytics = require("./instancias/analytics");
+//meus imports
+//const analytics = require("./instancias/analytics")
 import {Banco} from "./instancias/conexao.js";
 import { Formulario, mostraToast } from "./componentes/customizado";
 
+let id = 0;
+
+//campos do formulario
+var formularios = [
+	[
+		{
+			nome: "nome_proprietario",
+			placeholder: "Nome do proprietário",
+			icone: "person"
+		},
+		{
+			nome: "telefone",
+			placeholder: "Telefone",
+			icone: "ios-call",
+			tipo: "numeric"
+		},
+		{ nome: "email", placeholder: "Email", icone: "mail" },
+		{ nome: "usuario", placeholder: "Nome de Usuário", icone: "person"},
+		{ nome: "senha", placeholder: "Senha", icone: "key", senha: true }
+	],
+	[
+		{ nome: "municipio", placeholder: "Município", icone: "map" },
+		{
+			nome: "bairro",
+			placeholder: "Bairro",
+			icone: "md-locate",
+			tipo: "numeric"
+		},
+		{ nome: "logradouro", placeholder: "Logradouro", icone: "md-compass" },
+		{
+			nome: "complemento",
+			placeholder: "Complemento",
+			icone: "ios-information-circle"
+		}
+	]
+];
+
+//campos especiais do formulario
 class Texto extends React.Component {
 	render() {
 		return (
@@ -57,42 +94,8 @@ class Texto extends React.Component {
 	}
 }
 
-let id = 0;
-
-var formularios = [
-	[
-		{
-			nome: "nome_proprietario",
-			placeholder: "Nome do proprietário",
-			icone: "person"
-		},
-		{
-			nome: "telefone",
-			placeholder: "Telefone",
-			icone: "ios-call",
-			tipo: "numeric"
-		},
-		{ nome: "email", placeholder: "Email", icone: "mail" },
-		{ nome: "senha", placeholder: "Senha", icone: "key", senha: true }
-	],
-	[
-		{ nome: "municipio", placeholder: "Município", icone: "map" },
-		{
-			nome: "bairro",
-			placeholder: "Bairro",
-			icone: "md-locate",
-			tipo: "numeric"
-		},
-		{ nome: "logradouro", placeholder: "Logradouro", icone: "md-compass" },
-		{
-			nome: "complemento",
-			placeholder: "Complemento",
-			icone: "ios-information-circle"
-		}
-	]
-];
-
-class cadastro extends React.Component {
+//pagina de cadastro
+export default class CadUsuario extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -161,6 +164,8 @@ class cadastro extends React.Component {
 				blurRadius={8}
 				source={require("./assets/myfarm_bg_grass.jpg")}
 				style={{ flex: 1, width: null, padding: 20, paddingTop: 20 }}>
+
+				{/* titulo da pagina */}
 				<View style={{ alignItems: "center" }}>
 					<Text
 						style={{
@@ -177,6 +182,7 @@ class cadastro extends React.Component {
 					</Text>
 				</View>
 
+				{/* stepIndicator */}
 				<HideWithKeyboard>
 					<StepIndicator
 						currentPosition={this.state.posicao}
@@ -186,7 +192,9 @@ class cadastro extends React.Component {
 					/>
 				</HideWithKeyboard>
 
+				{/* inserção de dados */}
 				<View style={{ flex: 1 }}>
+					{/* inserção de dados pessoais */}
 					<ScrollView
 						style={
 							this.state.posicao == 0
@@ -205,6 +213,7 @@ class cadastro extends React.Component {
 						/>
 					</ScrollView>
 
+					{/* inserção de dados da propriedade */}
 					<ScrollView
 						style={
 							this.state.posicao == 1
@@ -309,6 +318,7 @@ class cadastro extends React.Component {
 						/>
 					</ScrollView>
 
+					{/* seleção de coordenadas da propriedade no mapa */}
 					<ScrollView
 						style={
 							this.state.posicao == 2
@@ -369,8 +379,11 @@ class cadastro extends React.Component {
 					</ScrollView>
 				</View>
 
+				{/* botões */}
 				<HideWithKeyboard>
 					<View style={{ flexDirection: "row" }}>
+
+						{/* botão de voltar*/}
 						<Button
 							rounded
 							danger
@@ -388,6 +401,7 @@ class cadastro extends React.Component {
 							<Icon name="arrow-back" />
 						</Button>
 
+						{/* botao de prosseguir */}
 						<Button
 							rounded
 							style={{
@@ -396,7 +410,9 @@ class cadastro extends React.Component {
 								backgroundColor: "#004238"
 							}}
 							onPress={() => {
+								//se estiver na terceira pagina de cadastro, concatenar com a segunda pagina e inserir no banco de dados
 								if (this.state.posicao == 2) {
+									//confere se foi selecionada uma propriedade no mapa
 									if (!this.state.editando) {
 										mostraToast(
 											"Defina a posição da propriedade no mapa"
@@ -404,25 +420,34 @@ class cadastro extends React.Component {
 										return;
 									}
 
-									// console.warn(Object.assign(this.state.formulario,this.state.editando.coordenadas))
-
-									Banco.local.put(
-										Object.assign(
-											{ _id: "dados" },
-											this.state.formulario,
-											{
-												coordenadas: this.state.editando
-													.coordenadas
-											}
-										),
-										function(erro, doc) {
-											if (erro) console.warn(erro);
+									//concatenar com a segunda pagina de cadastro e salvar num novo objeto com id = dados
+									this.setState({formulario:Object.assign(
+										{ _id: "dados" },
+										this.state.formulario,
+										{
+											coordenadas: this.state.editando
+												.coordenadas
 										}
-									);
+									)})
 
-									AsyncStorage.setItem("logado", 1);
-									navigate("Perfil");
+									//criar novo usuario no banco e automaticamente logar nesse usuario
+									Banco.cadastroUser(this.state.formulario["usuario"], this.state.formulario["senha"], this.state.formulario).then(()=>{
+										navigate("Logado");
+									}
+									).catch(err => {
+										console.log(err);
+										Toast.show({
+											text: err.name,
+											textStyle: { color: "#fff" },
+											buttonText: "Ok",
+											position: "bottom",
+											buttonStyle: { backgroundColor: "#303030" }
+										});
+										})
+
 								}
+
+								//se estiver na segunda pagina de cadastro, concatenar com a primeira pagina
 								if (this.state.posicao == 1) {
 									var tmp = new Object();
 									tmp[0] = this._formulario2.getValores();
@@ -438,6 +463,8 @@ class cadastro extends React.Component {
 										posicao: ++this.state.posicao
 									});
 								}
+
+								//se estiver na primeira pagina de cadastro, salvar formulario preenchido da primeira pagina
 								if (this.state.posicao == 0) {
 									this.setState({
 										formulario: Object.assign(
@@ -494,5 +521,3 @@ const styles = StyleSheet.create({
 		left: 0
 	}
 });
-
-export default cadastro;

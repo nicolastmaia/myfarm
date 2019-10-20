@@ -16,7 +16,7 @@ import Sanduiche from "./sanduiche";
 //=========| TELAS |=========//
 import Principal from "../principal";
 import Sobre from "../sobre";
-import cadPropriedade from "../cadPropriedade";
+import CadUsuario from "../cadUsuario";
 import cadPropriedadeNova from "../cadPropriedadeNova";
 import Talhao from "../talhao";
 import CadTalhao from "../cadTalhao";
@@ -50,7 +50,8 @@ const Tab = createAppContainer(
         inactiveTintColor: "black",
         inactiveBackgroundColor: "#629c44",
         style: { height: 50 }
-      }
+      },
+      headerMode: "none"
     }
   )
 );
@@ -66,7 +67,7 @@ const Stack = createAppContainer(
       CadTalhao: CadTalhao,
       CadAplicacao: CadAplicacao,
       CadColheita: CadColheita,
-      "Cadastro de propriedade": cadPropriedade,
+      CadUsuario: CadUsuario,
       CadPropriedadeNova: cadPropriedadeNova
     },
     { headerMode: "none" }
@@ -78,7 +79,7 @@ const Deslogado = createAppContainer(
     {
       Inicio: Principal,
       Sobre: Sobre,
-      "Cadastro de propriedade": cadPropriedade
+      CadUsuario: CadUsuario
     },
     { headerMode: "none" }
   )
@@ -91,7 +92,8 @@ const Logado = createAppContainer(
     },
     {
       DrawerConfig,
-      contentComponent: Sanduiche
+      contentComponent: Sanduiche,
+      headerMode: "none"
     }
   )
 );
@@ -103,7 +105,7 @@ const Navegador = createAppContainer(
       Deslogado: Deslogado,
       Logado: Logado
     },
-    { initialRouteName: "Carregando" }
+    { initialRouteName: "Carregando", headerMode: "none" }
   )
 );
 

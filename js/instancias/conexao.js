@@ -2,26 +2,20 @@ import PouchDB from "../constantes/pouchdbPlugins.js";
 import { Toast } from "native-base";
 import { AsyncStorage } from "react-native";
 
-const LOCALHOST = "http://192.168.0.109:5984";
+const ipHome = "192.168.0.109";
+const ipAway = "10.13.0.29";
+
+const LOCALHOST = `http://${ipHome}:5984`;
+
+//objeto banco (local e remoto)
 export const Banco = {
   local: new PouchDB("myfarmlocal"),
   remoto: new PouchDB(LOCALHOST),
 
-  syncDB: function(currentUser) {
+  //sincroniza com banco especifico do usuario
+  syncDB: function(username) {
     this.remoto = new PouchDB(
-      `${LOCALHOST}/userdb-${Buffer.from(currentUser.username).toString(
-        "hex"
-      )}` /* ,
-      {
-        ajax: {
-          headers: {
-            "X-Auth-CouchDB-UserName": `${currentUser.id}`,
-            "X-Auth-CouchDB-Roles": "users",
-            "X-Auth-CouchDB-Token": currentUser.couchdb_token,
-            "Content-Type": "application/json; charset=utf-8"
-          }
-        }
-      } */
+      `${LOCALHOST}/userdb-${Buffer.from(username).toString("hex")}`
     );
     PouchDB.sync(this.local, this.remoto, {
       live: true,
@@ -29,15 +23,30 @@ export const Banco = {
     });
   },
 
+  //loga o usuario
   checkLogin: function(username, password) {
     username = username.toLowerCase();
-    const currentUser = { username, password };
     return new Promise((resolve, reject) => {
       this.remoto
-        .logIn(currentUser.username, currentUser.password)
+        .logIn(username, password)
         .then(response => {
           AsyncStorage.setItem("logado", "1");
-          this.syncDB(currentUser);
+          this.syncDB(username);
+          resolve(response);
+        })
+        .catch(err => reject(err));
+    });
+  },
+
+  //cadastra novo usuario
+  cadastroUser: function(username, password, otherData) {
+    username = username.toLowerCase();
+    return new Promise((resolve, reject) => {
+      this.remoto
+        .signUp(username, password, { metadata: { otherData } })
+        .then(response => {
+          AsyncStorage.setItem("logado", "1");
+          this.syncDB(username);
           resolve(response);
         })
         .catch(err => reject(err));

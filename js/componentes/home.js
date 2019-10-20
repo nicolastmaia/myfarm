@@ -34,6 +34,7 @@ export default class Home extends React.Component {
       .catch(erro => Alert.alert(erro.message));
   }
 
+  //configs enviadas ao navegadores.js
   static navigationOptions = {
     tabBarIcon: ({ tintColor }) => (
       <Ionicon name="md-home" color={tintColor} style={{ fontSize: 30 }} />
@@ -42,6 +43,8 @@ export default class Home extends React.Component {
 
   render() {
     var tmp = null;
+
+    //config do icone de previsao do tempo
     if (this.state.tempo.descricao == "") {
       tmp = (
         <View
@@ -118,6 +121,7 @@ export default class Home extends React.Component {
             flexDirection: "column"
           }}
         >
+          {/* botao menu sanduiche */}
           <TouchableOpacity
             style={{
               position: "absolute",
@@ -128,9 +132,12 @@ export default class Home extends React.Component {
           >
             <Ionicon style={{ color: "white", fontSize: 45 }} name="md-menu" />
           </TouchableOpacity>
+
           <View style={{ marginTop: 35 }}>
+            {/* previsao do tempo */}
             <View
               style={{
+                marginTop: 50,
                 flexDirection: "row",
                 alignItems: "center",
                 justifyContent: "center"
@@ -138,6 +145,8 @@ export default class Home extends React.Component {
             >
               {tmp}
             </View>
+
+            {/* botoes principais */}
             <View
               style={{
                 marginTop: 30,
@@ -146,7 +155,9 @@ export default class Home extends React.Component {
                 flexDirection: "column"
               }}
             >
+              {/* primeira linha */}
               <View style={{ flexDirection: "row" }}>
+                {/* CadAplicacao */}
                 <TouchableOpacity
                   style={styles.botoes}
                   onPress={() => this.props.navigation.navigate("CadAplicacao")}
@@ -154,6 +165,8 @@ export default class Home extends React.Component {
                   <Ionicon name="md-trending-up" style={styles.icone} />
                   <Text style={styles.texto}>Aplicações</Text>
                 </TouchableOpacity>
+
+                {/* Perdas */}
                 <TouchableOpacity
                   style={styles.botoes}
                   onPress={() => this.props.navigation.navigate("Perdas")}
@@ -162,7 +175,10 @@ export default class Home extends React.Component {
                   <Text style={styles.texto}>Perdas</Text>
                 </TouchableOpacity>
               </View>
+
+              {/* segunda linha */}
               <View style={{ flexDirection: "row" }}>
+                {/* Talhao */}
                 <TouchableOpacity
                   style={styles.botoes}
                   onPress={() => this.props.navigation.navigate("Talhao")}
@@ -171,11 +187,12 @@ export default class Home extends React.Component {
                   <Text style={styles.texto}>Talhão</Text>
                 </TouchableOpacity>
 
+                {/* CadColheita */}
                 <TouchableOpacity
                   style={styles.botoes}
                   onPress={() => this.props.navigation.navigate("CadColheita")}
                 >
-                  <Ionicon name="md-nutrition" style={styles.icone} />
+                  <Ionicon name="md-basket" style={styles.icone} />
                   <Text style={styles.texto}>Colheita</Text>
                 </TouchableOpacity>
               </View>
@@ -187,6 +204,7 @@ export default class Home extends React.Component {
   }
 }
 
+//estilos da pagina
 const styles = StyleSheet.create({
   botoes: {
     backgroundColor: "#fff",
