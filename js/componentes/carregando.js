@@ -8,12 +8,12 @@ export default class Carregando extends React.Component {
     Banco.checkLogin(this.props.navigation);
   }
 
-  verificaLogin = async () => {
+  /* verificaLogin = async () => {
     const logado = await AsyncStorage.getItem("logado");
     console.log("logado aqui!!!" + logado);
     Banco.syncDB(logado != null ? logado : "");
     this.props.navigation.navigate(logado != null ? "Logado" : "Deslogado");
-  };
+  }; */
 
   render() {
     return (
