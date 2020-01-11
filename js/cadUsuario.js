@@ -431,7 +431,7 @@ export default class CadUsuario extends React.Component {
 									)})
 
 									//criar novo usuario no banco e automaticamente logar nesse usuario
-									Banco.cadastroUser(this.state.formulario["usuario"], this.state.formulario["senha"], this.state.formulario).then(()=>{
+									Banco.signUp(this.state.formulario["usuario"], this.state.formulario["senha"], this.state.formulario).then(()=>{
 										navigate("Logado");
 									}
 									).catch(err => {
@@ -443,6 +443,7 @@ export default class CadUsuario extends React.Component {
 											position: "bottom",
 											buttonStyle: { backgroundColor: "#303030" }
 										});
+										navigate("Deslogado");
 										})
 
 								}
