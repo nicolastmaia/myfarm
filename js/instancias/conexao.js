@@ -1,9 +1,8 @@
 import PouchDB from "../constantes/pouchdbPlugins.js";
-import { Toast } from "native-base";
 import { AsyncStorage } from "react-native";
 
 const ipHome = "192.168.0.109";
-const ipAway = "10.13.0.29";
+const ipAway = "192.168.43.54";
 
 const LOCALHOST = `http://${ipHome}:5984`;
 
@@ -23,14 +22,21 @@ export const Banco = {
     });
   },
 
+  //verifica se o usuario já está logado ou nao
+  checkLogin: async function(navigation) {
+    const logado = await AsyncStorage.getItem("logado");
+    this.syncDB(logado != null ? logado : "");
+    navigation.navigate(logado != null ? "Logado" : "Deslogado");
+  },
+
   //loga o usuario
-  checkLogin: function(username, password) {
+  logIn: function(username, password) {
     username = username.toLowerCase();
     return new Promise((resolve, reject) => {
       this.remoto
         .logIn(username, password)
         .then(response => {
-          AsyncStorage.setItem("logado", "1");
+          AsyncStorage.setItem("logado", username);
           this.syncDB(username);
           resolve(response);
         })
@@ -39,40 +45,46 @@ export const Banco = {
   },
 
   //cadastra novo usuario
-  cadastroUser: function(username, password, otherData) {
+  signUp: function(username, password, otherData) {
     username = username.toLowerCase();
     return new Promise((resolve, reject) => {
       this.remoto
         .signUp(username, password, { metadata: { otherData } })
         .then(response => {
-          AsyncStorage.setItem("logado", "1");
+          AsyncStorage.setItem("logado", username);
           this.syncDB(username);
           resolve(response);
         })
         .catch(err => reject(err));
     });
+  },
+
+  pegaDados: function(doc) {
+    //doc pode ser qualquer um dos documentos dentro de um banco especifico de usuario
+    let dado = {};
+
+    return new Promise((resolve, reject) => {
+      this.remoto
+        .get(doc)
+        .then(response => {
+          resolve(response);
+        })
+        .catch(() => {
+          dado = {
+            _id: doc,
+            itens: []
+          };
+          reject(dado);
+        });
+    });
+  },
+
+  registraDados: function(doc) {
+    this.local
+      .put(doc)
+      .then()
+      .catch(() => {
+        return;
+      });
   }
 };
-
-/* 
-function registraHistorico(categoria, conteudo) {
-  var historico = {};
-  bancoLocal.get("historico", function(erro, doc) {
-    if (erro) {
-      historico = {
-        _id: "historico",
-        perdas: [],
-        aplicacoes: [],
-        colheitas: []
-      };
-    } else {
-      historico = doc;
-    }
-
-    historico[categoria].push(conteudo);
-
-    bancoLocal.put(historico, function(erro, doc) {
-      if (erro) return;
-    });
-  });
-} */
