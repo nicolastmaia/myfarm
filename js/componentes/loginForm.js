@@ -56,7 +56,7 @@ export default class LoginForm extends React.Component {
             backgroundColor: "#004238"
           }}
           onPress={() => {
-            Banco.checkLogin(this.state.username, this.state.password)
+            Banco.logIn(this.state.username, this.state.password)
               .then(() => this.props.navigate("Logado"))
               .catch(err => {
                 console.log(err);

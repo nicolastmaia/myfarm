@@ -22,6 +22,7 @@ import Talhao from "../talhao";
 import CadTalhao from "../cadTalhao";
 import CadAplicacao from "../cadAplicacao";
 import CadColheita from "../cadColheita";
+import Colheita from "../colheita";
 import Camera from "./camera.js";
 import Perdas from "../perdas";
 import Galeria from "./galeria";
@@ -60,14 +61,15 @@ const Stack = createAppContainer(
   createStackNavigator(
     {
       PageInicial: Tab,
-      Camera: Camera,
-      Perdas: Perdas,
-      Talhao: Talhao,
-      Sobre: Sobre,
-      CadTalhao: CadTalhao,
-      CadAplicacao: CadAplicacao,
-      CadColheita: CadColheita,
-      CadUsuario: CadUsuario,
+      Camera,
+      Perdas,
+      Talhao,
+      Colheita,
+      Sobre,
+      CadTalhao,
+      CadColheita,
+      CadAplicacao,
+      CadUsuario,
       CadPropriedadeNova: cadPropriedadeNova
     },
     { headerMode: "none" }
@@ -78,8 +80,8 @@ const Deslogado = createAppContainer(
   createStackNavigator(
     {
       Inicio: Principal,
-      Sobre: Sobre,
-      CadUsuario: CadUsuario
+      Sobre,
+      CadUsuario
     },
     { headerMode: "none" }
   )
@@ -101,9 +103,9 @@ const Logado = createAppContainer(
 const Navegador = createAppContainer(
   createSwitchNavigator(
     {
-      Carregando: Carregando,
-      Deslogado: Deslogado,
-      Logado: Logado
+      Carregando,
+      Deslogado,
+      Logado
     },
     { initialRouteName: "Carregando", headerMode: "none" }
   )
