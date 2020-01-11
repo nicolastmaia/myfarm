@@ -1,4 +1,6 @@
 import PouchDB from "pouchdb-react-native";
 import PouchDBAuthentication from "pouchdb-authentication";
+import HttpPouch from "pouchdb-adapter-http";
+
 PouchDB.debug.enable("*");
-export default PouchDB.plugin(PouchDBAuthentication);
+export default PouchDB.plugin(PouchDBAuthentication).plugin(HttpPouch);
