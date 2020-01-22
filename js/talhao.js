@@ -1,33 +1,14 @@
 import React from "react";
+import { Platform, Alert, StatusBar, FlatList } from "react-native";
 import {
-  Platform,
-  Alert,
-  StatusBar,
-  Dimensions,
-  Image,
-  ScrollView,
-  Keyboard,
-  Slider,
-  FlatList,
-  ListView
-} from "react-native";
-import {
-  List,
   ListItem,
   View,
-  Input,
   Icon,
   Button,
   Text,
-  Toast,
-  Header,
-  Left,
-  Right,
-  Body,
   Content,
   Container
 } from "native-base";
-import { NavigationActions } from "react-navigation";
 
 // const analytics = require("./instancias/analytics");
 import { Banco } from "./instancias/conexao.js";
@@ -38,30 +19,36 @@ import CustomHeader from "./componentes/customHeader";
 export default class Talhao extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { flag: false, talhoes: [] };
-    this.atualiza();
+    this.state = { flag: false, itens: [] };
+    this.atualizaPagina();
   }
 
   /* componentWillMount() {
 		analytics.trackScreenView("Cadastro de Talhão");
 	} */
 
-  atualiza = () => {
-    let tmp = {};
-    Banco.local
-      .get("talhoes")
-      .then(doc => {
-        tmp = doc;
-        this.setState({ talhoes: tmp["talhoes"] });
-      })
-      .catch(erro => {
-        tmp = {
-          _id: "talhoes",
-          talhoes: []
-        };
-        this.setState({ talhoes: tmp["talhoes"] });
-      });
+  atualizaPagina = () => {
+    Banco.remoto.get("talhoes").then(response => {
+      this.setState({ itens: response.itens });
+    });
   };
+
+  // atualizaPagina = () => {
+  //   let tmp = {};
+  //   Banco.local
+  //     .get("talhoes")
+  //     .then(doc => {
+  //       tmp = doc;
+  //       this.setState({ talhoes: tmp["talhoes"] });
+  //     })
+  //     .catch(erro => {
+  //       tmp = {
+  //         _id: "talhoes",
+  //         talhoes: []
+  //       };
+  //       this.setState({ talhoes: tmp["talhoes"] });
+  //     });
+  // };
 
   render() {
     const { navigate } = this.props.navigation;
@@ -76,7 +63,7 @@ export default class Talhao extends React.Component {
 
         <Content style={{ backgroundColor: "#fff" }}>
           <FlatList
-            data={this.state.talhoes}
+            data={this.state.itens}
             renderItem={({ item }) => (
               <ListItem
                 style={{ marginLeft: 0 }}

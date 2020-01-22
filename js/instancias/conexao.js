@@ -25,8 +25,14 @@ export const Banco = {
   //verifica se o usuario já está logado ou nao
   checkLogin: async function(navigation) {
     const logado = await AsyncStorage.getItem("logado");
-    this.syncDB(logado != null ? logado : "");
-    navigation.navigate(logado != null ? "Logado" : "Deslogado");
+    const senhaLogado = await AsyncStorage.getItem("senhaLogado");
+
+    if (logado != null) {
+      this.logIn(logado, senhaLogado);
+      navigation.navigate("Logado");
+    } else {
+      navigation.navigate("Deslogado");
+    }
   },
 
   //loga o usuario
@@ -37,6 +43,8 @@ export const Banco = {
         .logIn(username, password)
         .then(response => {
           AsyncStorage.setItem("logado", username);
+          AsyncStorage.setItem("senhaLogado", password);
+
           this.syncDB(username);
           resolve(response);
         })
@@ -50,41 +58,38 @@ export const Banco = {
     return new Promise((resolve, reject) => {
       this.remoto
         .signUp(username, password, { metadata: { otherData } })
-        .then(response => {
-          AsyncStorage.setItem("logado", username);
-          this.syncDB(username);
-          resolve(response);
+        .then(() => {
+          return this.logIn(username, password);
         })
+        .then(response => resolve(response))
         .catch(err => reject(err));
     });
   },
 
-  pegaDados: function(doc) {
-    //doc pode ser qualquer um dos documentos dentro de um banco especifico de usuario
-    let dado = {};
-
+  store: function(docTitle, tmp) {
     return new Promise((resolve, reject) => {
+      var dado = {
+        _id: "talhoes",
+        itens: []
+      };
       this.remoto
-        .get(doc)
+        .get(docTitle)
         .then(response => {
-          resolve(response);
+          dado._rev = response._rev;
+          dado.itens = [...response.itens, tmp];
+          return this.remoto.put(dado);
         })
-        .catch(() => {
-          dado = {
-            _id: doc,
-            itens: []
-          };
+        .then(() => {
+          resolve(dado);
+        })
+        .catch(err => {
+          if (err.name === "not_found") {
+            dado.itens = [...dado.itens, tmp];
+            this.remoto.put(dado);
+            resolve(dado);
+          }
           reject(dado);
         });
     });
-  },
-
-  registraDados: function(doc) {
-    this.local
-      .put(doc)
-      .then()
-      .catch(() => {
-        return;
-      });
   }
 };

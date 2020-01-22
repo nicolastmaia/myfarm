@@ -1,41 +1,26 @@
 import React from "react";
+import { Platform, StatusBar } from "react-native";
 import {
-  Platform,
-  StatusBar,
-  Dimensions,
-  Image,
-  ScrollView,
-  Keyboard,
-  Slider,
-  FlatList,
-  ListView
-} from "react-native";
-import {
-  Item,
   Card,
-  List,
-  ListItem,
-  View,
-  Input,
   Icon,
   Button,
   Text,
-  Toast,
-  Header,
-  Left,
-  Right,
-  Body,
   Content,
-  Container
+  Container,
+  Toast
 } from "native-base";
+
 import { NavigationActions } from "react-navigation";
-import MapView, { MAP_TYPES, Polygon } from "react-native-maps";
+import MapView, { Polygon } from "react-native-maps";
 
 // const analytics = require("./instancias/analytics");
+import { showDefaultToast } from "./componentes/utils/showToast";
 import { Banco } from "./instancias/conexao.js";
 import CustomHeader from "./componentes/customHeader";
 
-import { Texto, Formulario } from "./componentes/customizado";
+import { Formulario } from "./componentes/customizado";
+
+let id = 0;
 
 var form1 = [
   { nome: "n_parcela", placeholder: "Parcela nº", tipo: "numeric" },
@@ -57,19 +42,17 @@ var form2 = [
   { nome: "topografia", placeholder: "Topografia" }
 ];
 
-var talhoes = {};
-Banco.local.get("talhoes", function(erro, doc) {
-  if (erro) {
-    talhoes = {
-      _id: "talhoes",
-      talhoes: []
-    };
-  } else {
-    talhoes = doc;
-  }
-});
-
-let id = 0;
+// var talhoes = {};
+// Banco.local.get("talhoes", function(erro, doc) {
+//   if (erro) {
+//     talhoes = {
+//       _id: "talhoes",
+//       talhoes: []
+//     };
+//   } else {
+//     talhoes = doc;
+//   }
+// });
 
 export default class CadTalhao extends React.Component {
   constructor(props) {
@@ -118,9 +101,9 @@ export default class CadTalhao extends React.Component {
 
   render() {
     var navigation = this.props.navigation;
-
     var confMapa = {};
     confMapa.scrollEnabled = this.state.mapaAtivo;
+
     if (!this.state.mapaAtivo) confMapa.onPress = e => this.mapaSelecionado(e);
     return (
       <Container
@@ -128,9 +111,12 @@ export default class CadTalhao extends React.Component {
           paddingTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight
         }}
       >
+        {/* Header */}
         <CustomHeader navigation={navigation} titulo="Cadastro de Talhão" />
 
+        {/* Body */}
         <Content style={{ backgroundColor: "#eee", padding: 15 }}>
+          {/* Informações */}
           <Text style={{ fontSize: 18, marginLeft: 5 }}>INFORMAÇÕES</Text>
           <Text
             style={{
@@ -142,7 +128,6 @@ export default class CadTalhao extends React.Component {
           >
             Informações sobre o talhão
           </Text>
-
           <Card style={{ borderRadius: 5, padding: 10 }}>
             <Formulario
               tamanho={45}
@@ -153,6 +138,7 @@ export default class CadTalhao extends React.Component {
             />
           </Card>
 
+          {/* Plantação */}
           <Text style={{ fontSize: 18, marginLeft: 5, marginTop: 20 }}>
             PLANTAÇÃO
           </Text>
@@ -166,7 +152,6 @@ export default class CadTalhao extends React.Component {
           >
             Informações sobre a plantação
           </Text>
-
           <Card style={{ borderRadius: 5, padding: 10 }}>
             <Formulario
               tamanho={45}
@@ -177,6 +162,7 @@ export default class CadTalhao extends React.Component {
             />
           </Card>
 
+          {/* Mapa */}
           <Text style={{ fontSize: 18, marginLeft: 5, marginTop: 20 }}>
             MAPA
           </Text>
@@ -190,7 +176,6 @@ export default class CadTalhao extends React.Component {
           >
             Informe a posição do talhão no mapa
           </Text>
-
           <Card style={{ borderRadius: 5 }}>
             <MapView
               ref={ref => {
@@ -236,6 +221,7 @@ export default class CadTalhao extends React.Component {
             </Button>
           </Card>
 
+          {/* Submit Button */}
           <Button
             block
             style={{
@@ -248,22 +234,42 @@ export default class CadTalhao extends React.Component {
                 this._formulario1.getValores(),
                 this._formulario2.getValores()
               );
-              console.warn(tmp);
 
-              talhoes["talhoes"].push(tmp);
-              Banco.local.put(talhoes, function(erro, doc) {
-                if (erro) return;
-              });
+              Banco.store("talhoes", tmp)
+                .then(response => {
+                  this.props.navigation.getParam("anterior").setState({
+                    itens: response.itens
+                  });
+                })
+                .catch(err => showDefaultToast(err));
+              /* 
+              Banco.pegaDados("talhoes")
+                .then(response => {
+                  response.itens.push(tmp);
+                  Banco.registraDados(response);
+                  this.props.navigation.state.params.anterior.setState({
+                    itens: response.itens
+                  });
+                })
+                .catch(err => {
+                  err.itens.push(tmp);
+                  Banco.registraDados(err);
+                  this.props.navigation.state.params.anterior.setState({
+                    itens: err.itens
+                  });
+                }); */
 
-              this.props.navigation.state.params.anterior.setState({
-                talhoes: talhoes["talhoes"]
-              });
+              // Banco.local.put(talhoes, function(erro, doc) {
+              //   if (erro) return;
+              // });
+
               this.props.navigation.dispatch(NavigationActions.back());
             }}
           >
             <Text>Cadastrar</Text>
           </Button>
         </Content>
+        {/* Fim do Body */}
       </Container>
     );
   }
