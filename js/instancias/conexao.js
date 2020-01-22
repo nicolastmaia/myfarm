@@ -69,7 +69,7 @@ export const Banco = {
   store: function(docTitle, tmp) {
     return new Promise((resolve, reject) => {
       var dado = {
-        _id: "talhoes",
+        _id: docTitle,
         itens: []
       };
       this.remoto
