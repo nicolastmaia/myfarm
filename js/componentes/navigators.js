@@ -23,6 +23,7 @@ import CadTalhao from "../cadTalhao";
 import CadAplicacao from "../cadAplicacao";
 import CadColheita from "../cadColheita";
 import Colheita from "../colheita";
+import Aplicacao from "../aplicacao";
 import Camera from "./camera.js";
 import Perdas from "../perdas";
 import Galeria from "./galeria";
@@ -62,13 +63,14 @@ const Stack = createAppContainer(
     {
       PageInicial: Tab,
       Camera,
+      Aplicacao,
       Perdas,
       Talhao,
       Colheita,
       Sobre,
+      CadAplicacao,
       CadTalhao,
       CadColheita,
-      CadAplicacao,
       CadUsuario,
       CadPropriedadeNova: cadPropriedadeNova
     },
