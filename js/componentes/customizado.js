@@ -2,15 +2,6 @@ import React from "react";
 
 import { Item, Input, Icon, DatePicker, Toast } from "native-base";
 
-//mensagem flutuante
-export function mostraToast(texto) {
-  Toast.show({
-    text: texto,
-    position: "bottom",
-    buttonText: "Ok"
-  });
-}
-
 //TODO IMPLEMENTAR CHECAGEM DE MINCHARACTERS
 //cada campo do formulario tem esse formato (Texto) abaixo:
 export class Texto extends React.Component {
