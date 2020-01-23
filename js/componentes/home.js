@@ -160,7 +160,7 @@ export default class Home extends React.Component {
                 {/* CadAplicacao */}
                 <TouchableOpacity
                   style={styles.botoes}
-                  onPress={() => this.props.navigation.navigate("CadAplicacao")}
+                  onPress={() => this.props.navigation.navigate("Aplicacao")}
                 >
                   <Ionicon name="md-trending-up" style={styles.icone} />
                   <Text style={styles.texto}>Aplicações</Text>
@@ -190,7 +190,7 @@ export default class Home extends React.Component {
                 {/* CadColheita */}
                 <TouchableOpacity
                   style={styles.botoes}
-                  onPress={() => this.props.navigation.navigate("CadColheita")}
+                  onPress={() => this.props.navigation.navigate("Colheita")}
                 >
                   <Ionicon name="md-basket" style={styles.icone} />
                   <Text style={styles.texto}>Colheita</Text>

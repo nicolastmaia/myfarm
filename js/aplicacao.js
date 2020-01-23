@@ -16,7 +16,7 @@ import CustomHeader from "./componentes/customHeader";
 
 //==========| Fim dos Imports |==========//
 
-export default class Talhao extends React.Component {
+export default class Aplicacao extends React.Component {
   constructor(props) {
     super(props);
     this.state = { flag: false, itens: [] };
@@ -24,11 +24,11 @@ export default class Talhao extends React.Component {
   }
 
   /* componentWillMount() {
-		analytics.trackScreenView("Cadastro de Talhão");
+		analytics.trackScreenView("Cadastro de Aplicação");
 	} */
 
   atualizaPagina = () => {
-    Banco.remoto.get("talhoes").then(response => {
+    Banco.remoto.get("aplicacoes").then(response => {
       this.setState({ itens: response.itens });
     });
   };
@@ -36,17 +36,17 @@ export default class Talhao extends React.Component {
   // atualizaPagina = () => {
   //   let tmp = {};
   //   Banco.local
-  //     .get("talhoes")
+  //     .get("aplicações")
   //     .then(doc => {
   //       tmp = doc;
-  //       this.setState({ talhoes: tmp["talhoes"] });
+  //       this.setState({ aplicações: tmp["aplicações"] });
   //     })
   //     .catch(erro => {
   //       tmp = {
-  //         _id: "talhoes",
-  //         talhoes: []
+  //         _id: "aplicações",
+  //         aplicações: []
   //       };
-  //       this.setState({ talhoes: tmp["talhoes"] });
+  //       this.setState({ aplicações: tmp["aplicações"] });
   //     });
   // };
 
@@ -59,7 +59,7 @@ export default class Talhao extends React.Component {
           paddingTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight
         }}
       >
-        <CustomHeader navigation={navigation} titulo="Cadastro de Talhão" />
+        <CustomHeader navigation={navigation} titulo="Cadastro de Aplicações" />
 
         <Content style={{ backgroundColor: "#fff" }}>
           <FlatList
@@ -69,7 +69,7 @@ export default class Talhao extends React.Component {
                 style={{ marginLeft: 0 }}
                 onPress={() => {
                   navigate(
-                    "CadTalhao",
+                    "CadAplicacao",
                     Object.assign(item, { anterior: this })
                   );
                 }}
@@ -98,7 +98,7 @@ export default class Talhao extends React.Component {
                       marginLeft: 20
                     }}
                   >
-                    {item.n_parcela}
+                    {item.praga}
                   </Text>
                   <View
                     style={{
@@ -125,7 +125,7 @@ export default class Talhao extends React.Component {
             right: 15,
             backgroundColor: "green"
           }}
-          onPress={() => navigate("CadTalhao", { anterior: this })}
+          onPress={() => navigate("CadAplicacao", { anterior: this })}
         >
           <Icon name="md-add" />
         </Button>

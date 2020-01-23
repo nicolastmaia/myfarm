@@ -11,6 +11,8 @@ import {
 } from "native-base";
 import { StyleSheet } from "react-native";
 
+import { showDefaultToast } from "./utils/showToast";
+
 import { Banco } from "../instancias/conexao.js";
 
 export default class LoginForm extends React.Component {
@@ -56,18 +58,9 @@ export default class LoginForm extends React.Component {
             backgroundColor: "#004238"
           }}
           onPress={() => {
-            Banco.checkLogin(this.state.username, this.state.password)
+            Banco.logIn(this.state.username, this.state.password)
               .then(() => this.props.navigate("Logado"))
-              .catch(err => {
-                console.log(err);
-                Toast.show({
-                  text: err.name,
-                  textStyle: { color: "#fff" },
-                  buttonText: "Ok",
-                  position: "bottom",
-                  buttonStyle: { backgroundColor: "#303030" }
-                });
-              });
+              .catch(err => showDefaultToast(err));
           }}
         >
           <Text>Entrar</Text>

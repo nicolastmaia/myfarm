@@ -31,7 +31,7 @@ import {
 import { NavigationActions } from "react-navigation";
 
 // const analytics = require("./instancias/analytics");
-const { registraHistorico } = require("./instancias/conexao.js");
+import { Banco } from "./instancias/conexao.js";
 
 import { Texto, Formulario } from "./componentes/customizado";
 import CustomHeader from "./componentes/customHeader";
@@ -96,19 +96,26 @@ export default class CadColheita extends React.Component {
             }}
             onPress={() => {
               var tmp = this._formulario1.getValores();
-              console.warn(tmp);
 
-              let data = new Date();
-              registraHistorico("colheitas", {
-                time:
-                  data.getDate() +
-                  "/" +
-                  (data.getMonth() + 1) +
-                  "/" +
-                  data.getYear(),
-                title: tmp.quantidade + " tomates coletados",
-                description: tmp.producao
-              });
+              Banco.store("colheitas", tmp)
+                .then(response => {
+                  this.props.navigation.getParam("anterior").setState({
+                    itens: response.itens
+                  });
+                })
+                .catch(err => showDefaultToast(err));
+
+              // let data = new Date();
+              // Banco.registraHistorico("colheitas", {
+              //   time:
+              //     data.getDate() +
+              //     "/" +
+              //     (data.getMonth() + 1) +
+              //     "/" +
+              //     data.getYear(),
+              //   title: tmp.quantidade + " tomates coletados",
+              //   description: tmp.producao
+              // });
 
               this.props.navigation.dispatch(NavigationActions.back());
             }}

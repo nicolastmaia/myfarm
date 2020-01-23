@@ -1,37 +1,9 @@
 import React from "react";
-import {
-  Platform,
-  StatusBar,
-  Dimensions,
-  Image,
-  ScrollView,
-  Keyboard,
-  Slider,
-  FlatList,
-  ListView
-} from "react-native";
-import {
-  Item,
-  View,
-  Input,
-  Icon,
-  Button,
-  Text,
-  DatePicker,
-  Toast
-} from "native-base";
 
-//mensagem flutuante
-export function mostraToast(texto) {
-  Toast.show({
-    text: texto,
-    position: "bottom",
-    buttonText: "Ok"
-  });
-}
+import { Item, Input, Icon, DatePicker, Toast } from "native-base";
 
 //TODO IMPLEMENTAR CHECAGEM DE MINCHARACTERS
-//cada campo do formulario tem esse formato
+//cada campo do formulario tem esse formato (Texto) abaixo:
 export class Texto extends React.Component {
   render() {
     if (this.props.tipo != "data") {

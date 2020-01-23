@@ -34,7 +34,7 @@ import { NavigationActions } from "react-navigation";
 // const analytics = require("./instancias/analytics");
 import CustomHeader from "./componentes/customHeader";
 import { Texto, Formulario } from "./componentes/customizado";
-const { registraHistorico } = require("./instancias/conexao.js");
+import { Banco } from "./instancias/conexao.js";
 
 var form1 = [
   { nome: "praga", placeholder: "Praga/doença (nome científico)" },
@@ -116,7 +116,15 @@ export default class CadAplicacao extends React.Component {
 
               console.warn(tmp);
 
-              let data = new Date();
+              Banco.store("aplicacoes", tmp)
+                .then(response => {
+                  this.props.navigation.getParam("anterior").setState({
+                    itens: response.itens
+                  });
+                })
+                .catch(err => showDefaultToast(err));
+
+              /* let data = new Date();
               registraHistorico("aplicacoes", {
                 time:
                   data.getDate() +
@@ -126,7 +134,7 @@ export default class CadAplicacao extends React.Component {
                   data.getYear(),
                 title: "Aplicação de " + tmp.produto,
                 description: tmp.quantidade + " ml"
-              });
+              }); */
               //MUDAR /\ DEPOIS! TODO
 
               this.props.navigation.dispatch(NavigationActions.back());
