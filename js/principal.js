@@ -68,19 +68,19 @@ export default class Principal extends React.Component {
     if (!this.state.teclado) {
       logoMyFarm = (
         <Image
-          source={require("./assets/myfarm_icon_transp_white.png")}
+          source={require("../assets/myfarm_icon_transp_white.png")}
           style={styles.logoMyFarm}
         />
       );
       logoRural = (
         <Image
-          source={require("./assets/rural_icon_transp_white.png")}
+          source={require("../assets/rural_icon_transp_white.png")}
           style={[{ marginLeft: 50, height: 70 }, styles.logosMenores]}
         />
       );
       logoPet = (
         <Image
-          source={require("./assets/petsi_icon_transp_white.png")}
+          source={require("../assets/petsi_icon_transp_white.png")}
           style={[{ marginRight: 50, height: 75 }, styles.logosMenores]}
         />
       );
@@ -88,7 +88,7 @@ export default class Principal extends React.Component {
 
     return (
       <ImageBackground
-        source={require("./assets/myfarm_bg_grass.jpg")}
+        source={require("../assets/myfarm_bg_grass.jpg")}
         style={styles.imageContainer}
       >
         <Icon

@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Text, Container } from "native-base";
 import { Dimensions, ImageBackground, TouchableOpacity } from "react-native";
-import { WebView } from "react-native-webview";
 import Ionicon from "react-native-vector-icons/Ionicons";
 
 export default class Cotacao extends React.Component {
@@ -16,19 +15,10 @@ export default class Cotacao extends React.Component {
   render() {
     const navigate = this.props.navegacao;
 
-    cot = (
-      <WebView
-        source={{
-          uri:
-            "https://selos.agrolink.com.br/selos/carregaselo?servico=cotacoes&uf=9840&p=2109&l=&esp=&cor=rgb(30,106,30)&w=300&h=200"
-        }}
-      />
-    );
-
     return (
       <Container>
         <ImageBackground
-          source={require("../assets/myfarm_bg_grass.jpg")}
+          source={require("../../assets/myfarm_bg_grass.jpg")}
           blurRadius={10}
           style={{
             width: Dimensions.get("window").width,
@@ -46,7 +36,6 @@ export default class Cotacao extends React.Component {
           >
             <Ionicon style={{ color: "white", fontSize: 45 }} name="md-menu" />
           </TouchableOpacity>
-          {/* {cot} */}
         </ImageBackground>
       </Container>
     );

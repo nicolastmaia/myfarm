@@ -33,14 +33,14 @@ export default class Sobre extends React.Component {
 
     let logo = (
       <Image
-        source={require("./assets/myfarm_icon_transp_white.png")}
+        source={require("../assets/myfarm_icon_transp_white.png")}
         style={styles.logo}
       />
     );
 
     return (
       <ImageBackground
-        source={require("./assets/myfarm_bg_grass.jpg")}
+        source={require("../assets/myfarm_bg_grass.jpg")}
         style={styles.imageContainer}
       >
         {/* logo MyFarm */}

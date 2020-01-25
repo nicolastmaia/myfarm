@@ -1,6 +1,12 @@
 import React from "react";
 import { View } from "native-base";
-import { ActivityIndicator, AsyncStorage } from "react-native";
+import {
+  ActivityIndicator,
+  AsyncStorage,
+  StyleSheet,
+  Dimensions,
+  ImageBackground
+} from "react-native";
 import { Banco } from "../instancias/conexao.js";
 export default class Carregando extends React.Component {
   constructor(props) {
@@ -17,9 +23,29 @@ export default class Carregando extends React.Component {
 
   render() {
     return (
-      <View style={{ justifyContent: "center", textAlign: "center" }}>
-        <ActivityIndicator size="large" color="#0f0" />
+      <View
+        style={{
+          justifyContent: "center",
+          alignItems: "center"
+        }}
+      >
+        <ImageBackground
+          source={require("../../assets/splash.png")}
+          style={styles.imageContainer}
+        />
+        <ActivityIndicator
+          size="large"
+          color="#fff"
+          style={{ position: "absolute", elevation: 2, bottom: 215 }}
+        />
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  imageContainer: {
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height
+  }
+});

@@ -159,7 +159,7 @@ export default class CadUsuario extends React.Component {
     return (
       <ImageBackground
         blurRadius={8}
-        source={require("./assets/myfarm_bg_grass.jpg")}
+        source={require("../assets/myfarm_bg_grass.jpg")}
         style={{ flex: 1, width: null, padding: 20, paddingTop: 20 }}
       >
         {/* titulo da pagina */}
