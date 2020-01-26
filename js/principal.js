@@ -196,12 +196,5 @@ const styles = StyleSheet.create({
     textShadowColor: "#000",
     textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 7
-  },
-  input: {
-    backgroundColor: "rgba(0,0,0,.5)",
-    borderColor: "transparent",
-    paddingHorizontal: 15,
-    paddingVertical: 4,
-    marginBottom: 20
   }
 });

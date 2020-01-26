@@ -36,7 +36,7 @@ export default class Carregando extends React.Component {
         <ActivityIndicator
           size="large"
           color="#fff"
-          style={{ position: "absolute", elevation: 2, bottom: 215 }}
+          style={styles.activityIndicator}
         />
       </View>
     );
@@ -47,5 +47,10 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height
+  },
+  activityIndicator: {
+    position: "absolute",
+    elevation: 2,
+    bottom: 215
   }
 });

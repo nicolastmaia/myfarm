@@ -213,7 +213,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: 150,
     width: 150,
-    margin: 10
+    margin: 10,
+    borderRadius: 10
   },
   icone: {
     fontSize: 70,

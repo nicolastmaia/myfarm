@@ -7,7 +7,9 @@ import {
   InputGroup,
   Icon,
   Input,
-  Toast
+  Toast,
+  Item,
+  Label
 } from "native-base";
 import { StyleSheet } from "react-native";
 
@@ -23,38 +25,35 @@ export default class LoginForm extends React.Component {
   render() {
     return (
       <View>
-        <Form>
-          <InputGroup rounded style={styles.input}>
-            <Icon name="md-person" style={{ color: "#ffffff" }} />
-            <Input
-              style={{ color: "#ffffff" }}
-              onChangeText={user => this.setState({ username: user })}
-              keyboardType="email-address"
-              placeholder="Usuário"
-              placeholderTextColor="#808080"
-              returnKeyType="next"
-            />
-          </InputGroup>
-          <InputGroup rounded style={styles.input}>
-            <Icon name="key" style={{ color: "#ffffff" }} />
-            <Input
-              style={{ color: "#ffffff" }}
-              onChangeText={pass =>
-                this.setState({
-                  password: pass
-                })
-              }
-              placeholder="Senha"
-              placeholderTextColor="#808080"
-              secureTextEntry={true}
-              returnKeyType="go"
-            />
-          </InputGroup>
-        </Form>
+        <Item style={styles.input}>
+          <Icon name="md-person" style={{ color: "#ffffff" }} />
+          <Input
+            style={{ color: "#ffffff" }}
+            onChangeText={user => this.setState({ username: user })}
+            placeholder="Usuário"
+            placeholderTextColor="#919191"
+            returnKeyType="next"
+          />
+        </Item>
+        <Item style={styles.input}>
+          <Icon name="key" style={{ color: "#ffffff" }} />
+          <Input
+            style={{ color: "#ffffff" }}
+            onChangeText={pass =>
+              this.setState({
+                password: pass
+              })
+            }
+            placeholder="Senha"
+            placeholderTextColor="#919191"
+            secureTextEntry={true}
+            returnKeyType="go"
+          />
+        </Item>
         <Button
           block
           style={{
-            borderRadius: 20,
+            borderRadius: 5,
             backgroundColor: "#004238"
           }}
           onPress={() => {
@@ -77,6 +76,7 @@ const styles = StyleSheet.create({
     borderColor: "transparent",
     paddingHorizontal: 15,
     paddingVertical: 4,
-    marginBottom: 20
+    marginBottom: 20,
+    borderRadius: 5
   }
 });
