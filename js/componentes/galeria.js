@@ -231,42 +231,41 @@ export default class Galeria extends React.Component {
               </View>
             </ScrollView>
           </View>
-          {/* botao de ações flutuante */}
-          <Fab
-            active={this.state.active}
-            direction="up"
-            style={{ backgroundColor: "#000" }}
-            onPress={() =>
-              this.setState({
-                active: !this.state.active
-              })
-            }
-          >
-            <Icon name="md-camera" />
 
-            <Button
-              style={{ backgroundColor: "#E53935" }}
+          {/* botao de ações flutuante */}
+          <View style={{ flex: 1 }}>
+            <Fab
+              active={this.state.active}
+              direction="left"
+              position="bottomRight"
+              style={{ backgroundColor: "#629c44" }}
               onPress={() =>
                 this.setState({
-                  apagar: !this.state.apagar
+                  active: !this.state.active
                 })
               }
             >
-              <Icon
-                name="md-trash"
-                style={{ color: "#FFFFFF", fontSize: 20 }}
-              />
-            </Button>
-            <Button
-              style={{ backgroundColor: "green" }}
-              onPress={() => this.props.navigation.navigate("Camera")}
-            >
-              <Icon
-                name="md-aperture"
-                style={{ color: "#FFFFFF", fontSize: 20 }}
-              />
-            </Button>
-          </Fab>
+              <Icon name="md-camera" />
+
+              <Button
+                style={{ backgroundColor: "#44869c" }}
+                onPress={() => this.props.navigation.navigate("Camera")}
+              >
+                <Icon name="md-aperture" />
+              </Button>
+
+              <Button
+                style={{ backgroundColor: "#CD6B69" }}
+                onPress={() =>
+                  this.setState({
+                    apagar: !this.state.apagar
+                  })
+                }
+              >
+                <Icon name="md-trash" />
+              </Button>
+            </Fab>
+          </View>
         </ImageBackground>
       </Container>
     );
