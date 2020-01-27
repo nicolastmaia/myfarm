@@ -159,6 +159,7 @@ export default class Home extends React.Component {
               <View style={{ flexDirection: "row" }}>
                 {/* CadAplicacao */}
                 <TouchableOpacity
+                  activeOpacity={0.7}
                   style={styles.botoes}
                   onPress={() => this.props.navigation.navigate("Aplicacao")}
                 >
@@ -168,6 +169,7 @@ export default class Home extends React.Component {
 
                 {/* Perdas */}
                 <TouchableOpacity
+                  activeOpacity={0.7}
                   style={styles.botoes}
                   onPress={() => this.props.navigation.navigate("Perdas")}
                 >
@@ -180,6 +182,7 @@ export default class Home extends React.Component {
               <View style={{ flexDirection: "row" }}>
                 {/* Talhao */}
                 <TouchableOpacity
+                  activeOpacity={0.7}
                   style={styles.botoes}
                   onPress={() => this.props.navigation.navigate("Talhao")}
                 >
@@ -189,6 +192,7 @@ export default class Home extends React.Component {
 
                 {/* CadColheita */}
                 <TouchableOpacity
+                  activeOpacity={0.7}
                   style={styles.botoes}
                   onPress={() => this.props.navigation.navigate("Colheita")}
                 >
@@ -207,7 +211,7 @@ export default class Home extends React.Component {
 //estilos da pagina
 const styles = StyleSheet.create({
   botoes: {
-    backgroundColor: "#fff",
+    backgroundColor: "#FFFFFF",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
@@ -218,9 +222,9 @@ const styles = StyleSheet.create({
   },
   icone: {
     fontSize: 70,
-    color: "black"
+    color: "#000000"
   },
   texto: {
-    color: "black"
+    color: "#000000"
   }
 });
