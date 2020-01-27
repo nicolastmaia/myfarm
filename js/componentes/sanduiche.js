@@ -12,10 +12,11 @@ export default class Sanduiche extends React.Component {
   desloga = async () => {
     await AsyncStorage.clear();
     Banco.remoto.logOut();
-    this.props.navigation.navigate("Deslogado");
+    navigate("Deslogado");
   };
 
   render() {
+    const { navigate } = this.props.navigation;
     const compartilhamento = {
       title: "MyFarm",
       message: "aaaaaaaaaaa",
@@ -64,7 +65,7 @@ export default class Sanduiche extends React.Component {
             style={{ marginTop: 10 }}
             full
             transparent
-            onPress={() => this.props.navigation.navigate("Sobre")}
+            onPress={() => navigate("Sobre")}
           >
             <Icon name="information-circle" style={{ color: "black" }} />
             <Text style={[styles.textoBotao, { marginLeft: -20 }]}>Sobre</Text>

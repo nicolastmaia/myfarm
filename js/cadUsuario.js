@@ -150,7 +150,7 @@ export default class CadUsuario extends React.Component {
   }
 
   render = () => {
-    const { navigate } = this.props.navigation;
+    const { dispatch, navigate } = this.props.navigation;
 
     var confMapa = {};
     confMapa.scrollEnabled = this.state.mapaAtivo;
@@ -361,8 +361,7 @@ export default class CadUsuario extends React.Component {
               danger
               style={{ margin: 15 }}
               onPress={() => {
-                if (this.state.posicao == 0)
-                  this.props.navigation.dispatch(NavigationActions.back());
+                if (this.state.posicao == 0) dispatch(NavigationActions.back());
                 else
                   this.setState({
                     posicao: --this.state.posicao

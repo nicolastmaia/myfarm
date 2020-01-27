@@ -52,14 +52,13 @@ export default class Aplicacao extends React.Component {
 
   render() {
     const { navigate } = this.props.navigation;
-    var navigation = this.props.navigation;
     return (
       <Container
         style={{
           paddingTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight
         }}
       >
-        <CustomHeader navigation={navigation} titulo="Cadastro de Aplicações" />
+        <CustomHeader titulo="Cadastro de Aplicações" />
 
         <Content style={{ backgroundColor: "#fff" }}>
           <FlatList

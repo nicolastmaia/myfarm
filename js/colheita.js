@@ -28,7 +28,6 @@ export default class Colheita extends React.Component {
 
   render() {
     const { navigate } = this.props.navigation;
-    var navigation = this.props.navigation;
 
     return (
       <Container
@@ -36,7 +35,7 @@ export default class Colheita extends React.Component {
           paddingTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight
         }}
       >
-        <CustomHeader navigation={navigation} titulo="Cadastro de Colheita" />
+        <CustomHeader titulo="Cadastro de Colheita" />
 
         <Content>
           <FlatList

@@ -52,14 +52,13 @@ export default class Talhao extends React.Component {
 
   render() {
     const { navigate } = this.props.navigation;
-    var navigation = this.props.navigation;
     return (
       <Container
         style={{
           paddingTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight
         }}
       >
-        <CustomHeader navigation={navigation} titulo="Cadastro de Talhão" />
+        <CustomHeader titulo="Cadastro de Talhão" />
 
         <Content style={{ backgroundColor: "#fff" }}>
           <FlatList

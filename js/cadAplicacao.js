@@ -67,15 +67,14 @@ export default class CadAplicacao extends React.Component {
   }
 
   render() {
-    var navigation = this.props.navigation;
-
+    const { getParam, dispatch } = this.props.navigation;
     return (
       <Container
         style={{
           paddingTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight
         }}
       >
-        <CustomHeader navigation={navigation} titulo="Aplicações de Produtos" />
+        <CustomHeader titulo="Aplicações de Produtos" />
 
         <Content style={{ backgroundColor: "#eee", padding: 15 }}>
           <Text style={{ fontSize: 18, marginLeft: 5 }}>APLICAÇÕES</Text>
@@ -118,7 +117,7 @@ export default class CadAplicacao extends React.Component {
 
               Banco.store("aplicacoes", tmp)
                 .then(response => {
-                  this.props.navigation.getParam("anterior").setState({
+                  getParam("anterior").setState({
                     itens: response.itens
                   });
                 })
@@ -137,7 +136,7 @@ export default class CadAplicacao extends React.Component {
               }); */
               //MUDAR /\ DEPOIS! TODO
 
-              this.props.navigation.dispatch(NavigationActions.back());
+              dispatch(NavigationActions.back());
             }}
           >
             <Text>Cadastrar</Text>

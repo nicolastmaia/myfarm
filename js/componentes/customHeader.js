@@ -1,12 +1,13 @@
 import React from "react";
 import { Icon, Button, Header, Left, Right, Text, Body } from "native-base";
-import { NavigationActions } from "react-navigation";
+import { NavigationActions, withNavigation } from "react-navigation";
 
-export default class CustomHeader extends React.Component {
+class CustomHeader extends React.Component {
   constructor(props) {
     super(props);
   }
   render() {
+    const { dispatch } = this.props.navigation;
     return (
       <Header
         androidStatusBarColor="green"
@@ -20,9 +21,7 @@ export default class CustomHeader extends React.Component {
                 fontSize: 40
               }}
               name="arrow-back"
-              onPress={() =>
-                this.props.navigation.dispatch(NavigationActions.back())
-              }
+              onPress={() => dispatch(NavigationActions.back())}
             />
           </Button>
         </Left>
@@ -42,3 +41,6 @@ export default class CustomHeader extends React.Component {
     );
   }
 }
+
+//withNavigation(comp) permite que um componente use as propriedades de navegação do pai sem necessariamente receber o this.props.navigation do pai
+export default withNavigation(CustomHeader);

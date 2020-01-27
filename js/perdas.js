@@ -202,15 +202,13 @@ export default class Perdas extends React.Component {
   }
 
   render() {
-    var navigation = this.props.navigation;
-
     return (
       <Container
         style={{
           paddingTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight
         }}
       >
-        <CustomHeader navigation={navigation} titulo="Perdas" />
+        <CustomHeader titulo="Perdas" />
 
         <Content style={{ backgroundColor: "#fff" }}>
           <List>

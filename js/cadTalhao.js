@@ -89,10 +89,10 @@ export default class CadTalhao extends React.Component {
 
   UNSAFE_componentWillMount = () => {
     for (var i = 0; i < form1.length; i++) {
-      form1[i]["valor"] = this.props.navigation.getParam(form1[i]["nome"]);
+      form1[i]["valor"] = getParam(form1[i]["nome"]);
     }
     for (var i = 0; i < form2.length; i++) {
-      form2[i]["valor"] = this.props.navigation.getParam(form2[i]["nome"]);
+      form2[i]["valor"] = getParam(form2[i]["nome"]);
     }
     Banco.local.get("dados").then(doc => {
       this.setState({ coordenadas_propriedade: doc.coordenadas });
@@ -100,7 +100,7 @@ export default class CadTalhao extends React.Component {
   };
 
   render() {
-    var navigation = this.props.navigation;
+    const { getParam, dispatch } = this.props.navigation;
     var confMapa = {};
     confMapa.scrollEnabled = this.state.mapaAtivo;
 
@@ -112,7 +112,7 @@ export default class CadTalhao extends React.Component {
         }}
       >
         {/* Header */}
-        <CustomHeader navigation={navigation} titulo="Cadastro de Talhão" />
+        <CustomHeader titulo="Cadastro de Talhão" />
 
         {/* Body */}
         <Content style={{ backgroundColor: "#eee", padding: 15 }}>
@@ -237,7 +237,7 @@ export default class CadTalhao extends React.Component {
 
               Banco.store("talhoes", tmp)
                 .then(response => {
-                  this.props.navigation.getParam("anterior").setState({
+                  getParam("anterior").setState({
                     itens: response.itens
                   });
                 })
@@ -263,7 +263,7 @@ export default class CadTalhao extends React.Component {
               //   if (erro) return;
               // });
 
-              this.props.navigation.dispatch(NavigationActions.back());
+              dispatch(NavigationActions.back());
             }}
           >
             <Text>Cadastrar</Text>

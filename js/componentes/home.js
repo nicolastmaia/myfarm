@@ -42,6 +42,7 @@ export default class Home extends React.Component {
   };
 
   render() {
+    const { navigate, openDrawer } = this.props.navigation;
     var tmp = null;
 
     //config do icone de previsao do tempo
@@ -128,7 +129,7 @@ export default class Home extends React.Component {
               marginTop: 35,
               marginLeft: 15
             }}
-            onPress={() => this.props.navigation.openDrawer()}
+            onPress={() => openDrawer()}
           >
             <Ionicon style={{ color: "white", fontSize: 45 }} name="md-menu" />
           </TouchableOpacity>
@@ -161,7 +162,7 @@ export default class Home extends React.Component {
                 <TouchableOpacity
                   activeOpacity={0.7}
                   style={styles.botoes}
-                  onPress={() => this.props.navigation.navigate("Aplicacao")}
+                  onPress={() => navigate("Aplicacao")}
                 >
                   <Ionicon name="md-trending-up" style={styles.icone} />
                   <Text style={styles.texto}>Aplicações</Text>
@@ -171,7 +172,7 @@ export default class Home extends React.Component {
                 <TouchableOpacity
                   activeOpacity={0.7}
                   style={styles.botoes}
-                  onPress={() => this.props.navigation.navigate("Perdas")}
+                  onPress={() => navigate("Perdas")}
                 >
                   <Ionicon name="md-trending-down" style={styles.icone} />
                   <Text style={styles.texto}>Perdas</Text>
@@ -184,7 +185,7 @@ export default class Home extends React.Component {
                 <TouchableOpacity
                   activeOpacity={0.7}
                   style={styles.botoes}
-                  onPress={() => this.props.navigation.navigate("Talhao")}
+                  onPress={() => navigate("Talhao")}
                 >
                   <Ionicon name="md-grid" style={styles.icone} />
                   <Text style={styles.texto}>Talhão</Text>
@@ -194,7 +195,7 @@ export default class Home extends React.Component {
                 <TouchableOpacity
                   activeOpacity={0.7}
                   style={styles.botoes}
-                  onPress={() => this.props.navigation.navigate("Colheita")}
+                  onPress={() => navigate("Colheita")}
                 >
                   <Ionicon name="md-basket" style={styles.icone} />
                   <Text style={styles.texto}>Colheita</Text>

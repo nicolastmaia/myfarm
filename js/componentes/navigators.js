@@ -1,4 +1,3 @@
-import React from "react";
 import { Dimensions } from "react-native";
 import {
   createDrawerNavigator,
@@ -7,6 +6,8 @@ import {
   createAppContainer,
   createBottomTabNavigator
 } from "react-navigation";
+
+import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
 
 //=========| COMPONENTES |=========//
 import Carregando from "./carregando";
@@ -38,7 +39,7 @@ const DrawerConfig = {
 };
 
 const Tab = createAppContainer(
-  createBottomTabNavigator(
+  createMaterialBottomTabNavigator(
     {
       Galeria,
       Início: Home,
@@ -46,14 +47,12 @@ const Tab = createAppContainer(
     },
     {
       initialRouteName: "Início",
-      tabBarOptions: {
-        activeTintColor: "#ffffff",
-        activeBackgroundColor: "#4c7a34",
-        inactiveTintColor: "black",
-        inactiveBackgroundColor: "#629c44",
-        style: { height: 50 }
-      },
-      headerMode: "none"
+      backBehavior: "initialRoute",
+      shifting: true,
+      activeColor: "#ffffff",
+      barStyle: {
+        backgroundColor: "#4c7a34"
+      }
     }
   )
 );

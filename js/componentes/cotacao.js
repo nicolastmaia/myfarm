@@ -13,8 +13,7 @@ export default class Cotacao extends React.Component {
     )
   };
   render() {
-    const navigate = this.props.navegacao;
-
+    const { openDrawer } = this.props.navigation;
     return (
       <Container>
         <ImageBackground
@@ -32,7 +31,7 @@ export default class Cotacao extends React.Component {
               marginTop: 35,
               marginLeft: 15
             }}
-            onPress={() => this.props.navigation.openDrawer()}
+            onPress={() => openDrawer()}
           >
             <Ionicon style={{ color: "white", fontSize: 45 }} name="md-menu" />
           </TouchableOpacity>

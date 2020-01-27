@@ -185,7 +185,7 @@ export default class Galeria extends React.Component {
   };
 
   render() {
-    const navigate = this.props.navegacao;
+    const { navigate, openDrawer } = this.props.navigation;
     return (
       <Container>
         <ImageBackground
@@ -204,7 +204,7 @@ export default class Galeria extends React.Component {
               marginTop: 35,
               marginLeft: 15
             }}
-            onPress={() => this.props.navigation.openDrawer()}
+            onPress={() => openDrawer()}
           >
             <Ionicon style={{ color: "white", fontSize: 45 }} name="md-menu" />
           </TouchableOpacity>
@@ -249,7 +249,7 @@ export default class Galeria extends React.Component {
 
               <Button
                 style={{ backgroundColor: "#44869c" }}
-                onPress={() => this.props.navigation.navigate("Camera")}
+                onPress={() => navigate("Camera")}
               >
                 <Icon name="md-aperture" />
               </Button>
