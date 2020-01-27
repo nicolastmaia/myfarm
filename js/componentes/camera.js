@@ -61,7 +61,7 @@ export default class Camera extends React.Component {
   };
 
   render() {
-    const { dispatch } = this.props.navigation;
+    const { goBack } = this.props.navigation;
     return (
       <View style={{ flex: 1 }}>
         <Icon
@@ -74,7 +74,7 @@ export default class Camera extends React.Component {
             zIndex: 99
           }}
           name="arrow-back"
-          onPress={() => dispatch(NavigationActions.back())}
+          onPress={() => goBack()}
         />
         <RNCamera
           ref={ref => {

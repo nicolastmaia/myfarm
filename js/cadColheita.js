@@ -55,7 +55,7 @@ export default class CadColheita extends React.Component {
   };
 
   render() {
-    const { getParam, dispatch } = this.props.navigation;
+    const { getParam, goBack } = this.props.navigation;
     return (
       <Container
         style={{
@@ -117,7 +117,7 @@ export default class CadColheita extends React.Component {
               //   description: tmp.producao
               // });
 
-              dispatch(NavigationActions.back());
+              goBack();
             }}
           >
             <Text>Cadastrar</Text>

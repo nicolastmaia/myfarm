@@ -29,7 +29,6 @@ import {
   Container,
   Form
 } from "native-base";
-import { NavigationActions } from "react-navigation";
 
 // const analytics = require("./instancias/analytics");
 import CustomHeader from "./componentes/customHeader";
@@ -67,7 +66,7 @@ export default class CadAplicacao extends React.Component {
   }
 
   render() {
-    const { getParam, dispatch } = this.props.navigation;
+    const { getParam, goBack } = this.props.navigation;
     return (
       <Container
         style={{
@@ -136,7 +135,7 @@ export default class CadAplicacao extends React.Component {
               }); */
               //MUDAR /\ DEPOIS! TODO
 
-              dispatch(NavigationActions.back());
+              goBack();
             }}
           >
             <Text>Cadastrar</Text>

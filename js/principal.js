@@ -132,7 +132,7 @@ export default class Principal extends React.Component {
 
           {/* form de login */}
           <View style={{ paddingHorizontal: 30 }}>
-            <LoginForm navigate={navigate} />
+            <LoginForm />
           </View>
 
           {/* botoes com opcoes de cadastrar e de recuperar senha */}

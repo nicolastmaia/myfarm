@@ -16,13 +16,16 @@ import { StyleSheet } from "react-native";
 import { showDefaultToast } from "./utils/showToast";
 
 import { Banco } from "../instancias/conexao.js";
+import { withNavigation } from "react-navigation";
 
-export default class LoginForm extends React.Component {
+class LoginForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = { username: "", password: "" };
   }
   render() {
+    const { navigate } = this.props.navigation;
+
     return (
       <View>
         <Item style={styles.input}>
@@ -58,7 +61,7 @@ export default class LoginForm extends React.Component {
           }}
           onPress={() => {
             Banco.logIn(this.state.username, this.state.password)
-              .then(() => this.props.navigate("Logado"))
+              .then(() => navigate("Logado"))
               .catch(err => showDefaultToast(err));
           }}
         >
@@ -80,3 +83,6 @@ const styles = StyleSheet.create({
     borderRadius: 5
   }
 });
+
+//withNavigation(comp) permite que um componente use as propriedades de navegação do pai sem necessariamente receber o this.props.navigation do pai
+export default withNavigation(LoginForm);

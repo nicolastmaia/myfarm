@@ -98,7 +98,7 @@ export default class cadPropriedadeNova extends React.Component {
   }
 
   render = () => {
-    const { dispatch, navigate } = this.props.navigation;
+    const { goBack } = this.props.navigation;
 
     var confMapa = {};
     confMapa.scrollEnabled = this.state.mapaAtivo;
@@ -187,7 +187,7 @@ export default class cadPropriedadeNova extends React.Component {
               rounded
               danger
               style={{ margin: 15 }}
-              onPress={() => dispatch(NavigationActions.back())}
+              onPress={() => goBack()}
             >
               <Icon name="arrow-back" />
             </Button>

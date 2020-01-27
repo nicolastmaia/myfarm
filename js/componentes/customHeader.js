@@ -1,13 +1,13 @@
 import React from "react";
 import { Icon, Button, Header, Left, Right, Text, Body } from "native-base";
-import { NavigationActions, withNavigation } from "react-navigation";
+import { withNavigation } from "react-navigation";
 
 class CustomHeader extends React.Component {
   constructor(props) {
     super(props);
   }
   render() {
-    const { dispatch } = this.props.navigation;
+    const { goBack } = this.props.navigation;
     return (
       <Header
         androidStatusBarColor="green"
@@ -21,7 +21,7 @@ class CustomHeader extends React.Component {
                 fontSize: 40
               }}
               name="arrow-back"
-              onPress={() => dispatch(NavigationActions.back())}
+              onPress={() => goBack()}
             />
           </Button>
         </Left>

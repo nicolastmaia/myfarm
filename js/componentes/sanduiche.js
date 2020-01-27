@@ -3,13 +3,15 @@ import { Text, View, Button, Icon, Toast } from "native-base";
 import { StyleSheet, AsyncStorage } from "react-native";
 import Share from "react-native-share";
 import { bancoRemoto, PouchDB, Banco } from "../instancias/conexao.js";
+import { withNavigation } from "react-navigation";
 
-export default class Sanduiche extends React.Component {
+class Sanduiche extends React.Component {
   constructor(props) {
     super(props);
   }
 
   desloga = async () => {
+    const { navigate } = this.props.navigation;
     await AsyncStorage.clear();
     Banco.remoto.logOut();
     navigate("Deslogado");
@@ -133,3 +135,5 @@ const styles = StyleSheet.create({
     color: "black"
   }
 });
+
+export default withNavigation(Sanduiche);

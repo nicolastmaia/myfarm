@@ -3,8 +3,7 @@ import {
   createDrawerNavigator,
   createStackNavigator,
   createSwitchNavigator,
-  createAppContainer,
-  createBottomTabNavigator
+  createAppContainer
 } from "react-navigation";
 
 import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";

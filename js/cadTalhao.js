@@ -88,6 +88,7 @@ export default class CadTalhao extends React.Component {
   }
 
   UNSAFE_componentWillMount = () => {
+    const { getParam } = this.props.navigation;
     for (var i = 0; i < form1.length; i++) {
       form1[i]["valor"] = getParam(form1[i]["nome"]);
     }
@@ -100,7 +101,7 @@ export default class CadTalhao extends React.Component {
   };
 
   render() {
-    const { getParam, dispatch } = this.props.navigation;
+    const { getParam, goBack } = this.props.navigation;
     var confMapa = {};
     confMapa.scrollEnabled = this.state.mapaAtivo;
 
@@ -263,7 +264,7 @@ export default class CadTalhao extends React.Component {
               //   if (erro) return;
               // });
 
-              dispatch(NavigationActions.back());
+              goBack();
             }}
           >
             <Text>Cadastrar</Text>
