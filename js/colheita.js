@@ -17,14 +17,13 @@ export default class Colheita extends React.Component {
   constructor(props) {
     super(props);
     this.state = { flag: false, itens: [] };
-    this.atualizaPagina();
   }
 
-  atualizaPagina = () => {
+  componentDidMount() {
     Banco.remoto.get("colheitas").then(response => {
       this.setState({ itens: response.itens });
     });
-  };
+  }
 
   render() {
     const { navigate } = this.props.navigation;

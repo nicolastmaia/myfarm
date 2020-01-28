@@ -111,7 +111,7 @@ export default class CadUsuario extends React.Component {
     };
   }
 
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     // analytics.trackScreenView("Cadastro");
     if (this.props.navigation.getParam("logado")) {
       Banco.local.get("dados").then(doc => {

@@ -87,7 +87,7 @@ export default class CadTalhao extends React.Component {
     // if(editando) console.warn(editando.coordenadas);
   }
 
-  UNSAFE_componentWillMount = () => {
+  componentDidMount = () => {
     const { getParam } = this.props.navigation;
     for (var i = 0; i < form1.length; i++) {
       form1[i]["valor"] = getParam(form1[i]["nome"]);

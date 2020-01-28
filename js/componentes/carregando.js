@@ -9,9 +9,14 @@ import {
 } from "react-native";
 import { Banco } from "../instancias/conexao.js";
 export default class Carregando extends React.Component {
-  constructor(props) {
-    super(props);
-    Banco.checkLogin(this.props.navigation);
+  componentDidMount() {
+    Banco.checkLogin(this.props.navigation)
+      .then(() => {
+        this.props.navigation.navigate("Logado");
+      })
+      .catch(() => {
+        this.props.navigation.navigate("Deslogado");
+      });
   }
 
   /* verificaLogin = async () => {

@@ -20,18 +20,17 @@ export default class Talhao extends React.Component {
   constructor(props) {
     super(props);
     this.state = { flag: false, itens: [] };
-    this.atualizaPagina();
   }
 
   /* componentWillMount() {
 		analytics.trackScreenView("Cadastro de Talhão");
 	} */
 
-  atualizaPagina = () => {
+  componentDidMount() {
     Banco.remoto.get("talhoes").then(response => {
       this.setState({ itens: response.itens });
     });
-  };
+  }
 
   // atualizaPagina = () => {
   //   let tmp = {};

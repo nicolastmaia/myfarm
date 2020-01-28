@@ -15,7 +15,8 @@ export default class Home extends React.Component {
     this.state = {
       tempo: { icone: null, descricao: "", temperatura: null }
     };
-
+  }
+  componentDidMount() {
     fetch(
       "https://api.openweathermap.org/data/2.5/weather?q=Seropedica,br&appid=fbcb1d716b39d13ab10b83ec65f5c773&lang=pt"
     )
@@ -33,7 +34,6 @@ export default class Home extends React.Component {
       })
       .catch(erro => Alert.alert(erro.message));
   }
-
   //configs enviadas ao navegadores.js
   static navigationOptions = {
     tabBarIcon: ({ tintColor }) => (
@@ -48,16 +48,7 @@ export default class Home extends React.Component {
     //config do icone de previsao do tempo
     if (this.state.tempo.descricao == "") {
       tmp = (
-        <View
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-            height: 112,
-            marginTop: 20
-          }}
-        >
-          <Text style={{ color: "#fff", fontSize: 20 }}>Carregando...</Text>
-        </View>
+        <Text style={{ color: "#FFFFFF", fontSize: 20 }}>Carregando...</Text>
       );
     } else {
       tmp = (
@@ -140,6 +131,7 @@ export default class Home extends React.Component {
               style={{
                 marginTop: 50,
                 flexDirection: "row",
+                height: 95,
                 alignItems: "center",
                 justifyContent: "center"
               }}

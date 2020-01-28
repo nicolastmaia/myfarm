@@ -20,18 +20,17 @@ export default class Aplicacao extends React.Component {
   constructor(props) {
     super(props);
     this.state = { flag: false, itens: [] };
-    this.atualizaPagina();
   }
 
   /* componentWillMount() {
 		analytics.trackScreenView("Cadastro de Aplicação");
 	} */
 
-  atualizaPagina = () => {
+  componentDidMount() {
     Banco.remoto.get("aplicacoes").then(response => {
       this.setState({ itens: response.itens });
     });
-  };
+  }
 
   // atualizaPagina = () => {
   //   let tmp = {};

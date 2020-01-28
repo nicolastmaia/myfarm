@@ -76,13 +76,14 @@ export default class Galeria extends React.Component {
       fotos: tmp
     };
   }
+
   static navigationOptions = {
     tabBarIcon: ({ tintColor }) => (
       <Ionicon name="md-photos" color={tintColor} style={{ fontSize: 30 }} />
     )
   };
 
-  UNSAFE_componentWillMount = () => {
+  componentDidMount = () => {
     Banco.local
       .get("galeria")
       .then(doc => {

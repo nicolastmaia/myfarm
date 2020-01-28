@@ -27,12 +27,15 @@ export const Banco = {
     const logado = await AsyncStorage.getItem("logado");
     const senhaLogado = await AsyncStorage.getItem("senhaLogado");
 
-    if (logado != null) {
-      this.logIn(logado, senhaLogado);
-      navigation.navigate("Logado");
-    } else {
-      navigation.navigate("Deslogado");
-    }
+    return new Promise((resolve, reject) => {
+      this.logIn(logado, senhaLogado)
+        .then(response => {
+          resolve(response);
+        })
+        .catch(() => {
+          reject();
+        });
+    });
   },
 
   //loga o usuario

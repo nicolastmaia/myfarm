@@ -34,7 +34,7 @@ export default class Principal extends React.Component {
   }
 
   //========| Listeners do teclado |=======//
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     // analytics.trackScreenView("Login");
     this.keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
