@@ -10,7 +10,6 @@ import {
   Toast
 } from "native-base";
 
-import { NavigationActions } from "react-navigation";
 import MapView, { Polygon } from "react-native-maps";
 
 // const analytics = require("./instancias/analytics");
@@ -41,18 +40,6 @@ var form2 = [
   { nome: "irrigacao", placeholder: "Irrigação" },
   { nome: "topografia", placeholder: "Topografia" }
 ];
-
-// var talhoes = {};
-// Banco.local.get("talhoes", function(erro, doc) {
-//   if (erro) {
-//     talhoes = {
-//       _id: "talhoes",
-//       talhoes: []
-//     };
-//   } else {
-//     talhoes = doc;
-//   }
-// });
 
 export default class CadTalhao extends React.Component {
   constructor(props) {
@@ -228,7 +215,7 @@ export default class CadTalhao extends React.Component {
             style={{
               marginTop: 15,
               marginBottom: 25,
-              backgroundColor: "green"
+              backgroundColor: "#4c7a34"
             }}
             onPress={() => {
               var tmp = Object.assign(

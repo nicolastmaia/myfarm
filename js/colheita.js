@@ -59,8 +59,8 @@ export default class Colheita extends React.Component {
                     }}
                   >
                     <Icon
-                      name="md-information-circle-outline"
-                      style={{ color: "#4a915d" }}
+                      name="md-information-circle"
+                      style={{ color: "#4c7a34" }}
                       onPress={() => {
                         Alert.alert(JSON.stringify(item));
                       }}
@@ -98,7 +98,7 @@ export default class Colheita extends React.Component {
             position: "absolute",
             bottom: 15,
             right: 15,
-            backgroundColor: "green"
+            backgroundColor: "#4c7a34"
           }}
           onPress={() => navigate("CadColheita", { anterior: this })}
         >

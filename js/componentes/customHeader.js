@@ -10,8 +10,8 @@ class CustomHeader extends React.Component {
     const { goBack } = this.props.navigation;
     return (
       <Header
-        androidStatusBarColor="green"
-        style={{ backgroundColor: "green" }}
+        androidStatusBarColor="#4c7a34"
+        style={{ backgroundColor: "#4c7a34" }}
       >
         <Left>
           <Button large transparent>

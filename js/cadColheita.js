@@ -92,7 +92,7 @@ export default class CadColheita extends React.Component {
             style={{
               marginTop: 15,
               marginBottom: 25,
-              backgroundColor: "green"
+              backgroundColor: "#4c7a34"
             }}
             onPress={() => {
               var tmp = this._formulario1.getValores();

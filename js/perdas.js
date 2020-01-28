@@ -73,7 +73,7 @@ function Registro(props) {
             justifyContent: "center"
           }}
         >
-          <Icon name="md-information-circle" style={{ color: "#0288D1" }} />
+          <Icon name="md-information-circle" style={{ color: "#4c7a34" }} />
         </View>
 
         <View style={{ flex: 1, paddingVertical: 10, marginLeft: 20 }}>

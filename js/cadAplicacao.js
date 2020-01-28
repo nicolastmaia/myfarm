@@ -105,7 +105,7 @@ export default class CadAplicacao extends React.Component {
             style={{
               marginTop: 15,
               marginBottom: 25,
-              backgroundColor: "green"
+              backgroundColor: "#4c7a34"
             }}
             onPress={() => {
               if (!this._formulario1.verificaRequisitos()) return;

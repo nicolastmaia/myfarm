@@ -32,23 +32,6 @@ export default class Talhao extends React.Component {
     });
   }
 
-  // atualizaPagina = () => {
-  //   let tmp = {};
-  //   Banco.local
-  //     .get("talhoes")
-  //     .then(doc => {
-  //       tmp = doc;
-  //       this.setState({ talhoes: tmp["talhoes"] });
-  //     })
-  //     .catch(erro => {
-  //       tmp = {
-  //         _id: "talhoes",
-  //         talhoes: []
-  //       };
-  //       this.setState({ talhoes: tmp["talhoes"] });
-  //     });
-  // };
-
   render() {
     const { navigate } = this.props.navigation;
     return (
@@ -82,8 +65,8 @@ export default class Talhao extends React.Component {
                     }}
                   >
                     <Icon
-                      name="md-information-circle-outline"
-                      style={{ color: "#4a915d" }}
+                      name="md-information-circle"
+                      style={{ color: "#4c7a34" }}
                       onPress={() => {
                         Alert.alert(JSON.stringify(item));
                       }}
@@ -121,7 +104,7 @@ export default class Talhao extends React.Component {
             position: "absolute",
             bottom: 15,
             right: 15,
-            backgroundColor: "green"
+            backgroundColor: "#4c7a34"
           }}
           onPress={() => navigate("CadTalhao", { anterior: this })}
         >
