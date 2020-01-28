@@ -1,5 +1,4 @@
 import React from "react";
-
 import { Item, Input, Icon, DatePicker, Toast } from "native-base";
 
 //TODO IMPLEMENTAR CHECAGEM DE MINCHARACTERS
