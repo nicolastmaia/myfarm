@@ -38,6 +38,7 @@ export default class Colheita extends React.Component {
 
         <Content>
           <FlatList
+            keyExtractor={item => item._id}
             data={this.state.itens}
             renderItem={({ item }) => (
               <ListItem

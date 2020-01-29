@@ -55,10 +55,12 @@ export const Banco = {
       _id: docTitle,
       itens: []
     };
+
     return this.remoto
       .get(docTitle)
       .then(response => {
         dado._rev = response._rev;
+        tmp = Object.assign({ _id: response.itens.length + 1 }, tmp);
         dado.itens = [...response.itens, tmp];
         return this.remoto.put(dado);
       })
@@ -67,6 +69,7 @@ export const Banco = {
       })
       .catch(err => {
         if (err.name === "not_found") {
+          tmp = Object.assign({ _id: "1" }, tmp);
           dado.itens = [...dado.itens, tmp];
           return this.remoto.put(dado).then(() => {
             return dado;

@@ -230,26 +230,6 @@ export default class CadTalhao extends React.Component {
                   });
                 })
                 .catch(err => showDefaultToast(err));
-              /* 
-              Banco.pegaDados("talhoes")
-                .then(response => {
-                  response.itens.push(tmp);
-                  Banco.registraDados(response);
-                  this.props.navigation.state.params.anterior.setState({
-                    itens: response.itens
-                  });
-                })
-                .catch(err => {
-                  err.itens.push(tmp);
-                  Banco.registraDados(err);
-                  this.props.navigation.state.params.anterior.setState({
-                    itens: err.itens
-                  });
-                }); */
-
-              // Banco.local.put(talhoes, function(erro, doc) {
-              //   if (erro) return;
-              // });
 
               goBack();
             }}

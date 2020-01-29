@@ -30,6 +30,20 @@ export default class Talhao extends React.Component {
     Banco.remoto.get("talhoes").then(response => {
       this.setState({ itens: response.itens });
     });
+
+    Banco.remoto
+      .createIndex({
+        index: { fields: ["n_parcela"] }
+      })
+      .then(() => {
+        return Banco.remoto.find({
+          selector: {
+            n_parcela: { $eq: "90" }
+          }
+        });
+      })
+      .then(doc => console.log(doc))
+      .catch(() => console.log("Nao achei, sorry"));
   }
 
   render() {
@@ -44,6 +58,7 @@ export default class Talhao extends React.Component {
 
         <Content style={{ backgroundColor: "#fff" }}>
           <FlatList
+            keyExtractor={item => item._id}
             data={this.state.itens}
             renderItem={({ item }) => (
               <ListItem
@@ -67,9 +82,9 @@ export default class Talhao extends React.Component {
                     <Icon
                       name="md-information-circle"
                       style={{ color: "#4c7a34" }}
-                      onPress={() => {
-                        Alert.alert(JSON.stringify(item));
-                      }}
+                      /* onPress={() => {
+                        Alert.alert(JSON.stringify(item)); <- TODO: FIX
+                      }} */
                     />
                   </View>
                   <Text

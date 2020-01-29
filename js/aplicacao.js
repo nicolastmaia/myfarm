@@ -61,6 +61,7 @@ export default class Aplicacao extends React.Component {
 
         <Content style={{ backgroundColor: "#fff" }}>
           <FlatList
+            keyExtractor={item => item._id}
             data={this.state.itens}
             renderItem={({ item }) => (
               <ListItem
