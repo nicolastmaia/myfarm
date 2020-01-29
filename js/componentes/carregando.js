@@ -10,13 +10,9 @@ import {
 import { Banco } from "../instancias/conexao.js";
 export default class Carregando extends React.Component {
   componentDidMount() {
-    Banco.checkLogin(this.props.navigation)
-      .then(() => {
-        this.props.navigation.navigate("Logado");
-      })
-      .catch(() => {
-        this.props.navigation.navigate("Deslogado");
-      });
+    Banco.checkLogin()
+      .then(() => this.props.navigation.navigate("Logado"))
+      .catch(() => this.props.navigation.navigate("Deslogado"));
   }
 
   /* verificaLogin = async () => {
