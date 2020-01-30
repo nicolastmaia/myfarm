@@ -62,7 +62,6 @@ export default class Talhao extends React.Component {
             data={this.state.itens}
             renderItem={({ item }) => (
               <ListItem
-                style={{ marginLeft: 0 }}
                 onPress={() => {
                   navigate(
                     "CadTalhao",
