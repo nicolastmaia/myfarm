@@ -113,7 +113,7 @@ export class Formulario extends React.Component {
         placeholder={campo.placeholder}
         cor={this.props.cor}
         corP={this.props.corP}
-        value={this.state[campo.nome]}
+        dafaultValue={this.state[campo.nome]}
         tipo={campo.tipo}
         senha={campo.senha}
         texto={campo.valor}
