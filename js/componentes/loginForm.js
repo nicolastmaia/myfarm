@@ -62,8 +62,8 @@ class LoginForm extends React.Component {
 					onPress={async () => {
 						await Banco.logIn(this.state.username, this.state.password)
 							.then(() => navigate('Logado'))
-							.catch((error) => {
-								Alert.alert(error.toString());
+							.catch((err) => {
+								Alert.alert(err.toString());
 							});
 					}}
 				>
