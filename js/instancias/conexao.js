@@ -24,10 +24,13 @@ export const Banco = {
 
 	//verifica se o usuario já está logado ou nao
 	checkLogin: async function() {
-		const logado = await AsyncStorage.getItem('logado');
-		const senhaLogado = await AsyncStorage.getItem('senhaLogado');
-
-		return await this.logIn(logado, senhaLogado);
+		try {
+			const logado = await AsyncStorage.getItem('logado');
+			const senhaLogado = await AsyncStorage.getItem('senhaLogado');
+			return await this.logIn(logado, senhaLogado);
+		} catch (err) {
+			throw err;
+		}
 	},
 
 	//loga o usuario
@@ -39,11 +42,12 @@ export const Banco = {
 			await AsyncStorage.setItem('senhaLogado', password);
 			this.syncDB(username);
 			return loggedIn;
-		} catch (error) {
-			throw error;
+		} catch (err) {
+			throw err;
 		}
 	},
 
+	//TODO: transformar em async/await
 	//cadastra novo usuario
 	signUp: function(username, password, otherData) {
 		username = username.toLowerCase();
@@ -77,22 +81,37 @@ export const Banco = {
 			});
 			return response.docs;
 		} catch (err) {
-			console.log(err);
+			throw err;
 		}
 	},
 
-	update: function(tmp) {},
+	update: async function(docId, tmp) {
+		try {
+			const doc = await this.local.get(docId);
+			let dados = { ...doc, ...tmp };
+			const response = await this.local.put(dados);
+			return response;
+		} catch (err) {
+			throw err;
+		}
+	},
+
+	delete: async function(doc) {
+		try {
+			var response = await this.local.remove(doc);
+			return response;
+		} catch (err) {
+			throw err;
+		}
+	},
 
 	store: async function(docType, tmp) {
-		var dado = Object.assign(
-			{
-				_id: new Date().toISOString(),
-				type: docType,
-			},
-			tmp
-		);
-		return await this.local.put(dado).then(() => {
+		var dado = { _id: new Date().toISOString(), type: docType, ...tmp };
+		try {
+			await this.local.put(dado);
 			return dado;
-		});
+		} catch (err) {
+			throw err;
+		}
 	},
 };
