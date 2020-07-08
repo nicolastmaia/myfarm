@@ -13,11 +13,11 @@ import {
 import MapView, { Polygon } from 'react-native-maps';
 
 // const analytics = require("./instancias/analytics");
-import { showDefaultToast } from './componentes/utils/showToast';
-import { Banco } from './instancias/conexao.js';
-import CustomHeader from './componentes/customHeader';
+import { showDefaultToast } from '../utils/showToast';
+import { Banco } from '../instancias/conexao.js';
+import CustomHeader from '../componentes/customHeader';
 
-import { Formulario } from './componentes/customizado';
+import { Formulario } from '../componentes/customizado';
 
 let id = 0;
 

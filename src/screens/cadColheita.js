@@ -31,10 +31,10 @@ import {
 import { NavigationActions } from 'react-navigation';
 
 // const analytics = require("./instancias/analytics");
-import { Banco } from './instancias/conexao.js';
+import { Banco } from '../instancias/conexao.js';
 
-import { Texto, Formulario } from './componentes/customizado';
-import CustomHeader from './componentes/customHeader';
+import { Texto, Formulario } from '../componentes/customizado';
+import CustomHeader from '../componentes/customHeader';
 
 var form1 = [
 	{ nome: 'data', placeholder: 'Data da colheita', tipo: 'data' },

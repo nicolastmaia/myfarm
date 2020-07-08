@@ -31,12 +31,9 @@ import { HideWithKeyboard } from 'react-native-hide-with-keyboard';
 
 //meus imports
 //const analytics = require("./instancias/analytics")
-import {
-	showDefaultToast,
-	showCustomToast,
-} from './componentes/utils/showToast';
-import { Banco } from './instancias/conexao.js';
-import { Formulario } from './componentes/customizado';
+import { showDefaultToast, showCustomToast } from '../utils/showToast';
+import { Banco } from '../instancias/conexao.js';
+import { Formulario } from '../componentes/customizado';
 
 let id = 0;
 

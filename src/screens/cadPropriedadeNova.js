@@ -32,8 +32,8 @@ import StepIndicator from 'react-native-step-indicator';
 import { HideWithKeyboard } from 'react-native-hide-with-keyboard';
 
 // const analytics = require("./instancias/analytics");
-import { Banco } from './instancias/conexao.js';
-import { Formulario, mostraToast } from './componentes/customizado';
+import { Banco } from '../instancias/conexao.js';
+import { Formulario, mostraToast } from '../componentes/customizado';
 
 class Texto extends React.Component {
 	render() {

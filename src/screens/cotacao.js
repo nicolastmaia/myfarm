@@ -17,7 +17,7 @@ export default class Cotacao extends React.Component {
 		return (
 			<Container>
 				<ImageBackground
-					source={require('../../assets/myfarm_bg_grass.jpg')}
+					source={require('../assets/myfarm_bg_grass.jpg')}
 					blurRadius={10}
 					style={{
 						width: Dimensions.get('window').width,

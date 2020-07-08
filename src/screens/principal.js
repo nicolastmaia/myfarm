@@ -23,7 +23,7 @@ import {
 	InputGroup,
 	Container,
 } from 'native-base';
-import LoginForm from './componentes/loginForm.js';
+import LoginForm from '../componentes/loginForm.js';
 
 // const analytics = require("./instancias/analytics");
 

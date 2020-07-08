@@ -11,8 +11,8 @@ import {
 } from 'native-base';
 
 // const analytics = require("./instancias/analytics");
-import { Banco } from './instancias/conexao.js';
-import CustomHeader from './componentes/customHeader';
+import { Banco } from '../instancias/conexao.js';
+import CustomHeader from '../componentes/customHeader';
 
 //==========| Fim dos Imports |==========//
 

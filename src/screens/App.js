@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native';
 import { Root } from 'native-base';
 
 // import Notificacoes from "./instancias/notificacoes";
-import Navegador from './componentes/navigators';
+import Navegador from '../componentes/navigators';
 // const analytics = require("./instancias/analytics");
 
 export default class App extends React.Component {

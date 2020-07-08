@@ -31,9 +31,9 @@ import {
 } from 'native-base';
 
 // const analytics = require("./instancias/analytics");
-import CustomHeader from './componentes/customHeader';
-import { Texto, Formulario } from './componentes/customizado';
-import { Banco } from './instancias/conexao.js';
+import CustomHeader from '../componentes/customHeader';
+import { Texto, Formulario } from '../componentes/customizado';
+import { Banco } from '../instancias/conexao.js';
 
 var form1 = [
 	{ nome: 'praga', placeholder: 'Praga/doença (nome científico)' },

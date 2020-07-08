@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import { View, Text, Button, Container } from 'native-base';
 import Ionicon from 'react-native-vector-icons/Ionicons';
-import { imagemClima } from './previsaoTempo';
+import { imagemClima } from '../componentes/previsaoTempo';
 
 export default class Home extends React.Component {
 	constructor(props) {
@@ -107,7 +107,7 @@ export default class Home extends React.Component {
 		return (
 			<Container>
 				<ImageBackground
-					source={require('../../assets/myfarm_bg_grass.jpg')}
+					source={require('../assets/myfarm_bg_grass.jpg')}
 					blurRadius={10}
 					style={{
 						width: Dimensions.get('window').width,

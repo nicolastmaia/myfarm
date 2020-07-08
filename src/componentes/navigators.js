@@ -9,26 +9,26 @@ import {
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 
 //=========| COMPONENTES |=========//
-import Carregando from './carregando';
+import Carregando from '../screens/carregando';
 import Sanduiche from './sanduiche';
 //===========================//
 
 //=========| TELAS |=========//
-import Principal from '../principal';
-import Sobre from '../sobre';
-import CadUsuario from '../cadUsuario';
-import cadPropriedadeNova from '../cadPropriedadeNova';
-import Talhao from '../talhao';
-import CadTalhao from '../cadTalhao';
-import CadAplicacao from '../cadAplicacao';
-import CadColheita from '../cadColheita';
-import Colheita from '../colheita';
-import Aplicacao from '../aplicacao';
-import Camera from './camera.js';
-import Perdas from '../perdas';
-import Galeria from './galeria';
-import Home from './home';
-import Cotacao from './cotacao';
+import Principal from '../screens/principal';
+import Sobre from '../screens/sobre';
+import CadUsuario from '../screens/cadUsuario';
+import cadPropriedadeNova from '../screens/cadPropriedadeNova';
+import Talhao from '../screens/talhao';
+import CadTalhao from '../screens/cadTalhao';
+import CadAplicacao from '../screens/cadAplicacao';
+import CadColheita from '../screens/cadColheita';
+import Colheita from '../screens/colheita';
+import Aplicacao from '../screens/aplicacao';
+import Camera from '../screens/camera.js';
+import Perdas from '../screens/perdas';
+import Galeria from '../screens/galeria';
+import Home from '../screens/home';
+import Cotacao from '../screens/cotacao';
 //===========================//
 
 const WIDTH = Dimensions.get('window').width;

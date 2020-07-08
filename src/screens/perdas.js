@@ -30,9 +30,9 @@ import { NavigationActions } from 'react-navigation';
 import ModalSelector from 'react-native-modal-selector';
 
 // const analytics = require("./instancias/analytics");
-import { Banco } from './instancias/conexao.js';
-import { secao, data } from './constantes/perdas';
-import CustomHeader from './componentes/customHeader';
+import { Banco } from '../instancias/conexao.js';
+import { secao, data } from '../constantes/perdas';
+import CustomHeader from '../componentes/customHeader';
 
 //==========| Fim dos Imports |==========//
 

@@ -24,7 +24,7 @@ export default class Carregando extends React.Component {
 				}}
 			>
 				<ImageBackground
-					source={require('../../assets/splash.png')}
+					source={require('../assets/splash.png')}
 					style={styles.imageContainer}
 				/>
 				<ActivityIndicator

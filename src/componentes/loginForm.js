@@ -13,7 +13,7 @@ import {
 } from 'native-base';
 import { StyleSheet, Alert } from 'react-native';
 
-import { showDefaultToast } from './utils/showToast';
+import { showDefaultToast } from '../utils/showToast';
 
 import { Banco } from '../instancias/conexao.js';
 import { withNavigation } from 'react-navigation';

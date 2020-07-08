@@ -1,65 +1,42 @@
 import React from 'react';
 import { Platform, Alert, StatusBar, FlatList } from 'react-native';
 import {
+	Container,
+	Content,
+	Button,
+	Icon,
 	ListItem,
 	View,
-	Icon,
-	Button,
 	Text,
-	Content,
-	Container,
 } from 'native-base';
 
-// const analytics = require("./instancias/analytics");
-import { Banco } from './instancias/conexao.js';
-import CustomHeader from './componentes/customHeader';
+import { Banco } from '../instancias/conexao.js';
+import CustomHeader from '../componentes/customHeader';
 
-//==========| Fim dos Imports |==========//
-
-export default class Aplicacao extends React.Component {
+export default class Colheita extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = { flag: false, itens: [] };
 	}
 
-	/* componentWillMount() {
-		analytics.trackScreenView("Cadastro de Aplicação");
-	} */
-
 	componentDidMount() {
-		Banco.remoto.get('aplicacoes').then((response) => {
+		Banco.remoto.get('colheitas').then((response) => {
 			this.setState({ itens: response.itens });
 		});
 	}
 
-	// atualizaPagina = () => {
-	//   let tmp = {};
-	//   Banco.local
-	//     .get("aplicações")
-	//     .then(doc => {
-	//       tmp = doc;
-	//       this.setState({ aplicações: tmp["aplicações"] });
-	//     })
-	//     .catch(erro => {
-	//       tmp = {
-	//         _id: "aplicações",
-	//         aplicações: []
-	//       };
-	//       this.setState({ aplicações: tmp["aplicações"] });
-	//     });
-	// };
-
 	render() {
 		const { navigate } = this.props.navigation;
+
 		return (
 			<Container
 				style={{
 					paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
 				}}
 			>
-				<CustomHeader titulo="Cadastro de Aplicações" />
+				<CustomHeader titulo="Cadastro de Colheita" />
 
-				<Content style={{ backgroundColor: '#fff' }}>
+				<Content>
 					<FlatList
 						keyExtractor={(item) => item._id}
 						data={this.state.itens}
@@ -68,7 +45,7 @@ export default class Aplicacao extends React.Component {
 								style={{ marginLeft: 0 }}
 								onPress={() => {
 									navigate(
-										'CadAplicacao',
+										'CadColheitas',
 										Object.assign(item, { anterior: this })
 									);
 								}}
@@ -97,7 +74,7 @@ export default class Aplicacao extends React.Component {
 											marginLeft: 20,
 										}}
 									>
-										{item.praga}
+										{item.quantidade}
 									</Text>
 									<View
 										style={{
@@ -127,7 +104,7 @@ export default class Aplicacao extends React.Component {
 						right: 15,
 						backgroundColor: '#4c7a34',
 					}}
-					onPress={() => navigate('CadAplicacao', { anterior: this })}
+					onPress={() => navigate('CadColheita', { anterior: this })}
 				>
 					<Icon name="md-add" />
 				</Button>
