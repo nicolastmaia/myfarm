@@ -15,6 +15,7 @@
 	"dependencies": {
 		"@craftzdog/pouchdb-core-react-native": "^7.0.0",
 		"@craftzdog/pouchdb-replication-react-native": "^7.0.0",
+		"@react-native-community/async-storage": "^1.11.0",
 		"base-64": "^0.1.0",
 		"events": "^3.0.0",
 		"native-base": "^2.13.8",
