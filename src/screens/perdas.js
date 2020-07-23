@@ -26,7 +26,6 @@ import {
 	Content,
 	Container,
 } from 'native-base';
-import { NavigationActions } from 'react-navigation';
 import ModalSelector from 'react-native-modal-selector';
 
 // const analytics = require("./instancias/analytics");

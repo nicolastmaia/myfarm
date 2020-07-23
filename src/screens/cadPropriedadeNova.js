@@ -1,34 +1,14 @@
 import React from 'react';
 import {
-	AsyncStorage,
-	Alert,
-	Platform,
 	StyleSheet,
 	ImageBackground,
 	ScrollView,
-	KeyboardAvoidingView,
 	Dimensions,
-	Keyboard,
 } from 'react-native';
 
-import {
-	Root,
-	Toast,
-	Form,
-	Card,
-	Content,
-	Input,
-	Item,
-	Button,
-	Text,
-	Icon,
-	View,
-	Picker,
-} from 'native-base';
+import { Item, Button, Text, Icon, View } from 'native-base';
 
-import { NavigationActions } from 'react-navigation';
-import MapView, { MAP_TYPES, Polygon } from 'react-native-maps';
-import StepIndicator from 'react-native-step-indicator';
+import MapView, { Polygon } from 'react-native-maps';
 import { HideWithKeyboard } from 'react-native-hide-with-keyboard';
 
 // const analytics = require("./instancias/analytics");

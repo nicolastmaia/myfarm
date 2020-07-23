@@ -1,25 +1,6 @@
 import React from 'react';
-import {
-	Platform,
-	Dimensions,
-	StyleSheet,
-	ImageBackground,
-	Image,
-	ScrollView,
-	KeyboardAvoidingView,
-	Keyboard,
-	AsyncStorage,
-} from 'react-native';
-import {
-	View,
-	Form,
-	Item,
-	Input,
-	Icon,
-	Button,
-	Text,
-	Toast,
-} from 'native-base';
+import { Dimensions, StyleSheet, ImageBackground, Image } from 'react-native';
+import { View, Text } from 'native-base';
 
 // const analytics = require("./instancias/analytics");
 

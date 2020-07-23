@@ -1,29 +1,15 @@
 import React from 'react';
 import {
-	Platform,
 	Dimensions,
 	StyleSheet,
 	ImageBackground,
 	Image,
-	ScrollView,
 	KeyboardAvoidingView,
 	Keyboard,
-	AsyncStorage,
 } from 'react-native';
-import {
-	View,
-	Form,
-	Item,
-	Input,
-	Icon,
-	Button,
-	Text,
-	Toast,
-	Row,
-	InputGroup,
-	Container,
-} from 'native-base';
+import { View, Icon, Text } from 'native-base';
 import LoginForm from '../componentes/loginForm.js';
+import { AuthProvider } from '../contexts/AuthContext.js';
 
 // const analytics = require("./instancias/analytics");
 

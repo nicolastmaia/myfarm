@@ -2,7 +2,6 @@ import React from 'react';
 import { View } from 'native-base';
 import {
 	ActivityIndicator,
-	AsyncStorage,
 	StyleSheet,
 	Dimensions,
 	ImageBackground,

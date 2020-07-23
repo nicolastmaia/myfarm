@@ -28,7 +28,6 @@ import {
 	Content,
 	Container,
 } from 'native-base';
-import { NavigationActions } from 'react-navigation';
 
 // const analytics = require("./instancias/analytics");
 import { Banco } from '../instancias/conexao.js';

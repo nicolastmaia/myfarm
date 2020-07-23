@@ -1,29 +1,14 @@
 import React from 'react';
 import {
-	Platform,
 	Dimensions,
-	StyleSheet,
 	Image,
 	ScrollView,
 	StatusBar,
-	Keyboard,
 	Alert,
-	AsyncStorage,
-	FlatList,
 	ImageBackground,
 	TouchableOpacity,
 } from 'react-native';
-import {
-	Card,
-	View,
-	Button,
-	Text,
-	Toast,
-	Fab,
-	Icon,
-	Badge,
-	Container,
-} from 'native-base';
+import { View, Button, Fab, Icon, Container } from 'native-base';
 import Lightbox from 'react-native-lightbox';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 

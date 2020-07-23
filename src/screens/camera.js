@@ -1,18 +1,6 @@
 import React from 'react';
-import {
-	Platform,
-	Dimensions,
-	StyleSheet,
-	Image,
-	ScrollView,
-	Keyboard,
-	Alert,
-	AsyncStorage,
-	FlatList,
-	TouchableOpacity,
-} from 'react-native';
-import { Card, View, Icon, Button, Text, Toast, Fab } from 'native-base';
-import { NavigationActions } from 'react-navigation';
+import { Alert, TouchableOpacity } from 'react-native';
+import { View, Icon } from 'native-base';
 import { RNCamera } from 'react-native-camera';
 
 export default class Camera extends React.Component {
