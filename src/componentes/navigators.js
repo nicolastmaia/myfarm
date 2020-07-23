@@ -1,15 +1,10 @@
+import React, { useContext } from 'react';
 import { Dimensions } from 'react-native';
-import {
-	createDrawerNavigator,
-	createStackNavigator,
-	createSwitchNavigator,
-	createAppContainer,
-} from 'react-navigation';
-
-import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
-
+import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { Banco } from '../instancias/conexao';
 //=========| COMPONENTES |=========//
-import Carregando from '../screens/carregando';
 import Sanduiche from './sanduiche';
 //===========================//
 
@@ -29,86 +24,75 @@ import Perdas from '../screens/perdas';
 import Galeria from '../screens/galeria';
 import Home from '../screens/home';
 import Cotacao from '../screens/cotacao';
+import CustomDrawerContent from './CustomDrawerContent';
+import { TalhaoProvider } from '../contexts/talhaoContext';
+import AuthContext from '../contexts/AuthContext';
 //===========================//
 
-const WIDTH = Dimensions.get('window').width;
+const LogadoDrawer = createDrawerNavigator();
+const LogadoTab = createBottomTabNavigator();
+const LogadoStack = createStackNavigator();
+const DeslogadoStack = createStackNavigator();
 
-const DrawerConfig = {
-	drawerWidth: WIDTH * 0.83,
-};
+export default function Routes() {
+	const { isSignedIn } = useContext(AuthContext);
+	return isSignedIn ? <LogadoDrawerNavigator /> : <DeslogadoStackNavigator />;
+}
 
-const Tab = createAppContainer(
-	createMaterialBottomTabNavigator(
-		{
-			Galeria,
-			Início: Home,
-			Cotação: Cotacao,
-		},
-		{
-			initialRouteName: 'Início',
-			backBehavior: 'initialRoute',
-			shifting: true,
-			activeColor: '#ffffff',
-			barStyle: {
-				backgroundColor: '#4c7a34',
-			},
-		}
-	)
-);
+function LogadoDrawerNavigator() {
+	return (
+		<LogadoDrawer.Navigator
+			initialRouteName="Home"
+			drawerContent={(props) => <CustomDrawerContent {...props} />}
+		>
+			<LogadoDrawer.Screen name="Home" component={LogadoStackNavigator} />
+		</LogadoDrawer.Navigator>
+	);
+}
 
-const Stack = createAppContainer(
-	createStackNavigator(
-		{
-			PageInicial: Tab,
-			Camera,
-			Aplicacao,
-			Perdas,
-			Talhao,
-			Colheita,
-			Sobre,
-			CadAplicacao,
-			CadTalhao,
-			CadColheita,
-			CadUsuario,
-			CadPropriedadeNova: cadPropriedadeNova,
-		},
-		{ headerMode: 'none' }
-	)
-);
+function LogadoTabNavigator() {
+	return (
+		<LogadoTab.Navigator>
+			<LogadoTab.Screen name="Galeria" component={Galeria} />
+			<LogadoTab.Screen name="Início" component={Home} />
+			<LogadoTab.Screen name="Cotação" component={Cotacao} />
+		</LogadoTab.Navigator>
+	);
+}
 
-const Deslogado = createAppContainer(
-	createStackNavigator(
-		{
-			Inicio: Principal,
-			Sobre,
-			CadUsuario,
-		},
-		{ headerMode: 'none' }
-	)
-);
+function LogadoStackNavigator() {
+	return (
+		<TalhaoProvider>
+			<LogadoStack.Navigator>
+				<LogadoStack.Screen
+					name="PageInicial"
+					component={LogadoTabNavigator}
+				/>
+				<LogadoStack.Screen name="Camera" component={Camera} />
+				<LogadoStack.Screen name="Aplicacao" component={Aplicacao} />
+				<LogadoStack.Screen name="Perdas" component={Perdas} />
+				<LogadoStack.Screen name="Colheita" component={Colheita} />
+				<LogadoStack.Screen name="Sobre" component={Sobre} />
+				<LogadoStack.Screen name="CadAplicacao" component={CadAplicacao} />
+				<LogadoStack.Screen name="Talhao" component={Talhao} />
+				<LogadoStack.Screen name="CadTalhao" component={CadTalhao} />
+				<LogadoStack.Screen name="CadColheita" component={CadColheita} />
+				<LogadoStack.Screen name="CadUsuario" component={CadUsuario} />
+				<LogadoStack.Screen
+					name="CadPropriedadeNova"
+					component={cadPropriedadeNova}
+				/>
+			</LogadoStack.Navigator>
+		</TalhaoProvider>
+	);
+}
 
-const Logado = createAppContainer(
-	createDrawerNavigator(
-		{
-			'Página Incial': Stack,
-		},
-		{
-			DrawerConfig,
-			contentComponent: Sanduiche,
-			headerMode: 'none',
-		}
-	)
-);
-
-const Navegador = createAppContainer(
-	createSwitchNavigator(
-		{
-			Carregando,
-			Deslogado,
-			Logado,
-		},
-		{ initialRouteName: 'Carregando', headerMode: 'none' }
-	)
-);
-
-export default Navegador;
+function DeslogadoStackNavigator() {
+	return (
+		<DeslogadoStack.Navigator>
+			<DeslogadoStack.Screen name="Inicio" component={Principal} />
+			<DeslogadoStack.Screen name="Sobre" component={Sobre} />
+			<DeslogadoStack.Screen name="CadUsuario" component={CadUsuario} />
+		</DeslogadoStack.Navigator>
+	);
+}

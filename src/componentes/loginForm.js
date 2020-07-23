@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import {
 	View,
 	Text,
@@ -15,63 +15,51 @@ import { StyleSheet, Alert } from 'react-native';
 
 import { showDefaultToast } from '../utils/showToast';
 
-import { Banco } from '../instancias/conexao.js';
-import { withNavigation } from 'react-navigation';
+import AuthContext from '../contexts/AuthContext';
 
-class LoginForm extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = { username: '', password: '' };
-	}
-	render() {
-		const { navigate } = this.props.navigation;
+function LoginForm(props) {
+	const [username, setUsername] = useState('');
+	const [password, setPassword] = useState('');
+	const { logar } = useContext(AuthContext);
 
-		return (
-			<View>
-				<Item style={styles.input}>
-					<Icon name="md-person" style={{ color: '#ffffff' }} />
-					<Input
-						style={{ color: '#ffffff' }}
-						onChangeText={(user) => this.setState({ username: user })}
-						placeholder="Usuário"
-						placeholderTextColor="#919191"
-						returnKeyType="next"
-					/>
-				</Item>
-				<Item style={styles.input}>
-					<Icon name="key" style={{ color: '#ffffff' }} />
-					<Input
-						style={{ color: '#ffffff' }}
-						onChangeText={(pass) =>
-							this.setState({
-								password: pass,
-							})
-						}
-						placeholder="Senha"
-						placeholderTextColor="#919191"
-						secureTextEntry={true}
-						returnKeyType="go"
-					/>
-				</Item>
-				<Button
-					block
-					style={{
-						borderRadius: 5,
-						backgroundColor: '#004238',
-					}}
-					onPress={async () => {
-						await Banco.logIn(this.state.username, this.state.password)
-							.then(() => navigate('Logado'))
-							.catch((err) => {
-								Alert.alert(err.toString());
-							});
-					}}
-				>
-					<Text>Entrar</Text>
-				</Button>
-			</View>
-		);
+	async function handleSignIn() {
+		await logar(username, password);
 	}
+	return (
+		<View>
+			<Item style={styles.input}>
+				<Icon name="md-person" style={{ color: '#ffffff' }} />
+				<Input
+					style={{ color: '#ffffff' }}
+					onChangeText={(user) => setUsername(user)}
+					placeholder="Usuário"
+					placeholderTextColor="#919191"
+					returnKeyType="next"
+				/>
+			</Item>
+			<Item style={styles.input}>
+				<Icon name="key" style={{ color: '#ffffff' }} />
+				<Input
+					style={{ color: '#ffffff' }}
+					onChangeText={(pass) => setPassword(pass)}
+					placeholder="Senha"
+					placeholderTextColor="#919191"
+					secureTextEntry={true}
+					returnKeyType="go"
+				/>
+			</Item>
+			<Button
+				block
+				style={{
+					borderRadius: 5,
+					backgroundColor: '#004238',
+				}}
+				onPress={handleSignIn}
+			>
+				<Text>Entrar</Text>
+			</Button>
+		</View>
+	);
 }
 
 //estilos do componente
@@ -86,5 +74,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-//withNavigation(comp) permite que um componente use as propriedades de navegação do pai sem necessariamente receber o this.props.navigation do pai
-export default withNavigation(LoginForm);
+export default LoginForm;

@@ -1,5 +1,6 @@
 import PouchDB from '../constantes/pouchdbPlugins.js';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+import { Alert } from 'react-native';
 
 const ipHome = '192.168.0.109';
 const ipAway = '192.168.43.54';
@@ -9,7 +10,7 @@ const LOCALHOST = `http://${ipHome}:5984`;
 //objeto banco (local e remoto)
 export const Banco = {
 	local: new PouchDB('myfarmlocal'),
-	remoto: new PouchDB(LOCALHOST),
+	remoto: new PouchDB(`${LOCALHOST}`),
 
 	//sincroniza com banco especifico do usuario
 	syncDB: function(username = '') {
@@ -22,30 +23,7 @@ export const Banco = {
 		});
 	},
 
-	//verifica se o usuario já está logado ou nao
-	checkLogin: async function() {
-		try {
-			const logado = await AsyncStorage.getItem('logado');
-			const senhaLogado = await AsyncStorage.getItem('senhaLogado');
-			return await this.logIn(logado, senhaLogado);
-		} catch (err) {
-			throw err;
-		}
-	},
-
 	//loga o usuario
-	logIn: async function(username = '', password = '') {
-		username = username.toLowerCase();
-		try {
-			const loggedIn = await this.remoto.logIn(username, password);
-			await AsyncStorage.setItem('logado', username);
-			await AsyncStorage.setItem('senhaLogado', password);
-			this.syncDB(username);
-			return loggedIn;
-		} catch (err) {
-			throw err;
-		}
-	},
 
 	//TODO: transformar em async/await
 	//cadastra novo usuario
@@ -64,12 +42,12 @@ export const Banco = {
 		try {
 			var result = await this.remoto.createIndex({
 				index: {
-					fields,
+					fields: [...fields],
 				},
 			});
 			console.log(result);
 		} catch (err) {
-			console.log(err);
+			console.log(err.message);
 		}
 	},
 
@@ -77,11 +55,10 @@ export const Banco = {
 		try {
 			var response = await this.remoto.find({
 				selector: { type: docType },
-				sort: ['n_parcela'],
 			});
 			return response.docs;
 		} catch (err) {
-			throw err;
+			Alert.alert(err.message);
 		}
 	},
 
@@ -106,7 +83,11 @@ export const Banco = {
 	},
 
 	store: async function(docType, tmp) {
-		var dado = { _id: new Date().toISOString(), type: docType, ...tmp };
+		var dado = {
+			_id: new Date().toISOString(),
+			type: docType,
+			...tmp,
+		};
 		try {
 			await this.local.put(dado);
 			return dado;

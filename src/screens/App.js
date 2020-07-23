@@ -1,22 +1,17 @@
+import 'react-native-gesture-handler';
 import React from 'react';
 import { StatusBar } from 'react-native';
 import { Root } from 'native-base';
+import { NavigationContainer } from '@react-navigation/native';
 
 // import Notificacoes from "./instancias/notificacoes";
-import Navegador from '../componentes/navigators';
+import Routes from '../componentes/navigators';
+import { AuthProvider } from '../contexts/AuthContext';
 // const analytics = require("./instancias/analytics");
 
-export default class App extends React.Component {
-	constructor(props) {
-		super(props);
-	}
-
-	/* componentWillMount() {
-    analytics.setClient("35009a79-1a05-49d7-b876-2b884d0f825b");
-  } */
-
-	render() {
-		return (
+export default function App(props) {
+	return (
+		<NavigationContainer>
 			<Root>
 				<StatusBar
 					translucent
@@ -24,8 +19,10 @@ export default class App extends React.Component {
 					barStyle="light-content"
 				/>
 				{/* <Notificacoes /> */}
-				<Navegador />
+				<AuthProvider>
+					<Routes />
+				</AuthProvider>
 			</Root>
-		);
-	}
+		</NavigationContainer>
+	);
 }

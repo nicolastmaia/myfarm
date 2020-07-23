@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Platform, StatusBar } from 'react-native';
 import {
 	Card,
@@ -18,6 +18,7 @@ import { Banco } from '../instancias/conexao.js';
 import CustomHeader from '../componentes/customHeader';
 
 import { Formulario } from '../componentes/customizado';
+import TalhaoContext from '../contexts/talhaoContext';
 
 let id = 0;
 
@@ -41,198 +42,228 @@ var form2 = [
 	{ nome: 'topografia', placeholder: 'Topografia' },
 ];
 
-export default class CadTalhao extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			coordenadas_propriedade: null,
-			editando: null,
-			btnMapa: 'md-create',
-			mapaAtivo: true,
-		};
-	}
+export default function CadTalhao(props) {
+	const [coordenadas_propriedade, setCoordenadas] = useState(null);
+	const [editando, setEditando] = useState(null);
+	const [btnMapa, setBtnMapa] = useState('md-create');
+	const [mapaAtivo, setMapaAtivo] = useState(true);
+	const [formulario1, setFormulario1] = useState({});
+	const [formulario2, setFormulario2] = useState({});
+	const { route, navigation } = props;
+	const { goBack } = navigation;
+	const { talhoes } = useContext(TalhaoContext);
+	var confMapa = {};
 
-	mapaSelecionado(e) {
-		const { editando } = this.state;
+	useEffect(() => {
+		fillFormValues();
+		confMapa.scrollEnabled = mapaAtivo;
+		if (!mapaAtivo) confMapa.onPress = (e) => mapaSelecionado(e);
+	});
+
+	function mapaSelecionado(e) {
 		console.warn('T');
 		if (!editando) {
-			this.setState({
-				editando: {
-					id: id++,
-					coordenadas: [e.nativeEvent.coordinate],
-				},
-			});
+			setEditando({ id: id++, coordenadas: [e.nativeEvent.coordinate] });
 		} else {
-			this.setState({
-				editando: {
-					...editando,
-					id: id++,
-					coordenadas: [...editando.coordenadas, e.nativeEvent.coordinate],
-				},
+			setEditando({
+				...editando,
+				id: id++,
+				coordenadas: [...editando.coordenadas, e.nativeEvent.coordinate],
 			});
 		}
 		// if(editando) console.warn(editando.coordenadas);
 	}
 
-	render() {
-		const { getParam, goBack } = this.props.navigation;
-		var confMapa = {};
-		confMapa.scrollEnabled = this.state.mapaAtivo;
+	const fillFormValues = (talhao = '') => {
+		if (route.params.update) {
+			talhao = getTalhaoDataFromContext();
+		}
 		for (var i = 0; i < form1.length; i++) {
-			form1[i]['valor'] = getParam(form1[i]['nome']);
+			form1[i]['valor'] = talhao[form1[i]['nome']];
 		}
+
 		for (var i = 0; i < form2.length; i++) {
-			form2[i]['valor'] = getParam(form2[i]['nome']);
+			form2[i]['valor'] = talhao[form2[i]['nome']];
 		}
-		Banco.local.get('dados').then((doc) => {
-			this.setState({ coordenadas_propriedade: doc.coordenadas });
+	};
+
+	const getTalhaoDataFromContext = () => {
+		const talhao = talhoes.filter((talhao) => {
+			return talhao._id == route.params._id;
 		});
+		return talhao[0];
+	};
 
-		if (!this.state.mapaAtivo)
-			confMapa.onPress = (e) => this.mapaSelecionado(e);
-		return (
-			<Container
-				style={{
-					paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
-				}}
-			>
-				{/* Header */}
+	const handleSave = () => {
+		var tmp = {
+			...formulario1.getValores(),
+			...formulario2.getValores(),
+		};
+
+		if (route.params.update) {
+			saveUpdatedData(tmp);
+		} else {
+			saveNewData(tmp);
+		}
+
+		goBack();
+	};
+
+	const saveNewData = async (tmp) => {
+		await Banco.store('talhao', tmp);
+	};
+
+	//TOFIX: Por conta da condição de delete dessa função, ao editar um talhão, não é possível simplesmente apagar um campo de um talhão já salvo na memória.
+	const saveUpdatedData = async (tmp) => {
+		for (var i in tmp) {
+			if (tmp[i] == '') {
+				delete tmp[i];
+			}
+		}
+		const dado = {
+			...getTalhaoDataFromContext(),
+			...tmp,
+		};
+		await Banco.update(dado._id, dado);
+	};
+
+	return (
+		<Container
+			style={{
+				paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
+			}}
+		>
+			{/* Header */}
+			{route.params.update ? (
+				<CustomHeader titulo="Edição de Talhão" />
+			) : (
 				<CustomHeader titulo="Cadastro de Talhão" />
-
-				{/* Body */}
-				<Content style={{ backgroundColor: '#eee', padding: 15 }}>
-					{/* Informações */}
-					<Text style={{ fontSize: 18, marginLeft: 5 }}>INFORMAÇÕES</Text>
-					<Text
-						style={{
-							fontSize: 14,
-							color: '#444',
-							marginBottom: 8,
-							marginLeft: 5,
+			)}
+			{/* Body */}
+			<Content style={{ backgroundColor: '#eee', padding: 15 }}>
+				{/* Informações */}
+				<Text style={{ fontSize: 18, marginLeft: 5 }}>INFORMAÇÕES</Text>
+				<Text
+					style={{
+						fontSize: 14,
+						color: '#444',
+						marginBottom: 8,
+						marginLeft: 5,
+					}}
+				>
+					Informações sobre o talhão
+				</Text>
+				<Card style={{ borderRadius: 5, padding: 10 }}>
+					<Formulario
+						keyExtractor={(item) => {
+							item.key;
 						}}
-					>
-						Informações sobre o talhão
-					</Text>
-					<Card style={{ borderRadius: 5, padding: 10 }}>
-						<Formulario
-							tamanho={45}
-							campos={form1}
-							cor="#000"
-							corP="#555"
-							ref={(tmp) => (this._formulario1 = tmp)}
-						/>
-					</Card>
+						tamanho={45}
+						campos={form1}
+						cor="#000"
+						corP="#555"
+						ref={(tmp) => setFormulario1(tmp)}
+					/>
+				</Card>
 
-					{/* Plantação */}
-					<Text style={{ fontSize: 18, marginLeft: 5, marginTop: 20 }}>
-						PLANTAÇÃO
-					</Text>
-					<Text
-						style={{
-							fontSize: 14,
-							color: '#444',
-							marginBottom: 8,
-							marginLeft: 5,
+				{/* Plantação */}
+				<Text style={{ fontSize: 18, marginLeft: 5, marginTop: 20 }}>
+					PLANTAÇÃO
+				</Text>
+				<Text
+					style={{
+						fontSize: 14,
+						color: '#444',
+						marginBottom: 8,
+						marginLeft: 5,
+					}}
+				>
+					Informações sobre a plantação
+				</Text>
+				<Card style={{ borderRadius: 5, padding: 10 }}>
+					<Formulario
+						keyExtractor={(item) => {
+							item.key;
 						}}
-					>
-						Informações sobre a plantação
-					</Text>
-					<Card style={{ borderRadius: 5, padding: 10 }}>
-						<Formulario
-							tamanho={45}
-							campos={form2}
-							cor="#000"
-							corP="#555"
-							ref={(tmp) => (this._formulario2 = tmp)}
-						/>
-					</Card>
+						tamanho={45}
+						campos={form2}
+						cor="#000"
+						corP="#555"
+						ref={(tmp) => setFormulario2(tmp)}
+					/>
+				</Card>
 
-					{/* Mapa */}
-					<Text style={{ fontSize: 18, marginLeft: 5, marginTop: 20 }}>
-						MAPA
-					</Text>
-					<Text
-						style={{
-							fontSize: 14,
-							color: '#444',
-							marginBottom: 8,
-							marginLeft: 5,
-						}}
+				{/* Mapa */}
+				<Text style={{ fontSize: 18, marginLeft: 5, marginTop: 20 }}>
+					MAPA
+				</Text>
+				<Text
+					style={{
+						fontSize: 14,
+						color: '#444',
+						marginBottom: 8,
+						marginLeft: 5,
+					}}
+				>
+					Informe a posição do talhão no mapa
+				</Text>
+				<Card style={{ borderRadius: 5 }}>
+					<MapView
+						followsUserLocation={true}
+						style={{ height: 300 }}
+						{...confMapa}
 					>
-						Informe a posição do talhão no mapa
-					</Text>
-					<Card style={{ borderRadius: 5 }}>
-						<MapView
-							ref={(ref) => {
-								this._mapa = ref;
-							}}
-							followsUserLocation={true}
-							followsUserLocation={true}
-							style={{ height: 300 }}
-							{...confMapa}
-						>
-							{this.state.coordenadas_propriedade && (
-								<Polygon
-									coordinates={this.state.coordenadas_propriedade}
-									strokeColor="#000"
-									fillColor="rgba(255,0,0,0.5)"
-									strokeWidth={1}
-									tappable={false}
-								/>
-							)}
-							{this.state.editando && (
-								<Polygon
-									coordinates={this.state.editando.coordenadas}
-									strokeColor="#000"
-									fillColor="rgba(255,0,0,0.5)"
-									strokeWidth={1}
-								/>
-							)}
-						</MapView>
-						<Button
-							success
-							style={{ position: 'absolute', top: 5, right: 5 }}
-							onPress={() => {
-								var tmp = '';
-								if (this.state.mapaAtivo) tmp = 'md-checkmark';
-								else tmp = 'md-create';
-								this.setState({
-									mapaAtivo: !this.state.mapaAtivo,
-									btnMapa: tmp,
-								});
-							}}
-						>
-							<Icon name={this.state.btnMapa} />
-						</Button>
-					</Card>
-
-					{/* Submit Button */}
+						{coordenadas_propriedade && (
+							<Polygon
+								coordinates={coordenadas_propriedade}
+								strokeColor="#000"
+								fillColor="rgba(255,0,0,0.5)"
+								strokeWidth={1}
+								tappable={false}
+							/>
+						)}
+						{editando && (
+							<Polygon
+								coordinates={editando.coordenadas}
+								strokeColor="#000"
+								fillColor="rgba(255,0,0,0.5)"
+								strokeWidth={1}
+							/>
+						)}
+					</MapView>
 					<Button
-						block
-						style={{
-							marginTop: 15,
-							marginBottom: 25,
-							backgroundColor: '#4c7a34',
-						}}
-						onPress={async () => {
-							if (getParam('update') === false) {
-								var tmp = Object.assign(
-									this._formulario1.getValores(),
-									this._formulario2.getValores()
-								);
-								const novoItem = await Banco.store('talhao', tmp);
-							} else {
-								var teste = this._formulario1.getValores();
-							}
-							var teste2 = null;
-							goBack();
+						success
+						style={{ position: 'absolute', top: 5, right: 5 }}
+						onPress={() => {
+							var tmp = '';
+							if (mapaAtivo) tmp = 'md-checkmark';
+							else tmp = 'md-create';
+							setMapaAtivo(!mapaAtivo);
+							setBtnMapa(tmp);
 						}}
 					>
-						<Text>Cadastrar</Text>
+						<Icon name={btnMapa} />
 					</Button>
-				</Content>
-				{/* Fim do Body */}
-			</Container>
-		);
-	}
+				</Card>
+
+				{/* Submit Button */}
+				<Button
+					block
+					style={{
+						marginTop: 15,
+						marginBottom: 25,
+						backgroundColor: '#4c7a34',
+					}}
+					onPress={handleSave}
+				>
+					{route.params.update ? (
+						<Text>Atualizar</Text>
+					) : (
+						<Text>Cadastrar</Text>
+					)}
+				</Button>
+			</Content>
+			{/* Fim do Body */}
+		</Container>
+	);
 }
