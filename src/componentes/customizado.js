@@ -108,6 +108,7 @@ export class Formulario extends React.Component {
   render() {
     return this.state.campos.map(campo => (
       <Texto
+				key={campo.nome}
         icone={campo.icone}
         tamanho={this.props.tamanho}
         placeholder={campo.placeholder}
