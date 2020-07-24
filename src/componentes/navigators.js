@@ -42,19 +42,21 @@ export default function Routes() {
 function LogadoDrawerNavigator() {
 	return (
 		<LogadoDrawer.Navigator
-			initialRouteName="Home"
 			drawerContent={(props) => <CustomDrawerContent {...props} />}
 		>
-			<LogadoDrawer.Screen name="Home" component={LogadoStackNavigator} />
+			<LogadoDrawer.Screen
+				name="LoggedInStack"
+				component={LogadoStackNavigator}
+			/>
 		</LogadoDrawer.Navigator>
 	);
 }
 
 function LogadoTabNavigator() {
 	return (
-		<LogadoTab.Navigator>
+		<LogadoTab.Navigator initialRouteName="Main">
 			<LogadoTab.Screen name="Galeria" component={Galeria} />
-			<LogadoTab.Screen name="Início" component={Home} />
+			<LogadoTab.Screen name="Main" component={Home} />
 			<LogadoTab.Screen name="Cotação" component={Cotacao} />
 		</LogadoTab.Navigator>
 	);
@@ -63,21 +65,71 @@ function LogadoTabNavigator() {
 function LogadoStackNavigator() {
 	return (
 		<TalhaoProvider>
-			<LogadoStack.Navigator>
+			<LogadoStack.Navigator
+				screenOptions={{
+					headerStyle: {
+						backgroundColor: '#4c7a34',
+						height: 90,
+					},
+					headerTintColor: '#ffffff',
+					headerPressColorAndroid: '#ffffff',
+				}}
+			>
 				<LogadoStack.Screen
-					name="PageInicial"
+					name="LoggedIn"
 					component={LogadoTabNavigator}
+					options={{ headerShown: false }}
 				/>
-				<LogadoStack.Screen name="Camera" component={Camera} />
-				<LogadoStack.Screen name="Aplicacao" component={Aplicacao} />
-				<LogadoStack.Screen name="Perdas" component={Perdas} />
-				<LogadoStack.Screen name="Colheita" component={Colheita} />
-				<LogadoStack.Screen name="Sobre" component={Sobre} />
-				<LogadoStack.Screen name="CadAplicacao" component={CadAplicacao} />
-				<LogadoStack.Screen name="Talhao" component={Talhao} />
-				<LogadoStack.Screen name="CadTalhao" component={CadTalhao} />
-				<LogadoStack.Screen name="CadColheita" component={CadColheita} />
-				<LogadoStack.Screen name="CadUsuario" component={CadUsuario} />
+				<LogadoStack.Screen
+					name="Camera"
+					component={Camera}
+					options={{ headerShown: false }}
+				/>
+				<LogadoStack.Screen
+					name="Aplicacao"
+					component={Aplicacao}
+					options={{ headerTitle: 'Aplicações' }}
+				/>
+				<LogadoStack.Screen
+					name="Perdas"
+					component={Perdas}
+					options={{ headerTitle: 'Perdas' }}
+				/>
+				<LogadoStack.Screen
+					name="Colheita"
+					component={Colheita}
+					options={{ headerTitle: 'Colheitas' }}
+				/>
+				<LogadoStack.Screen
+					name="About"
+					component={Sobre}
+					options={{ headerTitle: 'Sobre' }}
+				/>
+				<LogadoStack.Screen
+					name="CadAplicacao"
+					component={CadAplicacao}
+					options={{ headerTitle: 'Cadastro de Aplicações' }}
+				/>
+				<LogadoStack.Screen
+					name="Talhao"
+					component={Talhao}
+					options={{ headerTitle: 'Talhoes' }}
+				/>
+				<LogadoStack.Screen
+					name="CadTalhao"
+					component={CadTalhao}
+					options={{ headerTitle: 'Cadastro de Talhôes' }}
+				/>
+				<LogadoStack.Screen
+					name="CadColheita"
+					component={CadColheita}
+					options={{ headerTitle: 'Cadastro de Colheitas' }}
+				/>
+				<LogadoStack.Screen
+					name="CadUsuario"
+					component={CadUsuario}
+					options={{ headerTitle: 'Cadastro de Usuários' }}
+				/>
 				<LogadoStack.Screen
 					name="CadPropriedadeNova"
 					component={cadPropriedadeNova}
@@ -90,9 +142,13 @@ function LogadoStackNavigator() {
 function DeslogadoStackNavigator() {
 	return (
 		<DeslogadoStack.Navigator>
-			<DeslogadoStack.Screen name="Inicio" component={Principal} />
-			<DeslogadoStack.Screen name="Sobre" component={Sobre} />
-			<DeslogadoStack.Screen name="CadUsuario" component={CadUsuario} />
+			<DeslogadoStack.Screen
+				name="LoginPage"
+				component={Principal}
+				options={{ headerShown: false }}
+			/>
+			<DeslogadoStack.Screen name="About" component={Sobre} />
+			<DeslogadoStack.Screen name="SignUpPage" component={CadUsuario} />
 		</DeslogadoStack.Navigator>
 	);
 }

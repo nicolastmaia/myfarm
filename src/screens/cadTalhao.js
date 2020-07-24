@@ -128,17 +128,13 @@ export default function CadTalhao(props) {
 	};
 
 	return (
-		<Container
-			style={{
-				paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
-			}}
-		>
+		<Container>
 			{/* Header */}
-			{route.params.update ? (
+			{/* {route.params.update ? (
 				<CustomHeader titulo="Edição de Talhão" />
 			) : (
 				<CustomHeader titulo="Cadastro de Talhão" />
-			)}
+			)} */}
 			{/* Body */}
 			<Content style={{ backgroundColor: '#eee', padding: 15 }}>
 				{/* Informações */}

@@ -205,12 +205,8 @@ export default class Perdas extends React.Component {
 
 	render() {
 		return (
-			<Container
-				style={{
-					paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
-				}}
-			>
-				<CustomHeader titulo="Perdas" />
+			<Container>
+				{/* <CustomHeader titulo="Perdas" /> */}
 
 				<Content style={{ backgroundColor: '#fff' }}>
 					<List>

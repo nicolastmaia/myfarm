@@ -68,12 +68,8 @@ export default class CadAplicacao extends React.Component {
 	render() {
 		const { getParam, goBack } = this.props.navigation;
 		return (
-			<Container
-				style={{
-					paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
-				}}
-			>
-				<CustomHeader titulo="Aplicações de Produtos" />
+			<Container>
+				{/* <CustomHeader titulo="Aplicações de Produtos" /> */}
 
 				<Content style={{ backgroundColor: '#eee', padding: 15 }}>
 					<Text style={{ fontSize: 18, marginLeft: 5 }}>APLICAÇÕES</Text>

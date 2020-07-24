@@ -31,12 +31,8 @@ export default function Talhao(props) {
 	};
 
 	return (
-		<Container
-			style={{
-				paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
-			}}
-		>
-			<CustomHeader titulo="Cadastro de Talhão" />
+		<Container>
+			{/* <CustomHeader titulo="Cadastro de Talhão" /> */}
 
 			<CustomModal
 				isVisible={modalVIsible}

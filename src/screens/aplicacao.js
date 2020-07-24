@@ -52,12 +52,8 @@ export default class Aplicacao extends React.Component {
 	render() {
 		const { navigate } = this.props.navigation;
 		return (
-			<Container
-				style={{
-					paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
-				}}
-			>
-				<CustomHeader titulo="Cadastro de Aplicações" />
+			<Container>
+				{/* <CustomHeader titulo="Cadastro de Aplicações" /> */}
 
 				<Content style={{ backgroundColor: '#fff' }}>
 					<FlatList

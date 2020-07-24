@@ -56,12 +56,8 @@ export default class CadColheita extends React.Component {
 	render() {
 		const { getParam, goBack } = this.props.navigation;
 		return (
-			<Container
-				style={{
-					paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
-				}}
-			>
-				<CustomHeader titulo="Cadastro de Colheitas" />
+			<Container>
+				{/* <CustomHeader titulo="Cadastro de Colheitas" /> */}
 
 				<Content style={{ backgroundColor: '#eee', padding: 15 }}>
 					<Text style={{ fontSize: 18, marginLeft: 5 }}>COLHEITA</Text>
