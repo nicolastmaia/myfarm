@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import { Dimensions } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { Banco } from '../instancias/conexao';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 //=========| COMPONENTES |=========//
 import Sanduiche from './sanduiche';
 //===========================//
@@ -30,7 +30,7 @@ import AuthContext from '../contexts/AuthContext';
 //===========================//
 
 const LogadoDrawer = createDrawerNavigator();
-const LogadoTab = createBottomTabNavigator();
+const LogadoTab = createMaterialBottomTabNavigator();
 const LogadoStack = createStackNavigator();
 const DeslogadoStack = createStackNavigator();
 
@@ -54,10 +54,62 @@ function LogadoDrawerNavigator() {
 
 function LogadoTabNavigator() {
 	return (
-		<LogadoTab.Navigator initialRouteName="Main">
-			<LogadoTab.Screen name="Galeria" component={Galeria} />
-			<LogadoTab.Screen name="Main" component={Home} />
-			<LogadoTab.Screen name="Cotação" component={Cotacao} />
+		<LogadoTab.Navigator
+			initialRouteName="Main"
+			activeColor="#ffffff"
+			inactiveColor="#000000"
+			shifting={true}
+			backBehavior="initialRoute"
+			labeled={false}
+			barStyle={{
+				backgroundColor: '#4c7a34',
+			}}
+		>
+			<LogadoTab.Screen
+				name="Galeria"
+				component={Galeria}
+				options={{
+					title: 'Galeria',
+					tabBarIcon: ({ color }) => (
+						<Icon
+							name="image-multiple"
+							color={color}
+							size={30}
+							style={{ margin: -3 }}
+						/>
+					),
+				}}
+			/>
+			<LogadoTab.Screen
+				name="Main"
+				component={Home}
+				options={{
+					title: 'Páginal Principal',
+					tabBarIcon: ({ color }) => (
+						<Icon
+							name="barn"
+							color={color}
+							size={30}
+							style={{ margin: -3 }}
+						/>
+					),
+				}}
+			/>
+			<LogadoTab.Screen
+				name="Cotacao"
+				component={Cotacao}
+				options={{
+					title: 'Cotação',
+					tabBarIcon: ({ color }) => (
+						<Icon
+							name="currency-usd"
+							color={color}
+							size={30}
+							style={{ margin: -3 }}
+						/>
+					),
+				}}
+			/>
 		</LogadoTab.Navigator>
 	);
 }
