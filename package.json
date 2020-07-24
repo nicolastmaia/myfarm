@@ -16,6 +16,8 @@
 	"dependencies": {
 		"@craftzdog/pouchdb-core-react-native": "^7.0.0",
 		"@craftzdog/pouchdb-replication-react-native": "^7.0.0",
+		"@mdi/js": "^5.3.45",
+		"@mdi/react": "^1.4.0",
 		"@react-native-community/async-storage": "^1.11.0",
 		"@react-native-community/masked-view": "^0.1.10",
 		"@react-native-community/toolbar-android": "0.1.0-rc.2",
