@@ -1,6 +1,6 @@
 import PouchDB from '../constantes/pouchdbPlugins.js';
 import AsyncStorage from '@react-native-community/async-storage';
-import { Alert } from 'react-native';
+import { ToastAndroid } from 'react-native';
 
 const ipHome = '192.168.0.109';
 const ipAway = '192.168.43.54';
@@ -14,16 +14,12 @@ export const Banco = {
 
 	//sincroniza com banco especifico do usuario
 	syncDB: function(username = '') {
-		this.remoto = new PouchDB(
-			`${LOCALHOST}/userdb-${Buffer.from(username).toString('hex')}`
-		);
+		this.remoto = new PouchDB(`${LOCALHOST}/userdb-${Buffer.from(username).toString('hex')}`);
 		return PouchDB.sync(this.local, this.remoto, {
 			live: true,
 			retry: true,
 		});
 	},
-
-	//loga o usuario
 
 	//TODO: transformar em async/await
 	//cadastra novo usuario
@@ -58,7 +54,7 @@ export const Banco = {
 			});
 			return response.docs;
 		} catch (err) {
-			Alert.alert(err.message);
+			ToastAndroid.show(err.message);
 		}
 	},
 

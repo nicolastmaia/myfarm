@@ -1,7 +1,7 @@
 import React, { useEffect, createContext, useState } from 'react';
 import { Banco } from '../instancias/conexao';
 import AsyncStorage from '@react-native-community/async-storage';
-import { Alert } from 'react-native';
+import { ToastAndroid } from 'react-native';
 
 const AuthContext = createContext({
 	isSignedIn: null,
@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
 			});
 			return;
 		} catch (err) {
-			Alert.alert(err.message);
+			ToastAndroid.show(err.message);
 		}
 	};
 
@@ -40,17 +40,11 @@ export const AuthProvider = ({ children }) => {
 			setUser(null);
 		} catch (error) {
 			console.log(error.message);
-			Alert.alert('Não foi possível deslogar.');
+			ToastAndroid.show('Não foi possível deslogar.');
 		}
 	}
 
-	return (
-		<AuthContext.Provider
-			value={{ isSignedIn: !!user, user, deslogar, logar }}
-		>
-			{children}
-		</AuthContext.Provider>
-	);
+	return <AuthContext.Provider value={{ isSignedIn: !!user, user, deslogar, logar }}>{children}</AuthContext.Provider>;
 };
 
 export default AuthContext;

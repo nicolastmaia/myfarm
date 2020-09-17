@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { Banco } from '../instancias/conexao';
 import AsyncStorage from '@react-native-community/async-storage';
-import { Alert } from 'react-native';
+import { ToastAndroid } from 'react-native';
 
 const TalhaoContext = createContext({ talhoes: [] });
 
@@ -14,7 +14,7 @@ export const TalhaoProvider = ({ children }) => {
 				const docs = await Banco.getByType('talhao');
 				setTalhoes(docs);
 			} catch (error) {
-				Alert.alert(error.message);
+				ToastAndroid.show(error.message, 25);
 				await AsyncStorage.getItem(talhoes);
 			}
 		}
