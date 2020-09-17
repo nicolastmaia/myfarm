@@ -90,19 +90,22 @@ export default class CadUsuario extends React.Component {
 	}
 
 	componentDidMount() {
-		// analytics.trackScreenView("Cadastro");
-		if (this.props.navigation.getParam('logado')) {
-			Banco.local.get('dados').then((doc) => {
-				console.warn(doc);
-				for (var i = 0; i < formularios[0].length; i++) {
-					formularios[0][i]['valor'] = doc[formularios[0][i]['nome']];
-				}
-				for (var i = 0; i < formularios[1].length; i++) {
-					formularios[1][i]['valor'] = doc[formularios[1][i]['nome']];
-				}
-				this.setState({ cep: doc['cep'], endereco: { uf: doc['uf'] } });
-			});
-		}
+		// usar o codigo abaixo quando for criar uma pagina para o usuario editar seus dados.
+		// if (this.props.route.params.logado) {
+		// 	Banco.local.get('dados').then((doc) => {
+		// 		console.warn(doc);
+		// 		for (var i = 0; i < formularios[0].length; i++) {
+		// 			formularios[0][i]['valor'] = doc[formularios[0][i]['nome']];
+		// 		}
+		// 		for (var i = 0; i < formularios[1].length; i++) {
+		// 			formularios[1][i]['valor'] = doc[formularios[1][i]['nome']];
+		// 		}
+		// 		this.setState({
+		// 			cep: doc['cep'],
+		// 			endereco: { uf: doc['uf'] },
+		// 		});
+		// 	});
+		// }
 	}
 
 	mapaSelecionado(e) {
@@ -129,7 +132,6 @@ export default class CadUsuario extends React.Component {
 
 	render = () => {
 		const { goBack, navigate } = this.props.navigation;
-
 		var confMapa = {};
 		confMapa.scrollEnabled = this.state.mapaAtivo;
 		if (!this.state.mapaAtivo)
