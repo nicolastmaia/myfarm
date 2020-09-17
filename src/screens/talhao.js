@@ -1,14 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Platform, Alert, StatusBar } from 'react-native';
-import {
-	ListItem,
-	View,
-	Icon,
-	Button,
-	Text,
-	Container,
-	List,
-} from 'native-base';
+import { ListItem, View, Icon, Button, Text, Container, List } from 'native-base';
 
 // const analytics = require("./instancias/analytics");
 import { Banco } from '../instancias/conexao.js';
@@ -32,13 +24,7 @@ export default function Talhao(props) {
 
 	return (
 		<Container>
-			{/* <CustomHeader titulo="Cadastro de Talhão" /> */}
-
-			<CustomModal
-				isVisible={modalVIsible}
-				activeItem={activeItem}
-				toggleModal={toggleModal}
-			/>
+			<CustomModal isVisible={modalVIsible} activeItem={activeItem} toggleModal={toggleModal} />
 			<List
 				dataArray={talhoes}
 				keyExtractor={(item) => item._id}
@@ -63,7 +49,7 @@ export default function Talhao(props) {
 								}}
 							>
 								<Icon
-									name="md-information-circle"
+									name='md-information-circle'
 									style={{ color: '#4c7a34' }}
 									onPress={() => {
 										setActiveItem(item);
@@ -89,7 +75,7 @@ export default function Talhao(props) {
 								}}
 							>
 								<Icon
-									name="md-trash"
+									name='md-trash'
 									style={{ color: '#C62828' }}
 									onPress={() => {
 										Banco.delete(item);
@@ -116,7 +102,7 @@ export default function Talhao(props) {
 					})
 				}
 			>
-				<Icon name="md-add" />
+				<Icon name='md-add' />
 			</Button>
 		</Container>
 	);
