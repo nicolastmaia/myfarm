@@ -352,9 +352,9 @@ export default class CadUsuario extends React.Component {
 					<View style={{ flexDirection: 'row' }}>
 						{/* botão de voltar*/}
 						<Button
-							rounded
+							block
 							danger
-							style={{ margin: 15 }}
+							style={{ borderRadius: 5, margin: 15 }}
 							onPress={() => {
 								if (this.state.posicao == 0) goBack();
 								else
@@ -368,8 +368,9 @@ export default class CadUsuario extends React.Component {
 
 						{/* botao de prosseguir */}
 						<Button
-							rounded
+							block
 							style={{
+								borderRadius: 5,
 								margin: 15,
 								flex: 1,
 								backgroundColor: '#004238',

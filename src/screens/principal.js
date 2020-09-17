@@ -81,7 +81,7 @@ export default class Principal extends React.Component {
 					active
 					name="ios-information-circle"
 					style={styles.infoIcon}
-					onPress={() => navigate('Sobre')}
+					onPress={() => navigate('About')}
 				/>
 				<KeyboardAvoidingView
 					behavior="padding"
@@ -132,7 +132,7 @@ export default class Principal extends React.Component {
 						<Text
 							style={styles.texto}
 							onPress={() => {
-								navigate('CadUsuario');
+								navigate('SignUpPage');
 							}}
 						>
 							Cadastrar

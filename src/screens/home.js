@@ -50,19 +50,19 @@ export default class Home extends React.Component {
 			tmp = (
 				<>
 					<View
-						style={{
-							borderStyle: 'solid',
-							borderRightWidth: 1,
-							width: Dimensions.get('window').width / 2,
-							alignItems: 'center',
-							justifyContent: 'center',
-						}}
+						style={[
+							{
+								borderRightWidth: 1,
+							},
+							styles.weatherSubContainer,
+						]}
 					>
 						<View>{this.state.tempo.icone}</View>
 						<Text
 							style={{
 								color: '#fff',
 								fontSize: 30,
+								textAlign: 'center',
 							}}
 						>
 							{this.state.tempo.cidade}
@@ -70,18 +70,18 @@ export default class Home extends React.Component {
 					</View>
 
 					<View
-						style={{
-							borderStyle: 'solid',
-							borderLeftWidth: 1,
-							width: Dimensions.get('window').width / 2,
-							alignItems: 'center',
-							justifyContent: 'center',
-						}}
+						style={[
+							{
+								borderLeftWidth: 1,
+							},
+							styles.weatherSubContainer,
+						]}
 					>
 						<Text
 							style={{
 								color: '#fff',
 								fontSize: 60,
+								textAlign: 'center',
 							}}
 						>
 							{this.state.tempo.temperatura}
@@ -90,7 +90,8 @@ export default class Home extends React.Component {
 						<Text
 							style={{
 								color: '#fff',
-								fontSize: 30,
+								fontSize: 25,
+								textAlign: 'center',
 							}}
 						>
 							{this.state.tempo.descricao}
@@ -105,78 +106,50 @@ export default class Home extends React.Component {
 				<ImageBackground
 					source={require('../assets/myfarm_bg_grass.jpg')}
 					blurRadius={10}
-					style={{
-						width: Dimensions.get('window').width,
-						height: Dimensions.get('window').height - 50,
-						flexDirection: 'column',
-					}}
+					style={styles.backgroundImage}
 				>
 					{/* botao menu sanduiche */}
 					<View style={{ flex: 1 }}>
 						<TouchableOpacity
-							style={{
-								position: 'absolute',
-								marginTop: 35,
-								marginLeft: 15,
-							}}
+							style={styles.menuButton}
 							onPress={() => openDrawer()}
 						>
-							<Icon
-								style={{ color: 'white', fontSize: 45 }}
-								name="menu"
-							/>
+							<Icon style={styles.menuIcon} name="menu" />
 						</TouchableOpacity>
 					</View>
 
 					<View style={{ flex: 5 }}>
 						{/* previsao do tempo */}
-						<View
-							style={{
-								flex: 1,
-								flexDirection: 'row',
-								height: 95,
-								alignItems: 'center',
-								justifyContent: 'space-evenly',
-							}}
-						>
-							{tmp}
-						</View>
+						<View style={styles.weatherContainer}>{tmp}</View>
 
 						{/* botoes principais */}
-						<View
-							style={{
-								flex: 4,
-								justifyContent: 'center',
-								alignItems: 'center',
-								flexDirection: 'column',
-							}}
-						>
+						<View style={styles.buttonsContainer}>
 							{/* primeira linha */}
 							<View style={{ flexDirection: 'row' }}>
 								{/* CadAplicacao */}
 								<TouchableOpacity
 									activeOpacity={0.7}
-									style={styles.botoes}
+									style={styles.buttons}
 									onPress={() => navigate('Aplicacao')}
 								>
 									<Icon
 										name="flask-plus-outline"
-										style={styles.icone}
+										style={styles.buttonIcon}
 									/>
-									<Text style={styles.texto}>Aplicações</Text>
+									<Text style={styles.buttonText}>Aplicações</Text>
 								</TouchableOpacity>
 
 								{/* Perdas */}
 								<TouchableOpacity
 									activeOpacity={0.7}
-									style={styles.botoes}
+									style={styles.buttons}
 									onPress={() => navigate('Perdas')}
 								>
 									<Icon
 										name="numeric-negative-1"
-										style={styles.icone}
+										style={styles.buttonIcon}
 									/>
-									<Text style={styles.texto}>Perdas</Text>
+									<Text style={styles.buttonText}>Perdas</Text>
 								</TouchableOpacity>
 							</View>
 
@@ -185,21 +158,24 @@ export default class Home extends React.Component {
 								{/* Talhao */}
 								<TouchableOpacity
 									activeOpacity={0.7}
-									style={styles.botoes}
+									style={styles.buttons}
 									onPress={() => navigate('Talhao')}
 								>
-									<Icon name="grid-large" style={styles.icone} />
-									<Text style={styles.texto}>Talhão</Text>
+									<Icon name="grid-large" style={styles.buttonIcon} />
+									<Text style={styles.buttonText}>Talhão</Text>
 								</TouchableOpacity>
 
 								{/* CadColheita */}
 								<TouchableOpacity
 									activeOpacity={0.7}
-									style={styles.botoes}
+									style={styles.buttons}
 									onPress={() => navigate('Colheita')}
 								>
-									<Icon name="basket-outline" style={styles.icone} />
-									<Text style={styles.texto}>Colheita</Text>
+									<Icon
+										name="basket-outline"
+										style={styles.buttonIcon}
+									/>
+									<Text style={styles.buttonText}>Colheita</Text>
 								</TouchableOpacity>
 							</View>
 						</View>
@@ -212,7 +188,38 @@ export default class Home extends React.Component {
 
 //estilos da pagina
 const styles = StyleSheet.create({
-	botoes: {
+	backgroundImage: {
+		width: Dimensions.get('window').width,
+		height: Dimensions.get('window').height - 50,
+		flexDirection: 'column',
+	},
+	menuIcon: { color: 'white', fontSize: 45 },
+	menuButton: {
+		position: 'absolute',
+		marginTop: 35,
+		marginLeft: 15,
+	},
+	weatherContainer: {
+		flex: 1,
+		flexDirection: 'row',
+		height: 95,
+		alignItems: 'center',
+		justifyContent: 'space-evenly',
+	},
+	weatherSubContainer: {
+		borderStyle: 'solid',
+		width: '50%',
+		alignItems: 'center',
+		justifyContent: 'center',
+		height: '100%',
+	},
+	buttonsContainer: {
+		flex: 4,
+		justifyContent: 'center',
+		alignItems: 'center',
+		flexDirection: 'column',
+	},
+	buttons: {
 		backgroundColor: '#FFFFFF',
 		flexDirection: 'column',
 		justifyContent: 'center',
@@ -222,11 +229,11 @@ const styles = StyleSheet.create({
 		margin: 10,
 		borderRadius: 10,
 	},
-	icone: {
+	buttonIcon: {
 		fontSize: 70,
 		color: '#000000',
 	},
-	texto: {
+	buttonText: {
 		color: '#000000',
 	},
 });

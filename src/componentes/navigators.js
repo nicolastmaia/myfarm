@@ -178,11 +178,6 @@ function LogadoStackNavigator() {
 					options={{ headerTitle: 'Cadastro de Colheitas' }}
 				/>
 				<LogadoStack.Screen
-					name="CadUsuario"
-					component={CadUsuario}
-					options={{ headerTitle: 'Cadastro de Usuários' }}
-				/>
-				<LogadoStack.Screen
 					name="CadPropriedadeNova"
 					component={cadPropriedadeNova}
 				/>
@@ -193,12 +188,8 @@ function LogadoStackNavigator() {
 
 function DeslogadoStackNavigator() {
 	return (
-		<DeslogadoStack.Navigator>
-			<DeslogadoStack.Screen
-				name="LoginPage"
-				component={Principal}
-				options={{ headerShown: false }}
-			/>
+		<DeslogadoStack.Navigator screenOptions={{ headerShown: false }}>
+			<DeslogadoStack.Screen name="LoginPage" component={Principal} />
 			<DeslogadoStack.Screen name="About" component={Sobre} />
 			<DeslogadoStack.Screen name="SignUpPage" component={CadUsuario} />
 		</DeslogadoStack.Navigator>
