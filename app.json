@@ -1,4 +1,10 @@
 {
   "name": "myfarm",
-  "displayName": "myfarm"
+  "displayName": "myfarm",
+  "icon": "./assets/icon.png",
+  "splash": {
+    "image": "./assets/splash.png",
+    "resizeMode": "contain",
+    "backgroundColor": "#4C7A34"
+  }
 }

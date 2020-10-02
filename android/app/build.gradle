@@ -120,6 +120,8 @@ android {
         versionCode 1
         versionName "1.0"
         missingDimensionStrategy 'react-native-camera', 'general'
+				multiDexEnabled true
+
     }
     splits {
         abi {
@@ -169,8 +171,10 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation 'com.facebook.react:react-native:0.60.0'  // From node_modules
+    implementation 'com.facebook.react:react-native:0.62.2'  // From node_modules
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+		implementation 'com.android.support:multidex:1.0.3'
+
 
     // JSC from node_modules
     if (useIntlJsc) {
