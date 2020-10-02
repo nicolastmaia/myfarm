@@ -1,12 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Platform, Alert, StatusBar } from 'react-native';
 import { ListItem, View, Icon, Button, Text, Container, List } from 'native-base';
 
 // const analytics = require("./instancias/analytics");
 import { Banco } from '../instancias/conexao.js';
-import CustomHeader from '../componentes/customHeader';
 import { useNavigation } from '@react-navigation/native';
-import TalhaoContext from '../contexts/talhaoContext';
 import CustomModal from '../componentes/customModal.js';
 
 //==========| Fim dos Imports |==========//
@@ -16,11 +13,47 @@ export default function Talhao(props) {
 	const [modalVIsible, setModalVisible] = useState(false);
 	const [activeItem, setActiveItem] = useState({});
 	const { navigate } = useNavigation();
-	const { talhoes } = useContext(TalhaoContext);
+	const [talhoes, setTalhoes] = useState([]);
 
 	const toggleModal = () => {
 		setModalVisible(!modalVIsible);
 	};
+	const fetchTalhoesFromDatabase = async () => {
+		tmpTalhoes = await Banco.getByType('talhao');
+		setTalhoes(tmpTalhoes);
+	};
+
+	useEffect(() => {
+		try {
+			fetchTalhoesFromDatabase();
+		} catch (error) {
+			console.log(error.message);
+		}
+
+		let changes = Banco.local
+			.changes({
+				live: true,
+				include_docs: true,
+				filter: function(doc) {
+					return doc.type === 'talhao';
+				},
+			})
+			.on('change', (info) => {
+				setTalhoes((prevState) => {
+					let newState = prevState.filter((current) => {
+						return current._id != info.doc._id;
+					});
+					newState = [...newState, info.doc];
+					return newState;
+				});
+			})
+			.on('complete', () => console.log('unsubscribed from database changes'))
+			.on('error', () => console.log('deu erro aqui'));
+
+		return () => {
+			changes.cancel();
+		};
+	}, []);
 
 	return (
 		<Container>
@@ -33,7 +66,7 @@ export default function Talhao(props) {
 						button
 						onPress={() => {
 							const novoItem = {
-								...item,
+								itemId: item._id,
 								update: true,
 							};
 							navigate('CadTalhao', novoItem);
@@ -77,8 +110,12 @@ export default function Talhao(props) {
 								<Icon
 									name='md-trash'
 									style={{ color: '#C62828' }}
-									onPress={() => {
-										Banco.delete(item);
+									onPress={async () => {
+										const deletedTalhao = await Banco.delete(item);
+										const newTalhoes = talhoes.filter((talhao) => {
+											return talhao._id != deletedTalhao.id;
+										});
+										setTalhoes(newTalhoes);
 									}}
 								/>
 							</View>

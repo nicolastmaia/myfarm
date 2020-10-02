@@ -25,7 +25,6 @@ import Galeria from '../screens/galeria';
 import Home from '../screens/home';
 import Cotacao from '../screens/cotacao';
 import CustomDrawerContent from './CustomDrawerContent';
-import { TalhaoProvider } from '../contexts/talhaoContext';
 import AuthContext from '../contexts/AuthContext';
 //===========================//
 
@@ -90,30 +89,28 @@ function LogadoTabNavigator() {
 
 function LogadoStackNavigator() {
 	return (
-		<TalhaoProvider>
-			<LogadoStack.Navigator
-				screenOptions={{
-					headerStyle: {
-						backgroundColor: '#4c7a34',
-						height: 90,
-					},
-					headerTintColor: '#ffffff',
-					headerPressColorAndroid: '#ffffff',
-				}}
-			>
-				<LogadoStack.Screen name='LoggedIn' component={LogadoTabNavigator} options={{ headerShown: false }} />
-				<LogadoStack.Screen name='Camera' component={Camera} options={{ headerShown: false }} />
-				<LogadoStack.Screen name='Aplicacao' component={Aplicacao} options={{ headerTitle: 'Aplicações' }} />
-				<LogadoStack.Screen name='Perdas' component={Perdas} options={{ headerTitle: 'Perdas' }} />
-				<LogadoStack.Screen name='Colheita' component={Colheita} options={{ headerTitle: 'Colheitas' }} />
-				<LogadoStack.Screen name='About' component={Sobre} options={{ headerTitle: 'Sobre' }} />
-				<LogadoStack.Screen name='CadAplicacao' component={CadAplicacao} options={{ headerTitle: 'Cadastro de Aplicações' }} />
-				<LogadoStack.Screen name='Talhao' component={Talhao} options={{ headerTitle: 'Talhoes' }} />
-				<LogadoStack.Screen name='CadTalhao' component={CadTalhao} options={{ headerTitle: 'Cadastro de Talhôes' }} />
-				<LogadoStack.Screen name='CadColheita' component={CadColheita} options={{ headerTitle: 'Cadastro de Colheitas' }} />
-				<LogadoStack.Screen name='CadPropriedadeNova' component={cadPropriedadeNova} />
-			</LogadoStack.Navigator>
-		</TalhaoProvider>
+		<LogadoStack.Navigator
+			screenOptions={{
+				headerStyle: {
+					backgroundColor: '#4c7a34',
+					height: 90,
+				},
+				headerTintColor: '#ffffff',
+				headerPressColorAndroid: '#ffffff',
+			}}
+		>
+			<LogadoStack.Screen name='LoggedIn' component={LogadoTabNavigator} options={{ headerShown: false }} />
+			<LogadoStack.Screen name='Camera' component={Camera} options={{ headerShown: false }} />
+			<LogadoStack.Screen name='Aplicacao' component={Aplicacao} options={{ headerTitle: 'Aplicações' }} />
+			<LogadoStack.Screen name='Perdas' component={Perdas} options={{ headerTitle: 'Perdas' }} />
+			<LogadoStack.Screen name='Colheita' component={Colheita} options={{ headerTitle: 'Colheitas' }} />
+			<LogadoStack.Screen name='About' component={Sobre} options={{ headerTitle: 'Sobre' }} />
+			<LogadoStack.Screen name='CadAplicacao' component={CadAplicacao} options={{ headerTitle: 'Cadastro de Aplicações' }} />
+			<LogadoStack.Screen name='Talhao' component={Talhao} options={{ headerTitle: 'Talhoes' }} />
+			<LogadoStack.Screen name='CadTalhao' component={CadTalhao} options={{ headerTitle: 'Cadastro de Talhôes' }} />
+			<LogadoStack.Screen name='CadColheita' component={CadColheita} options={{ headerTitle: 'Cadastro de Colheitas' }} />
+			<LogadoStack.Screen name='CadPropriedadeNova' component={cadPropriedadeNova} />
+		</LogadoStack.Navigator>
 	);
 }
 

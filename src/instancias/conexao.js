@@ -1,5 +1,4 @@
 import PouchDB from '../constantes/pouchdbPlugins.js';
-import AsyncStorage from '@react-native-community/async-storage';
 import { ToastAndroid } from 'react-native';
 
 const ipHome = '192.168.0.109';
@@ -14,6 +13,7 @@ export const Banco = {
 
 	//sincroniza com banco especifico do usuario
 	syncDB: function(username = '') {
+		this.local = new PouchDB(username);
 		this.remoto = new PouchDB(`${LOCALHOST}/userdb-${Buffer.from(username).toString('hex')}`);
 		return PouchDB.sync(this.local, this.remoto, {
 			live: true,
@@ -53,19 +53,21 @@ export const Banco = {
 				selector: { type: docType },
 			});
 			return response.docs;
-		} catch (err) {
-			ToastAndroid.show(err.message);
+		} catch {
+			const response = await this.local.allDocs({ include_docs: true });
+			const docsByType = response.rows.filter((doc) => {
+				return doc.type == docType;
+			});
+			return docsByType;
 		}
 	},
 
-	update: async function(docId, tmp) {
+	update: async function(doc) {
 		try {
-			const doc = await this.local.get(docId);
-			let dados = { ...doc, ...tmp };
-			const response = await this.local.put(dados);
+			const response = await this.local.put(doc);
 			return response;
 		} catch (err) {
-			throw err;
+			console.log(err.message);
 		}
 	},
 
@@ -74,7 +76,7 @@ export const Banco = {
 			var response = await this.local.remove(doc);
 			return response;
 		} catch (err) {
-			throw err;
+			console.log(err.message);
 		}
 	},
 

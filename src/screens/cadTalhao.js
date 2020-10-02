@@ -1,24 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Platform, StatusBar } from 'react-native';
-import {
-	Card,
-	Icon,
-	Button,
-	Text,
-	Content,
-	Container,
-	Toast,
-} from 'native-base';
+import { Card, Icon, Button, Text, Content, Container, Toast } from 'native-base';
 
 import MapView, { Polygon } from 'react-native-maps';
 
 // const analytics = require("./instancias/analytics");
-import { showDefaultToast } from '../utils/showToast';
 import { Banco } from '../instancias/conexao.js';
-import CustomHeader from '../componentes/customHeader';
 
 import { Formulario } from '../componentes/customizado';
-import TalhaoContext from '../contexts/talhaoContext';
 
 let id = 0;
 
@@ -49,16 +37,42 @@ export default function CadTalhao(props) {
 	const [mapaAtivo, setMapaAtivo] = useState(true);
 	const [formulario1, setFormulario1] = useState({});
 	const [formulario2, setFormulario2] = useState({});
-	const { route, navigation } = props;
+	const [talhao, setTalhao] = useState({});
+	const [isLoading, setIsLoading] = useState(false);
+	const { navigation } = props;
+	const { params } = props.route;
 	const { goBack } = navigation;
-	const { talhoes } = useContext(TalhaoContext);
 	var confMapa = {};
+
+	const getTalhaoDataFromLocalPouch = async () => {
+		const talhaoTmp = await Banco.local.get(params.itemId);
+		setTalhao(talhaoTmp);
+		setIsLoading(true);
+	};
+
+	const fillFormValues = () => {
+		for (var i = 0; i < form1.length; i++) {
+			form1[i]['valor'] = talhao[form1[i]['nome']];
+		}
+
+		for (var i = 0; i < form2.length; i++) {
+			form2[i]['valor'] = talhao[form2[i]['nome']];
+		}
+	};
+
+	useEffect(() => {
+		if (params.update) {
+			getTalhaoDataFromLocalPouch();
+		}
+
+		confMapa.scrollEnabled = mapaAtivo;
+		if (!mapaAtivo) confMapa.onPress = (e) => mapaSelecionado(e);
+	}, []);
 
 	useEffect(() => {
 		fillFormValues();
-		confMapa.scrollEnabled = mapaAtivo;
-		if (!mapaAtivo) confMapa.onPress = (e) => mapaSelecionado(e);
-	});
+		setIsLoading(false);
+	}, [isLoading]);
 
 	function mapaSelecionado(e) {
 		console.warn('T');
@@ -74,63 +88,43 @@ export default function CadTalhao(props) {
 		// if(editando) console.warn(editando.coordenadas);
 	}
 
-	const fillFormValues = (talhao = '') => {
-		if (route.params.update) {
-			talhao = getTalhaoDataFromContext();
-		}
-		for (var i = 0; i < form1.length; i++) {
-			form1[i]['valor'] = talhao[form1[i]['nome']];
-		}
-
-		for (var i = 0; i < form2.length; i++) {
-			form2[i]['valor'] = talhao[form2[i]['nome']];
-		}
-	};
-
-	const getTalhaoDataFromContext = () => {
-		const talhao = talhoes.filter((talhao) => {
-			return talhao._id == route.params._id;
-		});
-		return talhao[0];
-	};
-
 	const handleSave = () => {
-		var tmp = {
+		var tmpTalhao = {
 			...formulario1.getValores(),
 			...formulario2.getValores(),
 		};
 
-		if (route.params.update) {
-			saveUpdatedData(tmp);
+		if (params.update) {
+			saveUpdatedData(tmpTalhao);
 		} else {
-			saveNewData(tmp);
+			saveNewData(tmpTalhao);
 		}
 
 		goBack();
 	};
 
-	const saveNewData = async (tmp) => {
-		await Banco.store('talhao', tmp);
+	const saveNewData = async (tmpTalhao) => {
+		await Banco.store('talhao', tmpTalhao);
 	};
 
 	//TOFIX: Por conta da condição de delete dessa função, ao editar um talhão, não é possível simplesmente apagar um campo de um talhão já salvo na memória.
-	const saveUpdatedData = async (tmp) => {
-		for (var i in tmp) {
-			if (tmp[i] == '') {
-				delete tmp[i];
+	const saveUpdatedData = (tmpTalhao) => {
+		for (var i in tmpTalhao) {
+			if (tmpTalhao[i] == '') {
+				delete tmpTalhao[i];
 			}
 		}
 		const dado = {
-			...getTalhaoDataFromContext(),
-			...tmp,
+			...talhao,
+			...tmpTalhao,
 		};
-		await Banco.update(dado._id, dado);
+		Banco.update(dado);
 	};
 
 	return (
 		<Container>
 			{/* Header */}
-			{/* {route.params.update ? (
+			{/* {params.update ? (
 				<CustomHeader titulo="Edição de Talhão" />
 			) : (
 				<CustomHeader titulo="Cadastro de Talhão" />
@@ -156,16 +150,14 @@ export default function CadTalhao(props) {
 						}}
 						tamanho={45}
 						campos={form1}
-						cor="#000"
-						corP="#555"
+						cor='#000'
+						corP='#555'
 						ref={(tmp) => setFormulario1(tmp)}
 					/>
 				</Card>
 
 				{/* Plantação */}
-				<Text style={{ fontSize: 18, marginLeft: 5, marginTop: 20 }}>
-					PLANTAÇÃO
-				</Text>
+				<Text style={{ fontSize: 18, marginLeft: 5, marginTop: 20 }}>PLANTAÇÃO</Text>
 				<Text
 					style={{
 						fontSize: 14,
@@ -183,16 +175,14 @@ export default function CadTalhao(props) {
 						}}
 						tamanho={45}
 						campos={form2}
-						cor="#000"
-						corP="#555"
+						cor='#000'
+						corP='#555'
 						ref={(tmp) => setFormulario2(tmp)}
 					/>
 				</Card>
 
 				{/* Mapa */}
-				<Text style={{ fontSize: 18, marginLeft: 5, marginTop: 20 }}>
-					MAPA
-				</Text>
+				<Text style={{ fontSize: 18, marginLeft: 5, marginTop: 20 }}>MAPA</Text>
 				<Text
 					style={{
 						fontSize: 14,
@@ -204,28 +194,17 @@ export default function CadTalhao(props) {
 					Informe a posição do talhão no mapa
 				</Text>
 				<Card style={{ borderRadius: 5 }}>
-					<MapView
-						followsUserLocation={true}
-						style={{ height: 300 }}
-						{...confMapa}
-					>
+					<MapView followsUserLocation={true} style={{ height: 300 }} {...confMapa}>
 						{coordenadas_propriedade && (
 							<Polygon
 								coordinates={coordenadas_propriedade}
-								strokeColor="#000"
-								fillColor="rgba(255,0,0,0.5)"
+								strokeColor='#000'
+								fillColor='rgba(255,0,0,0.5)'
 								strokeWidth={1}
 								tappable={false}
 							/>
 						)}
-						{editando && (
-							<Polygon
-								coordinates={editando.coordenadas}
-								strokeColor="#000"
-								fillColor="rgba(255,0,0,0.5)"
-								strokeWidth={1}
-							/>
-						)}
+						{editando && <Polygon coordinates={editando.coordenadas} strokeColor='#000' fillColor='rgba(255,0,0,0.5)' strokeWidth={1} />}
 					</MapView>
 					<Button
 						success
@@ -252,11 +231,7 @@ export default function CadTalhao(props) {
 					}}
 					onPress={handleSave}
 				>
-					{route.params.update ? (
-						<Text>Atualizar</Text>
-					) : (
-						<Text>Cadastrar</Text>
-					)}
+					{params.update ? <Text>Atualizar</Text> : <Text>Cadastrar</Text>}
 				</Button>
 			</Content>
 			{/* Fim do Body */}
