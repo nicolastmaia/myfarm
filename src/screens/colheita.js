@@ -1,34 +1,74 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, FlatList } from 'react-native';
-import { Container, Content, Button, Icon, ListItem, View, Text } from 'native-base';
+import { Container, Content, Button, Icon, ListItem, View, Text, List } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 
+import CustomModal from '../componentes/customModal.js';
 import { Banco } from '../instancias/conexao.js';
 
 export default function Colheita() {
 	const [flag, setFlag] = useState(false);
-	const [itens, setItens] = useState([]);
+	const [modalVIsible, setModalVisible] = useState(false);
+	const [colheitas, setColheitas] = useState([]);
+	const [activeItem, setActiveItem] = useState({});
 	const { navigate } = useNavigation();
 
+	const toggleModal = () => {
+		setModalVisible(!modalVIsible);
+	};
+
+	const fetchColheitasFromDatabase = async () => {
+		tmpColheitas = await Banco.getByType('colheita');
+		setColheitas(tmpColheitas);
+	};
+
 	useEffect(() => {
-		Banco.remoto.get('colheitas').then((response) => {
-			setItens(response.itens);
-		});
-	});
+		try {
+			fetchColheitasFromDatabase();
+		} catch (error) {
+			console.log(error.message);
+		}
+
+		let changes = Banco.local
+			.changes({
+				live: true,
+				include_docs: true,
+				filter: function(doc) {
+					return doc.type === 'colheita';
+				},
+			})
+			.on('change', (info) => {
+				setColheitas((prevState) => {
+					let newState = prevState.filter((current) => {
+						return current._id != info.doc._id;
+					});
+					newState = [...newState, info.doc];
+					return newState;
+				});
+			})
+			.on('complete', () => console.log('unsubscribed from database changes'))
+			.on('error', () => console.log('deu erro aqui'));
+
+		return () => {
+			changes.cancel();
+		};
+	}, []);
 
 	return (
 		<Container>
-			{/* <CustomHeader titulo="Cadastro de Colheita" /> */}
-
+			<CustomModal isVisible={modalVIsible} activeItem={activeItem} toggleModal={toggleModal} />
 			<Content>
-				<FlatList
+				<List
+					dataArray={colheitas}
 					keyExtractor={(item) => item._id}
-					data={itens}
-					renderItem={({ item }) => (
+					renderRow={({ item }) => (
 						<ListItem
 							style={{ marginLeft: 0 }}
 							onPress={() => {
-								navigate('CadColheitas');
+								const novoItem = {
+									itemId: item._id,
+									update: true,
+								};
+								navigate('CadColheitas', novoItem);
 							}}
 						>
 							<View style={{ flexDirection: 'row' }}>
@@ -44,7 +84,8 @@ export default function Colheita() {
 										name='md-information-circle'
 										style={{ color: '#4c7a34' }}
 										onPress={() => {
-											Alert.alert(JSON.stringify(item));
+											setActiveItem(item);
+											setModalVisible(true);
 										}}
 									/>
 								</View>
@@ -65,7 +106,17 @@ export default function Colheita() {
 										justifyContent: 'center',
 									}}
 								>
-									<Icon name='md-trash' style={{ color: '#C62828' }} />
+									<Icon
+										name='md-trash'
+										style={{ color: '#C62828' }}
+										onPress={async () => {
+											const deletedColheita = await Banco.delete(item);
+											const newColheitas = colheitas.filter((colheita) => {
+												return colheita._id != deletedColheita.id;
+											});
+											setColheitas(newColheitas);
+										}}
+									/>
 								</View>
 							</View>
 						</ListItem>
@@ -82,7 +133,11 @@ export default function Colheita() {
 					right: 15,
 					backgroundColor: '#4c7a34',
 				}}
-				onPress={() => navigate('CadColheita')}
+				onPress={() =>
+					navigate('CadColheita', {
+						update: false,
+					})
+				}
 			>
 				<Icon name='md-add' />
 			</Button>
