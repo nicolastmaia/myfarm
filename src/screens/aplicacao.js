@@ -61,74 +61,72 @@ export default function Aplicacao() {
 	return (
 		<Container>
 			<CustomModal isVisible={modalVIsible} activeItem={activeItem} toggleModal={toggleModal} />
-			<Content style={{ backgroundColor: '#fff' }}>
-				<List
-					dataArray={aplicacoes}
-					keyExtractor={(item) => item._id}
-					renderItem={(item) => (
-						<ListItem
-							style={{ marginLeft: 0 }}
-							onPress={() => {
-								const novoItem = {
-									itemId: item._id,
-									update: true,
-								};
-								navigate('CadAplicacao', novoItem);
-							}}
-						>
-							<View style={{ flexDirection: 'row' }}>
-								<View
-									style={{
-										paddingVertical: 8,
-										paddingHorizontal: 20,
-										alignItems: 'center',
-										justifyContent: 'center',
+			<List
+				dataArray={aplicacoes}
+				keyExtractor={(item) => item._id}
+				renderRow={(item) => (
+					<ListItem
+						style={{ marginLeft: 0 }}
+						onPress={() => {
+							const novoItem = {
+								itemId: item._id,
+								update: true,
+							};
+							navigate('CadAplicacao', novoItem);
+						}}
+					>
+						<View style={{ flexDirection: 'row' }}>
+							<View
+								style={{
+									paddingVertical: 8,
+									paddingHorizontal: 20,
+									alignItems: 'center',
+									justifyContent: 'center',
+								}}
+							>
+								<Icon
+									name='md-information-circle'
+									style={{ color: '#4c7a34' }}
+									onPress={() => {
+										setActiveItem(item);
+										setModalVisible(true);
 									}}
-								>
-									<Icon
-										name='md-information-circle'
-										style={{ color: '#4c7a34' }}
-										onPress={() => {
-											setActiveItem(item);
-											setModalVisible(true);
-										}}
-									/>
-								</View>
-								<Text
-									style={{
-										flex: 1,
-										paddingVertical: 8,
-										marginLeft: 20,
-									}}
-								>
-									{item.praga}
-								</Text>
-								<View
-									style={{
-										paddingVertical: 8,
-										paddingHorizontal: 15,
-										alignItems: 'center',
-										justifyContent: 'center',
-									}}
-								>
-									<Icon
-										name='md-trash'
-										style={{ color: '#C62828' }}
-										onPress={async () => {
-											const deletedAplicacao = await Banco.delete(item);
-											const newAplicacoes = aplicacoes.filter((aplicacao) => {
-												return aplicacao._id != deletedAplicacao.id;
-											});
-											setAplicacoes(newAplicacoes);
-										}}
-									/>
-								</View>
+								/>
 							</View>
-						</ListItem>
-					)}
-					extraData={flag}
-				/>
-			</Content>
+							<Text
+								style={{
+									flex: 1,
+									paddingVertical: 8,
+									marginLeft: 20,
+								}}
+							>
+								{item.produto}
+							</Text>
+							<View
+								style={{
+									paddingVertical: 8,
+									paddingHorizontal: 15,
+									alignItems: 'center',
+									justifyContent: 'center',
+								}}
+							>
+								<Icon
+									name='md-trash'
+									style={{ color: '#C62828' }}
+									onPress={async () => {
+										const deletedAplicacao = await Banco.delete(item);
+										const newAplicacoes = aplicacoes.filter((aplicacao) => {
+											return aplicacao._id != deletedAplicacao.id;
+										});
+										setAplicacoes(newAplicacoes);
+									}}
+								/>
+							</View>
+						</View>
+					</ListItem>
+				)}
+				extraData={flag}
+			/>
 
 			<Button
 				rounded
