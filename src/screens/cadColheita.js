@@ -15,21 +15,70 @@ var form1 = [
 ];
 
 export default function CadColheita(props) {
-	const [itens, setItens] = useState([]);
+	const [colheita, setColheita] = useState([]);
 	const [formulario1, setFormulario1] = useState({});
+	const [isLoading, setIsLoading] = useState(false);
 	const { navigation } = props;
 	const { params } = props.route;
 	const { goBack } = navigation;
 
 	useEffect(() => {
-		// let data = new Date();
-		// this._formulario1.setValor("data",data.getDate() + "/" + (data.getMonth() + 1) + "/" + data.getFullYear());
-	});
+		if (params.update) {
+			getColheitaoDataFromLocalPouch();
+		}
+	}, []);
+
+	useEffect(() => {
+		fillFormValues();
+		setIsLoading(false);
+	}, [isLoading]);
+
+	const getColheitaoDataFromLocalPouch = async () => {
+		const colheitaTmp = await Banco.local.get(params.itemId);
+		setColheita(colheitaTmp);
+		setIsLoading(true);
+	};
+
+	const fillFormValues = () => {
+		for (var i = 0; i < form1.length; i++) {
+			form1[i]['valor'] = colheita[form1[i]['nome']];
+		}
+	};
+
+	const handleSave = () => {
+		var tmpColheita = {
+			...formulario1.getValores(),
+		};
+
+		if (params.update) {
+			saveUpdatedData(tmpColheita);
+		} else {
+			saveNewData(tmpColheita);
+		}
+
+		goBack();
+	};
+
+	const saveNewData = async (tmpColheita) => {
+		await Banco.store('colheita', tmpColheita);
+	};
+
+	//TOFIX: Por conta da condição de delete dessa função, ao editar um talhão, não é possível simplesmente apagar um campo de um talhão já salvo na memória.
+	const saveUpdatedData = (tmpColheita) => {
+		for (var i in tmpColheita) {
+			if (tmpColheita[i] == '') {
+				delete tmpColheita[i];
+			}
+		}
+		const dado = {
+			...colheita,
+			...tmpColheita,
+		};
+		Banco.update(dado);
+	};
 
 	return (
 		<Container>
-			{/* <CustomHeader titulo="Cadastro de Colheitas" /> */}
-
 			<Content style={{ backgroundColor: '#eee', padding: 15 }}>
 				<Text style={{ fontSize: 18, marginLeft: 5 }}>COLHEITA</Text>
 				<Text
@@ -54,31 +103,9 @@ export default function CadColheita(props) {
 						marginBottom: 25,
 						backgroundColor: '#4c7a34',
 					}}
-					onPress={() => {
-						var tmp = formulario1.getValores();
-
-						Banco.store('colheita', tmp)
-							.then((response) => {
-								params.anterior.setItens(response.itens);
-							})
-							.catch((err) => showDefaultToast(err));
-
-						// let data = new Date();
-						// Banco.registraHistorico("colheitas", {
-						//   time:
-						//     data.getDate() +
-						//     "/" +
-						//     (data.getMonth() + 1) +
-						//     "/" +
-						//     data.getYear(),
-						//   title: tmp.quantidade + " tomates coletados",
-						//   description: tmp.producao
-						// });
-
-						goBack();
-					}}
+					onPress={handleSave}
 				>
-					<Text>Cadastrar</Text>
+					{params.update ? <Text>Atualizar</Text> : <Text>Cadastrar</Text>}
 				</Button>
 			</Content>
 		</Container>

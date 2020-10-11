@@ -56,74 +56,72 @@ export default function Colheita() {
 	return (
 		<Container>
 			<CustomModal isVisible={modalVIsible} activeItem={activeItem} toggleModal={toggleModal} />
-			<Content>
-				<List
-					dataArray={colheitas}
-					keyExtractor={(item) => item._id}
-					renderRow={({ item }) => (
-						<ListItem
-							style={{ marginLeft: 0 }}
-							onPress={() => {
-								const novoItem = {
-									itemId: item._id,
-									update: true,
-								};
-								navigate('CadColheitas', novoItem);
-							}}
-						>
-							<View style={{ flexDirection: 'row' }}>
-								<View
-									style={{
-										paddingVertical: 8,
-										paddingHorizontal: 20,
-										alignItems: 'center',
-										justifyContent: 'center',
+			<List
+				dataArray={colheitas}
+				keyExtractor={(item) => item._id}
+				renderRow={(item) => (
+					<ListItem
+						style={{ marginLeft: 0 }}
+						onPress={() => {
+							const novoItem = {
+								itemId: item._id,
+								update: true,
+							};
+							navigate('CadColheitas', novoItem);
+						}}
+					>
+						<View style={{ flexDirection: 'row' }}>
+							<View
+								style={{
+									paddingVertical: 8,
+									paddingHorizontal: 20,
+									alignItems: 'center',
+									justifyContent: 'center',
+								}}
+							>
+								<Icon
+									name='md-information-circle'
+									style={{ color: '#4c7a34' }}
+									onPress={() => {
+										setActiveItem(item);
+										setModalVisible(true);
 									}}
-								>
-									<Icon
-										name='md-information-circle'
-										style={{ color: '#4c7a34' }}
-										onPress={() => {
-											setActiveItem(item);
-											setModalVisible(true);
-										}}
-									/>
-								</View>
-								<Text
-									style={{
-										flex: 1,
-										paddingVertical: 8,
-										marginLeft: 20,
-									}}
-								>
-									{item.quantidade}
-								</Text>
-								<View
-									style={{
-										paddingVertical: 8,
-										paddingHorizontal: 15,
-										alignItems: 'center',
-										justifyContent: 'center',
-									}}
-								>
-									<Icon
-										name='md-trash'
-										style={{ color: '#C62828' }}
-										onPress={async () => {
-											const deletedColheita = await Banco.delete(item);
-											const newColheitas = colheitas.filter((colheita) => {
-												return colheita._id != deletedColheita.id;
-											});
-											setColheitas(newColheitas);
-										}}
-									/>
-								</View>
+								/>
 							</View>
-						</ListItem>
-					)}
-					extraData={flag}
-				/>
-			</Content>
+							<Text
+								style={{
+									flex: 1,
+									paddingVertical: 8,
+									marginLeft: 20,
+								}}
+							>
+								{item.quantidade}
+							</Text>
+							<View
+								style={{
+									paddingVertical: 8,
+									paddingHorizontal: 15,
+									alignItems: 'center',
+									justifyContent: 'center',
+								}}
+							>
+								<Icon
+									name='md-trash'
+									style={{ color: '#C62828' }}
+									onPress={async () => {
+										const deletedColheita = await Banco.delete(item);
+										const newColheitas = colheitas.filter((colheita) => {
+											return colheita._id != deletedColheita.id;
+										});
+										setColheitas(newColheitas);
+									}}
+								/>
+							</View>
+						</View>
+					</ListItem>
+				)}
+				extraData={flag}
+			/>
 
 			<Button
 				rounded
