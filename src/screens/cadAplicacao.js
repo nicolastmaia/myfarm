@@ -1,38 +1,8 @@
-import React from 'react';
-import {
-	Platform,
-	StatusBar,
-	Dimensions,
-	Image,
-	ScrollView,
-	Keyboard,
-	Slider,
-	FlatList,
-	ListView,
-} from 'react-native';
-import {
-	Item,
-	Card,
-	List,
-	ListItem,
-	View,
-	Input,
-	Icon,
-	Button,
-	Text,
-	Toast,
-	Header,
-	Left,
-	Right,
-	Body,
-	Content,
-	Container,
-	Form,
-} from 'native-base';
+import React, { useState, useEffect } from 'react';
+import { Card, Button, Text, Content, Container } from 'native-base';
 
 // const analytics = require("./instancias/analytics");
-import CustomHeader from '../componentes/customHeader';
-import { Texto, Formulario } from '../componentes/customizado';
+import { Formulario } from '../componentes/customizado';
 import { Banco } from '../instancias/conexao.js';
 
 var form1 = [
@@ -60,85 +30,109 @@ var form1 = [
 	{ nome: 'justificativa', placeholder: 'Justificativa' },
 ];
 
-export default class CadAplicacao extends React.Component {
-	constructor(props) {
-		super(props);
-	}
+export default function CadAplicacao(props) {
+	const [formulario1, setFormulario1] = useState({});
+	const [aplicacao, setAplicacao] = useState({});
+	const [isLoading, setIsLoading] = useState(false);
+	const { navigation } = props;
+	const { params } = props.route;
+	const { goBack } = navigation;
 
-	render() {
-		const { getParam, goBack } = this.props.navigation;
-		return (
-			<Container>
-				{/* <CustomHeader titulo="Aplicações de Produtos" /> */}
+	const getAplicacaoDataFromLocalPouch = async () => {
+		const aplicacaoTmp = await Banco.local.get(params.itemId);
+		setAplicacao(aplicacaoTmp);
+		setIsLoading(true);
+	};
 
-				<Content style={{ backgroundColor: '#eee', padding: 15 }}>
-					<Text style={{ fontSize: 18, marginLeft: 5 }}>APLICAÇÕES</Text>
-					<Text
-						style={{
-							fontSize: 14,
-							color: '#444',
-							marginBottom: 8,
-							marginLeft: 5,
+	const fillFormValues = () => {
+		for (var i = 0; i < form1.length; i++) {
+			form1[i]['valor'] = aplicacao[form1[i]['nome']];
+		}
+	};
+
+	useEffect(() => {
+		if (params.update) {
+			getAplicacaoDataFromLocalPouch();
+		}
+	}, []);
+
+	useEffect(() => {
+		fillFormValues();
+		setIsLoading(false);
+	}, [isLoading]);
+
+	const handleSave = () => {
+		var tmpAplicacao = {
+			...formulario1.getValores(),
+		};
+
+		if (params.update) {
+			saveUpdatedData(tmpAplicacao);
+		} else {
+			saveNewData(tmpAplicacao);
+		}
+
+		goBack();
+	};
+
+	const saveNewData = async (tmpAplicacao) => {
+		await Banco.store('aplicacao', tmpAplicacao);
+	};
+
+	//TOFIX: Por conta da condição de delete dessa função, ao editar um talhão, não é possível simplesmente apagar um campo de um talhão já salvo na memória.
+	const saveUpdatedData = (tmpAplicacao) => {
+		for (var i in tmpAplicacao) {
+			if (tmpAplicacao[i] == '') {
+				delete tmpAplicacao[i];
+			}
+		}
+		const dado = {
+			...aplicacao,
+			...tmpAplicacao,
+		};
+		Banco.update(dado);
+	};
+
+	return (
+		<Container>
+			<Content style={{ backgroundColor: '#eee', padding: 15 }}>
+				<Text style={{ fontSize: 18, marginLeft: 5 }}>APLICAÇÕES</Text>
+				<Text
+					style={{
+						fontSize: 14,
+						color: '#444',
+						marginBottom: 8,
+						marginLeft: 5,
+					}}
+				>
+					Registro da aplicação de acaricidas, inseticidas e nematicidas.
+				</Text>
+
+				<Card style={{ borderRadius: 5, padding: 10 }}>
+					<Formulario
+						keyExtractor={(item) => {
+							item.key;
 						}}
-					>
-						Registro da aplicação de acaricidas, inseticidas e
-						nematicidas.
-					</Text>
+						tamanho={45}
+						campos={form1}
+						cor='#000'
+						corP='#555'
+						ref={(tmp) => setFormulario1(tmp)}
+					/>
+				</Card>
 
-					<Card style={{ borderRadius: 5, padding: 10 }}>
-						<Form>
-							<Formulario
-								tamanho={45}
-								campos={form1}
-								cor="#000"
-								corP="#555"
-								ref={(tmp) => (this._formulario1 = tmp)}
-							/>
-						</Form>
-					</Card>
-
-					<Button
-						block
-						style={{
-							marginTop: 15,
-							marginBottom: 25,
-							backgroundColor: '#4c7a34',
-						}}
-						onPress={() => {
-							if (!this._formulario1.verificaRequisitos()) return;
-
-							var tmp = this._formulario1.getValores();
-
-							console.warn(tmp);
-
-							Banco.store('aplicacao', tmp)
-								.then((response) => {
-									getParam('anterior').setState({
-										itens: response.itens,
-									});
-								})
-								.catch((err) => showDefaultToast(err));
-
-							/* let data = new Date();
-              registraHistorico("aplicacoes", {
-                time:
-                  data.getDate() +
-                  "/" +
-                  (data.getMonth() + 1) +
-                  "/" +
-                  data.getYear(),
-                title: "Aplicação de " + tmp.produto,
-                description: tmp.quantidade + " ml"
-              }); */
-							//MUDAR /\ DEPOIS! TODO
-
-							goBack();
-						}}
-					>
-						<Text>Cadastrar</Text>
-					</Button>
-				</Content>
-			</Container>
-		);
-	}
+				<Button
+					block
+					style={{
+						marginTop: 15,
+						marginBottom: 25,
+						backgroundColor: '#4c7a34',
+					}}
+					onPress={handleSave}
+				>
+					{params.update ? <Text>Atualizar</Text> : <Text>Cadastrar</Text>}
+				</Button>
+			</Content>
+		</Container>
+	);
 }

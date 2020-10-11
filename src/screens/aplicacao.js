@@ -1,133 +1,145 @@
-import React from 'react';
-import { Platform, Alert, StatusBar, FlatList } from 'react-native';
-import {
-	ListItem,
-	View,
-	Icon,
-	Button,
-	Text,
-	Content,
-	Container,
-} from 'native-base';
+import React, { useEffect, useState } from 'react';
+import { ListItem, View, Icon, Button, Text, Content, Container, List } from 'native-base';
 
 // const analytics = require("./instancias/analytics");
 import { Banco } from '../instancias/conexao.js';
-import CustomHeader from '../componentes/customHeader';
+import { useNavigation } from '@react-navigation/native';
+import CustomModal from '../componentes/customModal.js';
 
 //==========| Fim dos Imports |==========//
 
-export default class Aplicacao extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = { flag: false, itens: [] };
-	}
+export default function Aplicacao() {
+	const [flag, setFlag] = useState(false);
+	const [modalVIsible, setModalVisible] = useState(false);
+	const [activeItem, setActiveItem] = useState({});
+	const [aplicacoes, setAplicacoes] = useState([]);
+	const { navigate } = useNavigation();
 
 	/* componentWillMount() {
 		analytics.trackScreenView("Cadastro de Aplicação");
 	} */
+	const toggleModal = () => {
+		setModalVisible(!modalVIsible);
+	};
+	const fetchAplicacoesFromDatabase = async () => {
+		tmpAplicacoes = await Banco.getByType('aplicacao');
+		setAplicacoes(tmpAplicacoes);
+	};
 
-	componentDidMount() {
-		Banco.remoto.get('aplicacoes').then((response) => {
-			this.setState({ itens: response.itens });
-		});
-	}
+	useEffect(() => {
+		try {
+			fetchAplicacoesFromDatabase();
+		} catch (error) {
+			console.log(error.message);
+		}
 
-	// atualizaPagina = () => {
-	//   let tmp = {};
-	//   Banco.local
-	//     .get("aplicações")
-	//     .then(doc => {
-	//       tmp = doc;
-	//       this.setState({ aplicações: tmp["aplicações"] });
-	//     })
-	//     .catch(erro => {
-	//       tmp = {
-	//         _id: "aplicações",
-	//         aplicações: []
-	//       };
-	//       this.setState({ aplicações: tmp["aplicações"] });
-	//     });
-	// };
+		let changes = Banco.local
+			.changes({
+				live: true,
+				include_docs: true,
+				filter: function(doc) {
+					return doc.type === 'aplicacao';
+				},
+			})
+			.on('change', (info) => {
+				setAplicacoes((prevState) => {
+					let newState = prevState.filter((current) => {
+						return current._id != info.doc._id;
+					});
+					newState = [...newState, info.doc];
+					return newState;
+				});
+			})
+			.on('complete', () => console.log('unsubscribed from database changes'))
+			.on('error', () => console.log('deu erro aqui'));
 
-	render() {
-		const { navigate } = this.props.navigation;
-		return (
-			<Container>
-				{/* <CustomHeader titulo="Cadastro de Aplicações" /> */}
+		return () => {
+			changes.cancel();
+		};
+	}, []);
 
-				<Content style={{ backgroundColor: '#fff' }}>
-					<FlatList
-						keyExtractor={(item) => item._id}
-						data={this.state.itens}
-						renderItem={({ item }) => (
-							<ListItem
-								style={{ marginLeft: 0 }}
-								onPress={() => {
-									navigate(
-										'CadAplicacao',
-										Object.assign(item, { anterior: this })
-									);
+	return (
+		<Container>
+			<CustomModal isVisible={modalVIsible} activeItem={activeItem} toggleModal={toggleModal} />
+			<List
+				dataArray={aplicacoes}
+				keyExtractor={(item) => item._id}
+				renderRow={(item) => (
+					<ListItem
+						style={{ marginLeft: 0 }}
+						onPress={() => {
+							const novoItem = {
+								itemId: item._id,
+								update: true,
+							};
+							navigate('CadAplicacao', novoItem);
+						}}
+					>
+						<View style={{ flexDirection: 'row' }}>
+							<View
+								style={{
+									paddingVertical: 8,
+									paddingHorizontal: 20,
+									alignItems: 'center',
+									justifyContent: 'center',
 								}}
 							>
-								<View style={{ flexDirection: 'row' }}>
-									<View
-										style={{
-											paddingVertical: 8,
-											paddingHorizontal: 20,
-											alignItems: 'center',
-											justifyContent: 'center',
-										}}
-									>
-										<Icon
-											name="md-information-circle"
-											style={{ color: '#4c7a34' }}
-											onPress={() => {
-												Alert.alert(JSON.stringify(item));
-											}}
-										/>
-									</View>
-									<Text
-										style={{
-											flex: 1,
-											paddingVertical: 8,
-											marginLeft: 20,
-										}}
-									>
-										{item.praga}
-									</Text>
-									<View
-										style={{
-											paddingVertical: 8,
-											paddingHorizontal: 15,
-											alignItems: 'center',
-											justifyContent: 'center',
-										}}
-									>
-										<Icon
-											name="md-trash"
-											style={{ color: '#C62828' }}
-										/>
-									</View>
-								</View>
-							</ListItem>
-						)}
-						extraData={this.state.flag}
-					/>
-				</Content>
+								<Icon
+									name='md-information-circle'
+									style={{ color: '#4c7a34' }}
+									onPress={() => {
+										setActiveItem(item);
+										setModalVisible(true);
+									}}
+								/>
+							</View>
+							<Text
+								style={{
+									flex: 1,
+									paddingVertical: 8,
+									marginLeft: 20,
+								}}
+							>
+								{item.produto}
+							</Text>
+							<View
+								style={{
+									paddingVertical: 8,
+									paddingHorizontal: 15,
+									alignItems: 'center',
+									justifyContent: 'center',
+								}}
+							>
+								<Icon
+									name='md-trash'
+									style={{ color: '#C62828' }}
+									onPress={async () => {
+										const deletedAplicacao = await Banco.delete(item);
+										const newAplicacoes = aplicacoes.filter((aplicacao) => {
+											return aplicacao._id != deletedAplicacao.id;
+										});
+										setAplicacoes(newAplicacoes);
+									}}
+								/>
+							</View>
+						</View>
+					</ListItem>
+				)}
+				extraData={flag}
+			/>
 
-				<Button
-					rounded
-					style={{
-						position: 'absolute',
-						bottom: 15,
-						right: 15,
-						backgroundColor: '#4c7a34',
-					}}
-					onPress={() => navigate('CadAplicacao', { anterior: this })}
-				>
-					<Icon name="md-add" />
-				</Button>
-			</Container>
-		);
-	}
+			<Button
+				rounded
+				style={{
+					position: 'absolute',
+					bottom: 15,
+					right: 15,
+					backgroundColor: '#4c7a34',
+				}}
+				onPress={() => navigate('CadAplicacao', { update: false })}
+			>
+				<Icon name='md-add' />
+			</Button>
+		</Container>
+	);
 }
