@@ -213,7 +213,7 @@ export default function CadTalhao(props) {
 							var tmp = '';
 							if (mapaAtivo) tmp = 'md-checkmark';
 							else tmp = 'md-create';
-							setMapaAtivo(!mapaAtivo);
+							setMapaAtivo((prevState) => !prevState);
 							setBtnMapa(tmp);
 						}}
 					>
