@@ -19,7 +19,7 @@ export default function Talhao(props) {
 		setModalVisible(!modalVIsible);
 	};
 	const fetchTalhoesFromDatabase = async () => {
-		tmpTalhoes = await Banco.getByType('talhao');
+		const tmpTalhoes = await Banco.getByType('talhao');
 		setTalhoes(tmpTalhoes);
 	};
 
