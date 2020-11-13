@@ -1,37 +1,11 @@
-import React from 'react';
-import {
-	Platform,
-	StatusBar,
-	Dimensions,
-	Image,
-	ScrollView,
-	Keyboard,
-	Slider,
-	FlatList,
-	ListView,
-} from 'react-native';
-import {
-	List,
-	ListItem,
-	View,
-	Input,
-	Icon,
-	Button,
-	Text,
-	Toast,
-	Header,
-	Left,
-	Right,
-	Body,
-	Content,
-	Container,
-} from 'native-base';
+import React, { useState } from 'react';
+import { Slider, FlatList } from 'react-native';
+import { List, ListItem, View, Icon, Button, Text, Content, Container } from 'native-base';
 import ModalSelector from 'react-native-modal-selector';
 
 // const analytics = require("./instancias/analytics");
 import { Banco } from '../instancias/conexao.js';
 import { secao, data } from '../constantes/perdas';
-import CustomHeader from '../componentes/customHeader';
 
 //==========| Fim dos Imports |==========//
 
@@ -44,16 +18,16 @@ Banco.local.get('perdas', function(erro, doc) {
 	} else perdas = doc;
 });
 
-function Item(props) {
+const Item = (props) => {
 	return (
 		<ListItem {...props}>
 			<Text style={{ flex: 1 }}>{props.texto}</Text>
 			{props.children}
 		</ListItem>
 	);
-}
+};
 
-function Registro(props) {
+const Registro = (props) => {
 	return (
 		<ListItem
 			style={{
@@ -72,10 +46,7 @@ function Registro(props) {
 						justifyContent: 'center',
 					}}
 				>
-					<Icon
-						name="md-information-circle"
-						style={{ color: '#4c7a34' }}
-					/>
+					<Icon name='md-information-circle' style={{ color: '#4c7a34' }} />
 				</View>
 
 				<View style={{ flex: 1, paddingVertical: 10, marginLeft: 20 }}>
@@ -118,7 +89,7 @@ function Registro(props) {
 					}}
 				>
 					<Icon
-						name="md-trash"
+						name='md-trash'
 						style={{ color: '#C62828' }}
 						onPress={() => {
 							for (var tmp in perdas) {
@@ -140,44 +111,28 @@ function Registro(props) {
 			</View>
 		</ListItem>
 	);
-}
+};
 
 function Lista(props) {
-	if (props.dados == undefined || props.dados.length == 0)
-		return <Item texto="0 registros" />;
+	if (props.dados == undefined || props.dados.length == 0) return <Item texto='0 registros' />;
 	return (
 		<FlatList
 			data={props.dados}
-			renderItem={({ item }) => (
-				<Registro
-					nome={item.nome}
-					valor={item.valor}
-					id={item.id}
-					handler={props.atualiza}
-				/>
-			)}
+			renderItem={({ item }) => <Registro nome={item.nome} valor={item.valor} id={item.id} handler={props.atualiza} />}
 			keyExtractor={(item) => item.id.toString()}
 			extraData={props.flag}
 		/>
 	);
 }
 
-export default class Perdas extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = { flag: false };
-		this.atualiza = this.atualiza.bind(this);
-	}
+export default function Perdas(props) {
+	const [flag, setFlag] = useState(false);
 
-	atualiza(e) {
-		this.setState({ flag: !this.state.flag });
-	}
+	const atualiza = (e) => {
+		setFlag((prevState) => !prevState);
+	};
 
-	/* componentWillMount() {
-		analytics.trackScreenView("Cadastro de Perdas");
-	} */
-
-	insere(val) {
+	const insere = (val) => {
 		if (perdas[secao[val.tipo]] == undefined) perdas[secao[val.tipo]] = [];
 		for (var i = 0; i < perdas[secao[val.tipo]].length; i++) {
 			if (perdas[secao[val.tipo]][i].id == val.key) {
@@ -185,93 +140,59 @@ export default class Perdas extends React.Component {
 				return;
 			}
 		}
-		if (
-			perdas[secao[val.tipo]] == null ||
-			typeof perdas[secao[val.tipo]] == 'undefined'
-		)
-			perdas[secao[val.tipo]] = [];
+		if (perdas[secao[val.tipo]] == null || typeof perdas[secao[val.tipo]] == 'undefined') perdas[secao[val.tipo]] = [];
 		perdas[secao[val.tipo]].push({
 			id: val.key,
 			nome: val.label,
 			valor: 1,
 			tipo: val.tipo,
 		});
-		this.setState({ flag: !this.state.flag });
+		setFlag((prevState) => !prevState);
 		Banco.local.put(perdas, function(erro, doc) {
 			if (erro) return;
 			perdas._rev = doc._rev;
 		});
-	}
+	};
 
-	render() {
-		return (
-			<Container>
-				{/* <CustomHeader titulo="Perdas" /> */}
+	return (
+		<Container>
+			{/* <CustomHeader titulo="Perdas" /> */}
 
-				<Content style={{ backgroundColor: '#fff' }}>
-					<List>
-						<Item texto="Anomalias fisiológicas" itemDivider />
-						<Lista
-							dados={perdas.anomalias}
-							atualiza={this.atualiza}
-							flag={this.state.flag}
-						/>
+			<Content style={{ backgroundColor: '#fff' }}>
+				<List>
+					<Item texto='Anomalias fisiológicas' itemDivider />
+					<Lista dados={perdas.anomalias} atualiza={atualiza} flag={flag} />
 
-						<Item texto="Doenças fúngicas" itemDivider />
-						<Lista
-							dados={perdas.fungicas}
-							atualiza={this.atualiza}
-							flag={this.state.flag}
-						/>
+					<Item texto='Doenças fúngicas' itemDivider />
+					<Lista dados={perdas.fungicas} atualiza={atualiza} flag={flag} />
 
-						<Item texto="Bacterioses" itemDivider />
-						<Lista
-							dados={perdas.bacterioses}
-							atualiza={this.atualiza}
-							flag={this.state.flag}
-						/>
+					<Item texto='Bacterioses' itemDivider />
+					<Lista dados={perdas.bacterioses} atualiza={atualiza} flag={flag} />
 
-						<Item texto="Viroses" itemDivider />
-						<Lista
-							dados={perdas.viroses}
-							atualiza={this.atualiza}
-							flag={this.state.flag}
-						/>
+					<Item texto='Viroses' itemDivider />
+					<Lista dados={perdas.viroses} atualiza={atualiza} flag={flag} />
 
-						<Item texto="Pragas" itemDivider />
-						<Lista
-							dados={perdas.pragas}
-							atualiza={this.atualiza}
-							flag={this.state.flag}
-						/>
+					<Item texto='Pragas' itemDivider />
+					<Lista dados={perdas.pragas} atualiza={atualiza} flag={flag} />
 
-						<Item texto="Climáticas" itemDivider />
-						<Lista
-							dados={perdas.climaticas}
-							atualiza={this.atualiza}
-							flag={this.state.flag}
-						/>
-					</List>
-				</Content>
+					<Item texto='Climáticas' itemDivider />
+					<Lista dados={perdas.climaticas} atualiza={atualiza} flag={flag} />
+				</List>
+			</Content>
 
-				<Button
-					rounded
-					style={{
-						position: 'absolute',
-						bottom: 15,
-						right: 15,
-						backgroundColor: 'green',
-					}}
-				>
-					<ModalSelector
-						data={data}
-						animationType="fade"
-						onChange={(option) => this.insere(option)}
-					>
-						<Icon name="md-add" />
-					</ModalSelector>
-				</Button>
-			</Container>
-		);
-	}
+			<Button
+				rounded
+				style={{
+					position: 'absolute',
+					bottom: 15,
+					right: 15,
+					backgroundColor: 'green',
+				}}
+			>
+				<ModalSelector data={data} animationType='fade' onChange={(option) => insere(option)}>
+					<Icon name='md-add' />
+				</ModalSelector>
+			</Button>
+		</Container>
+	);
 }
