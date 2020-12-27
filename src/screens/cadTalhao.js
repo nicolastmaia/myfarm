@@ -1,12 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Card, Icon, Button, Text, Content, Container, Toast } from 'native-base';
+import React, { useState, useEffect } from 'react';
+import { Card, Button, Text, Content, Container } from 'native-base';
 
-import MapView, { Polygon } from 'react-native-maps';
-
-// const analytics = require("./instancias/analytics");
 import { Banco } from '../instancias/conexao.js';
 
 import { Formulario } from '../componentes/customizado';
+import CustomMap from '../componentes/CustomMap.js';
+import { Dimensions, StyleSheet } from 'react-native';
 
 let id = 0;
 
@@ -29,6 +28,8 @@ var form2 = [
 	{ nome: 'irrigacao', placeholder: 'Irrigação' },
 	{ nome: 'topografia', placeholder: 'Topografia' },
 ];
+
+let mapCardHeight = 0.7 * Dimensions.get('window').height;
 
 export default function CadTalhao(props) {
 	const [coordenadas_propriedade, setCoordenadas] = useState(null);
@@ -123,13 +124,6 @@ export default function CadTalhao(props) {
 
 	return (
 		<Container>
-			{/* Header */}
-			{/* {params.update ? (
-				<CustomHeader titulo="Edição de Talhão" />
-			) : (
-				<CustomHeader titulo="Cadastro de Talhão" />
-			)} */}
-			{/* Body */}
 			<Content style={{ backgroundColor: '#eee', padding: 15 }}>
 				{/* Informações */}
 				<Text style={{ fontSize: 18, marginLeft: 5 }}>INFORMAÇÕES</Text>
@@ -144,16 +138,7 @@ export default function CadTalhao(props) {
 					Informações sobre o talhão
 				</Text>
 				<Card style={{ borderRadius: 5, padding: 10 }}>
-					<Formulario
-						keyExtractor={(item) => {
-							item.key;
-						}}
-						tamanho={45}
-						campos={form1}
-						cor='#000'
-						corP='#555'
-						ref={(tmp) => setFormulario1(tmp)}
-					/>
+					<Formulario keyExtractor={(item) => item.key} tamanho={45} campos={form1} cor='#000' corP='#555' ref={(tmp) => setFormulario1(tmp)} />
 				</Card>
 
 				{/* Plantação */}
@@ -169,16 +154,8 @@ export default function CadTalhao(props) {
 					Informações sobre a plantação
 				</Text>
 				<Card style={{ borderRadius: 5, padding: 10 }}>
-					<Formulario
-						keyExtractor={(item) => {
-							item.key;
-						}}
-						tamanho={45}
-						campos={form2}
-						cor='#000'
-						corP='#555'
-						ref={(tmp) => setFormulario2(tmp)}
-					/>
+					{/* TODO verificar se o keyExtractor abaixo faz sentido*/}
+					<Formulario keyExtractor={(item) => item.key} tamanho={45} campos={form2} cor='#000' corP='#555' ref={(tmp) => setFormulario2(tmp)} />
 				</Card>
 
 				{/* Mapa */}
@@ -193,35 +170,10 @@ export default function CadTalhao(props) {
 				>
 					Informe a posição do talhão no mapa
 				</Text>
-				<Card style={{ borderRadius: 5 }}>
-					<MapView followsUserLocation={true} style={{ height: 300 }} {...confMapa}>
-						{coordenadas_propriedade && (
-							<Polygon
-								coordinates={coordenadas_propriedade}
-								strokeColor='#000'
-								fillColor='rgba(255,0,0,0.5)'
-								strokeWidth={1}
-								tappable={false}
-							/>
-						)}
-						{editando && <Polygon coordinates={editando.coordenadas} strokeColor='#000' fillColor='rgba(255,0,0,0.5)' strokeWidth={1} />}
-					</MapView>
-					<Button
-						success
-						style={{ position: 'absolute', top: 5, right: 5 }}
-						onPress={() => {
-							var tmp = '';
-							if (mapaAtivo) tmp = 'md-checkmark';
-							else tmp = 'md-create';
-							setMapaAtivo(!mapaAtivo);
-							setBtnMapa(tmp);
-						}}
-					>
-						<Icon name={btnMapa} />
-					</Button>
+				<Card style={styles.mapCard}>
+					<CustomMap style={styles.map} />
 				</Card>
 
-				{/* Submit Button */}
 				<Button
 					block
 					style={{
@@ -234,7 +186,13 @@ export default function CadTalhao(props) {
 					{params.update ? <Text>Atualizar</Text> : <Text>Cadastrar</Text>}
 				</Button>
 			</Content>
-			{/* Fim do Body */}
 		</Container>
 	);
 }
+
+const styles = StyleSheet.create({
+	mapCard: { borderRadius: 5, height: mapCardHeight },
+	map: {
+		height: mapCardHeight,
+	},
+});
