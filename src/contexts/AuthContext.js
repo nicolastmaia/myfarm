@@ -8,6 +8,7 @@ const AuthContext = createContext({
 	user: null,
 	deslogar: null,
 	logar: null,
+	cadastrar: null,
 });
 
 export const AuthProvider = ({ children }) => {
@@ -38,6 +39,17 @@ export const AuthProvider = ({ children }) => {
 		}
 	};
 
+	const cadastrar = (username, password, otherData) => {
+		username = username.toLowerCase();
+		return Banco.remoto
+			.signUp(username, password, {
+				metadata: { otherData },
+			})
+			.then(() => {
+				return logar(username, password);
+			});
+	};
+
 	const deslogar = async function() {
 		try {
 			await Banco.remoto.logOut();
@@ -51,7 +63,7 @@ export const AuthProvider = ({ children }) => {
 		}
 	};
 
-	return <AuthContext.Provider value={{ isSignedIn: !!user, user, deslogar, logar }}>{children}</AuthContext.Provider>;
+	return <AuthContext.Provider value={{ isSignedIn: !!user, user, deslogar, logar, cadastrar }}>{children}</AuthContext.Provider>;
 };
 
 export default AuthContext;

@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-	StyleSheet,
-	ImageBackground,
-	ScrollView,
-	Keyboard,
-} from 'react-native';
+import { StyleSheet, ImageBackground, ScrollView, Keyboard } from 'react-native';
 import { Input, Item, Button, Text, Icon, View, Picker } from 'native-base';
 import MapView, { Polygon } from 'react-native-maps';
 import StepIndicator from 'react-native-step-indicator';
@@ -15,6 +10,7 @@ import { HideWithKeyboard } from 'react-native-hide-with-keyboard';
 import { showDefaultToast, showCustomToast } from '../utils/showToast';
 import { Banco } from '../instancias/conexao.js';
 import { Formulario } from '../componentes/customizado';
+import AuthContext from '../contexts/AuthContext';
 
 let id = 0;
 
@@ -62,7 +58,7 @@ class Texto extends React.Component {
 				<Input
 					style={{ height: 60, color: '#ffffff' }}
 					placeholder={this.props.placeholder}
-					placeholderTextColor="#ffffff"
+					placeholderTextColor='#ffffff'
 					returnKeyType={'next'}
 					{...this.props}
 				>
@@ -134,8 +130,7 @@ export default class CadUsuario extends React.Component {
 		const { goBack, navigate } = this.props.navigation;
 		var confMapa = {};
 		confMapa.scrollEnabled = this.state.mapaAtivo;
-		if (!this.state.mapaAtivo)
-			confMapa.onPress = (e) => this.mapaSelecionado(e);
+		if (!this.state.mapaAtivo) confMapa.onPress = (e) => this.mapaSelecionado(e);
 
 		return (
 			<ImageBackground
@@ -163,28 +158,19 @@ export default class CadUsuario extends React.Component {
 
 				{/* stepIndicator */}
 				<HideWithKeyboard>
-					<StepIndicator
-						currentPosition={this.state.posicao}
-						stepCount={3}
-						customStyles={customStyles}
-						labels={labels}
-					/>
+					<StepIndicator currentPosition={this.state.posicao} stepCount={3} customStyles={customStyles} labels={labels} />
 				</HideWithKeyboard>
 
 				{/* inserção de dados */}
 				<View style={{ flex: 1 }}>
 					{/* inserção de dados pessoais */}
-					<ScrollView
-						style={
-							this.state.posicao == 0 ? {} : { height: 0, opacity: 0 }
-						}
-					>
+					<ScrollView style={this.state.posicao == 0 ? {} : { height: 0, opacity: 0 }}>
 						<Formulario
 							style={{ paddingHorizontal: 0 }}
 							tamanho={60}
 							campos={formularios[0]}
-							cor="#fff"
-							corP="#fff"
+							cor='#fff'
+							corP='#fff'
 							ref={(tmp) => {
 								this._formulario1 = tmp;
 							}}
@@ -192,15 +178,11 @@ export default class CadUsuario extends React.Component {
 					</ScrollView>
 
 					{/* inserção de dados da propriedade */}
-					<ScrollView
-						style={
-							this.state.posicao == 1 ? {} : { height: 0, opacity: 0 }
-						}
-					>
+					<ScrollView style={this.state.posicao == 1 ? {} : { height: 0, opacity: 0 }}>
 						<Texto
-							placeholder="CEP"
-							icone="ios-pin"
-							keyboardType="numeric"
+							placeholder='CEP'
+							icone='ios-pin'
+							keyboardType='numeric'
 							maxLength={8}
 							value={this.state.cep}
 							onChangeText={(txt) => {
@@ -219,63 +201,53 @@ export default class CadUsuario extends React.Component {
 												logradouro: res.logradouro,
 											},
 										});
-										this._formulario2.setValor(
-											'municipio',
-											res.localidade
-										);
+										this._formulario2.setValor('municipio', res.localidade);
 										this._formulario2.setValor('bairro', res.bairro);
-										this._formulario2.setValor(
-											'logradouro',
-											res.logradouro
-										);
+										this._formulario2.setValor('logradouro', res.logradouro);
 										Keyboard.dismiss();
 									});
 							}}
 						/>
 
 						<Item style={{ marginBottom: 10 }}>
-							<Icon
-								active
-								name="md-globe"
-								style={{ color: '#ffffff' }}
-							/>
+							<Icon active name='md-globe' style={{ color: '#ffffff' }} />
 							<Picker
-								mode="dropdown"
-								placeholder="Estado"
-								placeholderTextColor="#ffffff"
+								mode='dropdown'
+								placeholder='Estado'
+								placeholderTextColor='#ffffff'
 								selectedValue={this.state.endereco.uf}
 								style={{ color: '#fff' }}
 								onValueChange={(tmp) => {
 									this.setState({ endereco: { uf: tmp } });
 								}}
 							>
-								<Item label="Acre" value="AC" />
-								<Item label="Alagoas" value="AL" />
-								<Item label="Amapá" value="AP" />
-								<Item label="Amazonas" value="AM" />
-								<Item label="Bahia" value="BA" />
-								<Item label="Ceará" value="CE" />
-								<Item label="Distrito Federal" value="DF" />
-								<Item label="Espírito Santo" value="ES" />
-								<Item label="Goiás" value="GO" />
-								<Item label="Maranhão" value="MA" />
-								<Item label="Mato Grosso" value="MT" />
-								<Item label="Mato Grosso do Sul" value="MS" />
-								<Item label="Minas Gerais" value="MG" />
-								<Item label="Pará" value="PA" />
-								<Item label="Paraíba" value="PB" />
-								<Item label="Paraná" value="PR" />
-								<Item label="Pernambuco" value="PE" />
-								<Item label="Piauí" value="PI" />
-								<Item label="Rio de Janeiro" value="RJ" />
-								<Item label="Rio Grande do Norte" value="RN" />
-								<Item label="Rio Grande do Sul" value="RS" />
-								<Item label="Rondônia" value="RO" />
-								<Item label="Roraima" value="RR" />
-								<Item label="Santa Catarina" value="SC" />
-								<Item label="São Paulo" value="SP" />
-								<Item label="Sergipe" value="SE" />
-								<Item label="Tocantins" value="TO" />
+								<Item label='Acre' value='AC' />
+								<Item label='Alagoas' value='AL' />
+								<Item label='Amapá' value='AP' />
+								<Item label='Amazonas' value='AM' />
+								<Item label='Bahia' value='BA' />
+								<Item label='Ceará' value='CE' />
+								<Item label='Distrito Federal' value='DF' />
+								<Item label='Espírito Santo' value='ES' />
+								<Item label='Goiás' value='GO' />
+								<Item label='Maranhão' value='MA' />
+								<Item label='Mato Grosso' value='MT' />
+								<Item label='Mato Grosso do Sul' value='MS' />
+								<Item label='Minas Gerais' value='MG' />
+								<Item label='Pará' value='PA' />
+								<Item label='Paraíba' value='PB' />
+								<Item label='Paraná' value='PR' />
+								<Item label='Pernambuco' value='PE' />
+								<Item label='Piauí' value='PI' />
+								<Item label='Rio de Janeiro' value='RJ' />
+								<Item label='Rio Grande do Norte' value='RN' />
+								<Item label='Rio Grande do Sul' value='RS' />
+								<Item label='Rondônia' value='RO' />
+								<Item label='Roraima' value='RR' />
+								<Item label='Santa Catarina' value='SC' />
+								<Item label='São Paulo' value='SP' />
+								<Item label='Sergipe' value='SE' />
+								<Item label='Tocantins' value='TO' />
 							</Picker>
 						</Item>
 
@@ -283,8 +255,8 @@ export default class CadUsuario extends React.Component {
 							style={{ paddingHorizontal: 0 }}
 							tamanho={60}
 							campos={formularios[1]}
-							cor="#fff"
-							corP="#fff"
+							cor='#fff'
+							corP='#fff'
 							ref={(tmp) => {
 								this._formulario2 = tmp;
 							}}
@@ -292,14 +264,10 @@ export default class CadUsuario extends React.Component {
 					</ScrollView>
 
 					{/* seleção de coordenadas da propriedade no mapa */}
-					<ScrollView
-						style={
-							this.state.posicao == 2 ? {} : { height: 0, opacity: 0 }
-						}
-					>
+					<ScrollView style={this.state.posicao == 2 ? {} : { height: 0, opacity: 0 }}>
 						<Texto
-							placeholder="Nome da propriedade"
-							icone="home"
+							placeholder='Nome da propriedade'
+							icone='home'
 							onChangeText={(txt) => {
 								this.setState({
 									formulario: Object.assign(this.state.formulario, {
@@ -309,19 +277,13 @@ export default class CadUsuario extends React.Component {
 							}}
 						/>
 						<View>
-							<MapView
-								ref="mapa"
-								showsUserLocation={true}
-								followsUserLocation={true}
-								style={{ height: 320 }}
-								{...confMapa}
-							>
+							<MapView ref='mapa' showsUserLocation={true} followsUserLocation={true} style={{ height: 320 }} {...confMapa}>
 								{this.state.editando && (
 									<Polygon
 										key={this.state.editando.id}
 										coordinates={this.state.editando.coordenadas}
-										strokeColor="#000"
-										fillColor="rgba(255,0,0,0.5)"
+										strokeColor='#000'
+										fillColor='rgba(255,0,0,0.5)'
 										strokeWidth={1}
 									/>
 								)}
@@ -365,7 +327,7 @@ export default class CadUsuario extends React.Component {
 									});
 							}}
 						>
-							<Icon name="arrow-back" />
+							<Icon name='arrow-back' />
 						</Button>
 
 						{/* botao de prosseguir */}
@@ -382,37 +344,19 @@ export default class CadUsuario extends React.Component {
 								if (this.state.posicao == 2) {
 									//confere se foi selecionada uma propriedade no mapa
 									if (!this.state.editando) {
-										showCustomToast(
-											'Defina a posição da propriedade no mapa'
-										);
+										showCustomToast('Defina a posição da propriedade no mapa');
 										return;
 									}
 
 									//concatenar com a segunda pagina de cadastro e salvar num novo objeto com id = dados
 									this.setState({
-										formulario: Object.assign(
-											{ _id: 'dados' },
-											this.state.formulario,
-											{
-												coordenadas: this.state.editando
-													.coordenadas,
-											}
-										),
+										formulario: Object.assign({ _id: 'dados' }, this.state.formulario, {
+											coordenadas: this.state.editando.coordenadas,
+										}),
 									});
 
 									//criar novo usuario no banco e automaticamente logar nesse usuario
-									Banco.signUp(
-										this.state.formulario['usuario'],
-										this.state.formulario['senha'],
-										this.state.formulario
-									)
-										.then(() => {
-											navigate('Logado');
-										})
-										.catch((err) => {
-											showDefaultToast(err);
-											navigate('Deslogado');
-										});
+									this.context.cadastrar(this.state.formulario['usuario'], this.state.formulario['senha'], this.state.formulario);
 								}
 
 								//se estiver na segunda pagina de cadastro, concatenar com a primeira pagina
@@ -435,18 +379,13 @@ export default class CadUsuario extends React.Component {
 								//se estiver na primeira pagina de cadastro, salvar formulario preenchido da primeira pagina
 								if (this.state.posicao == 0) {
 									this.setState({
-										formulario: Object.assign(
-											this.state.formulario,
-											this._formulario1.getValores()
-										),
+										formulario: Object.assign(this.state.formulario, this._formulario1.getValores()),
 										posicao: ++this.state.posicao,
 									});
 								}
 							}}
 						>
-							<Text style={{ textAlign: 'center', flex: 1 }}>
-								Prosseguir
-							</Text>
+							<Text style={{ textAlign: 'center', flex: 1 }}>Prosseguir</Text>
 						</Button>
 					</View>
 				</HideWithKeyboard>
@@ -454,6 +393,8 @@ export default class CadUsuario extends React.Component {
 		);
 	};
 }
+
+CadUsuario.contextType = AuthContext;
 
 const labels = ['', ''];
 const customStyles = {
