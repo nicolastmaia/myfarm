@@ -21,19 +21,6 @@ export const Banco = {
 		});
 	},
 
-	//TODO: transformar em async/await
-	//cadastra novo usuario
-	signUp: function(username, password, otherData) {
-		username = username.toLowerCase();
-		return this.remoto
-			.signUp(username, password, {
-				metadata: { otherData },
-			})
-			.then(() => {
-				return this.logIn(username, password);
-			});
-	},
-
 	createIndex: async function(fields) {
 		try {
 			var result = await this.remoto.createIndex({
