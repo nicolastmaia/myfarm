@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Card, Button, Text, Content, Container } from 'native-base';
 
 import { Banco } from '../instancias/conexao.js';
@@ -32,7 +32,7 @@ var form2 = [
 let mapCardHeight = 0.7 * Dimensions.get('window').height;
 
 export default function CadTalhao(props) {
-	const [coordenadas_propriedade, setCoordenadas] = useState(null);
+	const mapRef = useRef(null);
 	const [editando, setEditando] = useState(null);
 	const [btnMapa, setBtnMapa] = useState('md-create');
 	const [mapaAtivo, setMapaAtivo] = useState(true);
@@ -93,6 +93,7 @@ export default function CadTalhao(props) {
 		var tmpTalhao = {
 			...formulario1.getValores(),
 			...formulario2.getValores(),
+			coordenadas: mapRef.current.getValores(),
 		};
 
 		if (params.update) {
@@ -171,7 +172,7 @@ export default function CadTalhao(props) {
 					Informe a posição do talhão no mapa
 				</Text>
 				<Card style={styles.mapCard}>
-					<CustomMap style={styles.map} />
+					<CustomMap style={styles.map} ref={mapRef} />
 				</Card>
 
 				<Button
