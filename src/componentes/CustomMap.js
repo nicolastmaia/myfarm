@@ -11,6 +11,10 @@ const CustomMap = (props) => {
 	const [markers, setMarkers] = useState([]);
 	const [polygonCoordinate, setPolygonCoordinate] = useState([]);
 
+	useEffect(() => {
+		fetchCoordinateFromMarkers();
+	}, [markers]);
+
 	const toggleEditing = () => {
 		setEditing((prevState) => !prevState);
 		setRemove(false);
@@ -27,22 +31,6 @@ const CustomMap = (props) => {
 				return [...prevState, { key: chaveTeste, coordinate }];
 			});
 		}
-	};
-
-	const renderMarker = (marker) => {
-		return (
-			<Marker
-				pinColor='green'
-				key={marker.key}
-				draggable
-				coordinate={marker.coordinate}
-				title={`${marker.key}`}
-				onPress={() => removeMarker(marker.key)}
-				onDragEnd={(e) => {
-					updateMarkerCoordinate(marker.key, e.nativeEvent.coordinate);
-				}}
-			/>
-		);
 	};
 
 	const updateMarkerCoordinate = (markerKey, coordinate) => {
@@ -76,9 +64,21 @@ const CustomMap = (props) => {
 		});
 	};
 
-	useEffect(() => {
-		fetchCoordinateFromMarkers();
-	}, [markers]);
+	const renderMarker = (marker) => {
+		return (
+			<Marker
+				pinColor='green'
+				key={marker.key}
+				draggable
+				coordinate={marker.coordinate}
+				title={`${marker.key}`}
+				onPress={() => removeMarker(marker.key)}
+				onDragEnd={(e) => {
+					updateMarkerCoordinate(marker.key, e.nativeEvent.coordinate);
+				}}
+			/>
+		);
+	};
 
 	return (
 		<>
