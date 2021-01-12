@@ -1,4 +1,4 @@
-import React, { useEffect, createContext, useState } from 'react';
+import React, { createContext, useState } from 'react';
 import { Banco } from '../instancias/conexao';
 import AsyncStorage from '@react-native-community/async-storage';
 import { ToastAndroid } from 'react-native';
@@ -39,15 +39,16 @@ export const AuthProvider = ({ children }) => {
 		}
 	};
 
-	const cadastrar = (username, password, otherData) => {
+	const cadastrar = async function(username, password, otherData) {
 		username = username.toLowerCase();
-		return Banco.remoto
-			.signUp(username, password, {
+		try {
+			await Banco.remoto.signUp(username, password, {
 				metadata: { otherData },
-			})
-			.then(() => {
-				return logar(username, password);
 			});
+			await logar(username, password);
+		} catch (error) {
+			alert(error.message);
+		}
 	};
 
 	const deslogar = async function() {
