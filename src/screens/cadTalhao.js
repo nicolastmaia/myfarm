@@ -7,8 +7,6 @@ import { Formulario } from '../componentes/customizado';
 import CustomMap from '../componentes/CustomMap.js';
 import { Dimensions, StyleSheet } from 'react-native';
 
-let id = 0;
-
 var form1 = [
 	{ nome: 'n_parcela', placeholder: 'Parcela nº', tipo: 'numeric' },
 	{ nome: 'cultivares', placeholder: 'Cultivares' },
@@ -33,9 +31,6 @@ let mapCardHeight = 0.7 * Dimensions.get('window').height;
 
 export default function CadTalhao(props) {
 	const mapRef = useRef(null);
-	const [editando, setEditando] = useState(null);
-	const [btnMapa, setBtnMapa] = useState('md-create');
-	const [mapaAtivo, setMapaAtivo] = useState(true);
 	const [formulario1, setFormulario1] = useState({});
 	const [formulario2, setFormulario2] = useState({});
 	const [talhao, setTalhao] = useState({});
@@ -43,7 +38,6 @@ export default function CadTalhao(props) {
 	const { navigation } = props;
 	const { params } = props.route;
 	const { goBack } = navigation;
-	var confMapa = {};
 
 	const getTalhaoDataFromLocalPouch = async () => {
 		const talhaoTmp = await Banco.local.get(params.itemId);
@@ -65,29 +59,12 @@ export default function CadTalhao(props) {
 		if (params.update) {
 			getTalhaoDataFromLocalPouch();
 		}
-
-		confMapa.scrollEnabled = mapaAtivo;
-		if (!mapaAtivo) confMapa.onPress = (e) => mapaSelecionado(e);
 	}, []);
 
 	useEffect(() => {
 		fillFormValues();
 		setIsLoading(false);
 	}, [isLoading]);
-
-	function mapaSelecionado(e) {
-		console.warn('T');
-		if (!editando) {
-			setEditando({ id: id++, coordenadas: [e.nativeEvent.coordinate] });
-		} else {
-			setEditando({
-				...editando,
-				id: id++,
-				coordenadas: [...editando.coordenadas, e.nativeEvent.coordinate],
-			});
-		}
-		// if(editando) console.warn(editando.coordenadas);
-	}
 
 	const handleSave = () => {
 		var tmpTalhao = {
