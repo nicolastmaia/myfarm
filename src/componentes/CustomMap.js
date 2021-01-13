@@ -1,15 +1,23 @@
 import { Button, Icon, Text } from 'native-base';
-import React, { useEffect, useState } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import MapView, { Marker, Polygon } from 'react-native-maps';
 
-let chaveTeste = 0;
-
-const CustomMap = (props) => {
+const CustomMap = (props, ref) => {
 	const [editing, setEditing] = useState(false);
 	const [remove, setRemove] = useState(false);
 	const [markers, setMarkers] = useState([]);
 	const [polygonCoordinate, setPolygonCoordinate] = useState([]);
+
+	useEffect(() => {
+		setMarkers(props.markers);
+	}, [props.markers]);
+
+	useEffect(() => {
+		if (markers.length) fetchCoordinateFromMarkers();
+	}, [markers]);
+
+	useImperativeHandle(ref, () => ({ getValores }));
 
 	const toggleEditing = () => {
 		setEditing((prevState) => !prevState);
@@ -22,27 +30,12 @@ const CustomMap = (props) => {
 
 	const createMarker = (coordinate) => {
 		if (editing) {
-			chaveTeste++;
 			setMarkers((prevState) => {
-				return [...prevState, { key: chaveTeste, coordinate }];
+				let key = prevState.length;
+				key++;
+				return [...prevState, { key, coordinate }];
 			});
 		}
-	};
-
-	const renderMarker = (marker) => {
-		return (
-			<Marker
-				pinColor='green'
-				key={marker.key}
-				draggable
-				coordinate={marker.coordinate}
-				title={`${marker.key}`}
-				onPress={() => removeMarker(marker.key)}
-				onDragEnd={(e) => {
-					updateMarkerCoordinate(marker.key, e.nativeEvent.coordinate);
-				}}
-			/>
-		);
 	};
 
 	const updateMarkerCoordinate = (markerKey, coordinate) => {
@@ -76,9 +69,25 @@ const CustomMap = (props) => {
 		});
 	};
 
-	useEffect(() => {
-		fetchCoordinateFromMarkers();
-	}, [markers]);
+	const getValores = () => {
+		return markers;
+	};
+
+	const renderMarker = (marker) => {
+		return (
+			<Marker
+				pinColor='green'
+				key={marker.key}
+				draggable
+				coordinate={marker.coordinate}
+				title={`${marker.key}`}
+				onPress={() => removeMarker(marker.key)}
+				onDragEnd={(e) => {
+					updateMarkerCoordinate(marker.key, e.nativeEvent.coordinate);
+				}}
+			/>
+		);
+	};
 
 	return (
 		<>
@@ -94,7 +103,7 @@ const CustomMap = (props) => {
 				onLongPress={(e) => createMarker(e.nativeEvent.coordinate)}
 			>
 				{editing ? markers.map((marker) => renderMarker(marker)) : <></>}
-				{polygonCoordinate.length > 0 ? <Polygon coordinates={polygonCoordinate} fillColor='rgba(255, 138, 138, 0.5)' /> : <></>}
+				{polygonCoordinate.length > 0 ? <Polygon ref={ref} coordinates={polygonCoordinate} fillColor='rgba(255, 138, 138, 0.5)' /> : <></>}
 			</MapView>
 			{editing ? (
 				<>
@@ -126,4 +135,4 @@ const styles = StyleSheet.create({
 	removeButton: { position: 'absolute', bottom: 5, left: 5 },
 });
 
-export default CustomMap;
+export default forwardRef(CustomMap);

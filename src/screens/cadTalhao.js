@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Card, Button, Text, Content, Container } from 'native-base';
 
 import { Banco } from '../instancias/conexao.js';
@@ -6,8 +6,6 @@ import { Banco } from '../instancias/conexao.js';
 import { Formulario } from '../componentes/customizado';
 import CustomMap from '../componentes/CustomMap.js';
 import { Dimensions, StyleSheet } from 'react-native';
-
-let id = 0;
 
 var form1 = [
 	{ nome: 'n_parcela', placeholder: 'Parcela nº', tipo: 'numeric' },
@@ -32,10 +30,7 @@ var form2 = [
 let mapCardHeight = 0.7 * Dimensions.get('window').height;
 
 export default function CadTalhao(props) {
-	const [coordenadas_propriedade, setCoordenadas] = useState(null);
-	const [editando, setEditando] = useState(null);
-	const [btnMapa, setBtnMapa] = useState('md-create');
-	const [mapaAtivo, setMapaAtivo] = useState(true);
+	const mapRef = useRef(null);
 	const [formulario1, setFormulario1] = useState({});
 	const [formulario2, setFormulario2] = useState({});
 	const [talhao, setTalhao] = useState({});
@@ -43,13 +38,6 @@ export default function CadTalhao(props) {
 	const { navigation } = props;
 	const { params } = props.route;
 	const { goBack } = navigation;
-	var confMapa = {};
-
-	const getTalhaoDataFromLocalPouch = async () => {
-		const talhaoTmp = await Banco.local.get(params.itemId);
-		setTalhao(talhaoTmp);
-		setIsLoading(true);
-	};
 
 	const fillFormValues = () => {
 		for (var i = 0; i < form1.length; i++) {
@@ -63,36 +51,21 @@ export default function CadTalhao(props) {
 
 	useEffect(() => {
 		if (params.update) {
-			getTalhaoDataFromLocalPouch();
+			setTalhao(params.item);
+			setIsLoading(true);
 		}
-
-		confMapa.scrollEnabled = mapaAtivo;
-		if (!mapaAtivo) confMapa.onPress = (e) => mapaSelecionado(e);
-	}, []);
+	}, [talhao]);
 
 	useEffect(() => {
 		fillFormValues();
 		setIsLoading(false);
 	}, [isLoading]);
 
-	function mapaSelecionado(e) {
-		console.warn('T');
-		if (!editando) {
-			setEditando({ id: id++, coordenadas: [e.nativeEvent.coordinate] });
-		} else {
-			setEditando({
-				...editando,
-				id: id++,
-				coordenadas: [...editando.coordenadas, e.nativeEvent.coordinate],
-			});
-		}
-		// if(editando) console.warn(editando.coordenadas);
-	}
-
 	const handleSave = () => {
 		var tmpTalhao = {
 			...formulario1.getValores(),
 			...formulario2.getValores(),
+			coordenadas: mapRef.current.getValores(),
 		};
 
 		if (params.update) {
@@ -171,7 +144,7 @@ export default function CadTalhao(props) {
 					Informe a posição do talhão no mapa
 				</Text>
 				<Card style={styles.mapCard}>
-					<CustomMap style={styles.map} />
+					<CustomMap style={styles.map} markers={talhao.coordenadas || []} ref={mapRef} />
 				</Card>
 
 				<Button
