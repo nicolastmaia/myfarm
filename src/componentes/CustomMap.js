@@ -12,7 +12,11 @@ const CustomMap = (props, ref) => {
 	const [polygonCoordinate, setPolygonCoordinate] = useState([]);
 
 	useEffect(() => {
-		fetchCoordinateFromMarkers();
+		setMarkers(props.markers);
+	}, [props.markers]);
+
+	useEffect(() => {
+		if (markers) fetchCoordinateFromMarkers();
 	}, [markers]);
 
 	useImperativeHandle(ref, () => ({ getValores }));
@@ -28,7 +32,7 @@ const CustomMap = (props, ref) => {
 
 	const createMarker = (coordinate) => {
 		if (editing) {
-			chaveTeste++;
+			chaveTeste++; //TOFIX: Substitute this variable for something that doesn't restart every mount. This is causing a bug when updating the coordinate markers of a "talhao" already in the database.
 			setMarkers((prevState) => {
 				return [...prevState, { key: chaveTeste, coordinate }];
 			});
@@ -67,7 +71,7 @@ const CustomMap = (props, ref) => {
 	};
 
 	const getValores = () => {
-		return polygonCoordinate;
+		return markers;
 	};
 
 	const renderMarker = (marker) => {

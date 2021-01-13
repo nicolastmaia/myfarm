@@ -5,6 +5,7 @@ import { ListItem, View, Icon, Button, Text, Container, List } from 'native-base
 import { Banco } from '../instancias/conexao.js';
 import { useNavigation } from '@react-navigation/native';
 import CustomModal from '../componentes/customModal.js';
+import reactotron from 'reactotron-react-native';
 
 //==========| Fim dos Imports |==========//
 
@@ -65,11 +66,7 @@ export default function Talhao(props) {
 					<ListItem
 						button
 						onPress={() => {
-							const novoItem = {
-								itemId: item._id,
-								update: true,
-							};
-							navigate('CadTalhao', novoItem);
+							navigate('CadTalhao', { item, update: true });
 						}}
 					>
 						<View style={{ flexDirection: 'row' }}>

@@ -39,12 +39,6 @@ export default function CadTalhao(props) {
 	const { params } = props.route;
 	const { goBack } = navigation;
 
-	const getTalhaoDataFromLocalPouch = async () => {
-		const talhaoTmp = await Banco.local.get(params.itemId);
-		setTalhao(talhaoTmp);
-		setIsLoading(true);
-	};
-
 	const fillFormValues = () => {
 		for (var i = 0; i < form1.length; i++) {
 			form1[i]['valor'] = talhao[form1[i]['nome']];
@@ -57,9 +51,10 @@ export default function CadTalhao(props) {
 
 	useEffect(() => {
 		if (params.update) {
-			getTalhaoDataFromLocalPouch();
+			setTalhao(params.item);
+			setIsLoading(true);
 		}
-	}, []);
+	}, [talhao]);
 
 	useEffect(() => {
 		fillFormValues();
@@ -149,7 +144,7 @@ export default function CadTalhao(props) {
 					Informe a posição do talhão no mapa
 				</Text>
 				<Card style={styles.mapCard}>
-					<CustomMap style={styles.map} ref={mapRef} />
+					<CustomMap style={styles.map} markers={talhao.coordenadas || []} ref={mapRef} />
 				</Card>
 
 				<Button
