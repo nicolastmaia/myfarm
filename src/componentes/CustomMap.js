@@ -3,8 +3,6 @@ import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'rea
 import { StyleSheet } from 'react-native';
 import MapView, { Marker, Polygon } from 'react-native-maps';
 
-let chaveTeste = 0;
-
 const CustomMap = (props, ref) => {
 	const [editing, setEditing] = useState(false);
 	const [remove, setRemove] = useState(false);
@@ -16,7 +14,7 @@ const CustomMap = (props, ref) => {
 	}, [props.markers]);
 
 	useEffect(() => {
-		if (markers) fetchCoordinateFromMarkers();
+		if (markers.length) fetchCoordinateFromMarkers();
 	}, [markers]);
 
 	useImperativeHandle(ref, () => ({ getValores }));
@@ -32,9 +30,10 @@ const CustomMap = (props, ref) => {
 
 	const createMarker = (coordinate) => {
 		if (editing) {
-			chaveTeste++; //TOFIX: Substitute this variable for something that doesn't restart every mount. This is causing a bug when updating the coordinate markers of a "talhao" already in the database.
 			setMarkers((prevState) => {
-				return [...prevState, { key: chaveTeste, coordinate }];
+				let key = prevState.length;
+				key++;
+				return [...prevState, { key, coordinate }];
 			});
 		}
 	};
