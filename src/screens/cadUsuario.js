@@ -7,8 +7,7 @@ import { HideWithKeyboard } from 'react-native-hide-with-keyboard';
 
 //meus imports
 //const analytics = require("./instancias/analytics")
-import { showDefaultToast, showCustomToast } from '../utils/showToast';
-import { Banco } from '../instancias/conexao.js';
+import { showCustomToast } from '../utils/showToast';
 import { Formulario } from '../componentes/customizado';
 import AuthContext from '../contexts/AuthContext';
 
