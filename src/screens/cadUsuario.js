@@ -49,23 +49,21 @@ var formularios = [
 ];
 
 //campos especiais do formulario
-class Texto extends React.Component {
-	render() {
-		return (
-			<Item style={{ marginBottom: 12 }}>
-				<Icon active name={this.props.icone} style={{ color: '#ffffff' }} />
-				<Input
-					style={{ height: 60, color: '#ffffff' }}
-					placeholder={this.props.placeholder}
-					placeholderTextColor='#ffffff'
-					returnKeyType={'next'}
-					{...this.props}
-				>
-					{this.props.texto}
-				</Input>
-			</Item>
-		);
-	}
+function Texto(props) {
+	return (
+		<Item style={{ marginBottom: 12 }}>
+			<Icon active name={props.icone} style={{ color: '#ffffff' }} />
+			<Input
+				style={{ height: 60, color: '#ffffff' }}
+				placeholder={props.placeholder}
+				placeholderTextColor='#ffffff'
+				returnKeyType={'next'}
+				{...props}
+			>
+				{props.texto}
+			</Input>
+		</Item>
+	);
 }
 
 //pagina de cadastro
