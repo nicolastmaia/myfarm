@@ -16,7 +16,7 @@ let mapCardHeight = 0.5 * Dimensions.get('window').height;
 var formularios = [
 	[
 		{
-			nome: 'nome_proprietario',
+			nome: 'nomeProprietario',
 			placeholder: 'Nome do proprietário',
 			icone: 'person',
 		},
@@ -73,11 +73,46 @@ export default function CadUsuario(props) {
 	const [cep, setCep] = useState('');
 	const [posicao, setPosicao] = useState(0);
 	const [endereco, setEndereco] = useState({ uf: 'AC' });
+	const [nomePropriedade, setNomePropriedade] = useState('');
 	const [formulario, setFormulario] = useState({});
 	const [formulario1, setFormulario1] = useState({});
 	const [formulario2, setFormulario2] = useState({});
 
 	const { goBack } = props.navigation;
+
+	const handleSave = () => {
+		if (posicao == 2) {
+			const { usuario, senha } = formulario;
+			delete formulario.usuario;
+			delete formulario.senha;
+
+			const coordenadas = mapRef.current.getValores();
+			const propriedades = createPropertyArea(coordenadas);
+			const otherData = { ...formulario, propriedades };
+
+			cadastrar(usuario, senha, otherData);
+		}
+
+		if (posicao == 1) {
+			const location = { ...formulario2.getValores(), cep, uf: endereco.uf };
+			setPosicao((prevState) => ++prevState);
+			setFormulario((prevState) => ({ ...prevState, ...location }));
+		}
+
+		if (posicao == 0) {
+			const personalData = formulario1.getValores();
+			setPosicao((prevState) => ++prevState);
+			setFormulario((prevState) => ({ ...prevState, ...personalData }));
+		}
+	};
+
+	const createPropertyArea = (coordenadas) => {
+		const propriedade1 = { nomePropriedade, coordenadas };
+		let propriedades = [];
+		propriedades.push(propriedade1);
+
+		return propriedades;
+	};
 
 	return (
 		<ImageBackground blurRadius={8} source={require('../assets/myfarm_bg_grass.jpg')} style={{ flex: 1, width: null, padding: 20, paddingTop: 20 }}>
@@ -207,9 +242,7 @@ export default function CadUsuario(props) {
 						placeholder='Nome da propriedade'
 						icone='home'
 						onChangeText={(txt) => {
-							setFormulario((prevState) => {
-								return { ...prevState, nome_propriedade: txt };
-							});
+							setNomePropriedade(txt);
 						}}
 					/>
 					<Card>
@@ -228,12 +261,7 @@ export default function CadUsuario(props) {
 						style={{ borderRadius: 5, margin: 15 }}
 						onPress={() => {
 							if (posicao == 0) goBack();
-							else
-								setPosicao((prevState) => {
-									let previousPosition = prevState;
-									previousPosition--;
-									return previousPosition;
-								});
+							else setPosicao((prevState) => --prevState);
 						}}
 					>
 						<Icon name='arrow-back' />
@@ -248,45 +276,7 @@ export default function CadUsuario(props) {
 							flex: 1,
 							backgroundColor: '#004238',
 						}}
-						onPress={() => {
-							//se estiver na terceira pagina de cadastro, concatenar com a segunda pagina e inserir no banco de dados
-							if (posicao == 2) {
-								//concatenar com a segunda pagina de cadastro e salvar num novo objeto com id = dados
-								setFormulario((prevState) => {
-									return { _id: 'dados', ...prevState, coordenadas: mapRef.current.getValores() };
-								});
-
-								//criar novo usuario no banco e automaticamente logar nesse usuario
-								cadastrar(formulario['usuario'], formulario['senha'], formulario);
-							}
-
-							//se estiver na segunda pagina de cadastro, concatenar com a primeira pagina
-							if (posicao == 1) {
-								var tmp = new Object();
-								tmp[0] = formulario2.getValores();
-								setPosicao((prevState) => {
-									let nextPosition = prevState;
-									nextPosition++;
-									return nextPosition;
-								});
-								setFormulario((prevState) => {
-									return { ...prevState, cep: cep, uf: endereco.uf, propriedades: tmp };
-								});
-							}
-
-							//se estiver na primeira pagina de cadastro, salvar formulario preenchido da primeira pagina
-							if (posicao == 0) {
-								setPosicao((prevState) => {
-									let nextPosition = prevState;
-									nextPosition++;
-									return nextPosition;
-								});
-
-								setFormulario((prevState) => {
-									return { ...prevState, ...formulario1.getValores(), uf: endereco.uf, propriedades: tmp };
-								});
-							}
-						}}
+						onPress={handleSave}
 					>
 						<Text style={{ textAlign: 'center', flex: 1 }}>Prosseguir</Text>
 					</Button>
