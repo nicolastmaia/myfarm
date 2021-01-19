@@ -5,5 +5,5 @@ import PouchDBFind from 'pouchdb-find';
 
 PouchDB.debug.enable('*');
 export default PouchDB.plugin(PouchDBAuthentication)
-	.plugin(HttpPouch)
-	.plugin(PouchDBFind);
+  .plugin(HttpPouch)
+  .plugin(PouchDBFind);

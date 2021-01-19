@@ -10,19 +10,19 @@ import { AuthProvider } from '../contexts/AuthContext';
 // const analytics = require("./instancias/analytics");
 
 export default function App(props) {
-	return (
-		<NavigationContainer>
-			<Root>
-				<StatusBar
-					translucent
-					backgroundColor="transparent"
-					barStyle="light-content"
-				/>
-				{/* <Notificacoes /> */}
-				<AuthProvider>
-					<Routes />
-				</AuthProvider>
-			</Root>
-		</NavigationContainer>
-	);
+  return (
+    <NavigationContainer>
+      <Root>
+        <StatusBar
+          translucent
+          backgroundColor='transparent'
+          barStyle='light-content'
+        />
+        {/* <Notificacoes /> */}
+        <AuthProvider>
+          <Routes />
+        </AuthProvider>
+      </Root>
+    </NavigationContainer>
+  );
 }
