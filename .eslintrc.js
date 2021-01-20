@@ -3,7 +3,7 @@ module.exports = {
     es6: true,
     node: true,
   },
-  extends: ['airbnb', '@react-native-community', 'prettier/recommended'],
+  extends: ['airbnb', '@react-native-community', 'prettier/recommended'], // TODO remove "/recommended" from prettier so airbnb rules start showing
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
