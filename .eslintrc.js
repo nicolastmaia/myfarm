@@ -1,9 +1,9 @@
 module.exports = {
   env: {
-    browser: true,
     es6: true,
+    node: true,
   },
-  extends: ['airbnb', 'prettier/recommended', '@react-native-community'],
+  extends: ['airbnb', '@react-native-community', 'prettier/recommended'],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
@@ -15,9 +15,11 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
   },
-  plugins: [],
+  plugins: ['prettier', 'react', 'import'],
   rules: {
     'prettier/prettier': 'error',
+    'react/jsx-filename-extension': ['warn', { extensions: ['.js', '.jsx'] }],
     'import/prefer-default-export': 'off',
+    'react/destructuring-assignment': 'off',
   },
 };
