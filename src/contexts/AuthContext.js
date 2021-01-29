@@ -30,9 +30,7 @@ export const AuthProvider = ({ children }) => {
         username,
         password,
       });
-      Banco.createIndex(['n_parcela', 'type']); //TODO mover para um lugar mais apropriado
-      Banco.createIndex(['quantidade', 'type']); //TODO mover para um lugar mais apropriado
-      Banco.createIndex(['produto', 'type']); //TODO mover para um lugar mais apropriado
+      await Banco.createIndexForDocType(['_id', 'type']);
       return;
     } catch (err) {
       ToastAndroid.show(err.message);

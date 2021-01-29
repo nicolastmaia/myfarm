@@ -23,7 +23,7 @@ export const Banco = {
     });
   },
 
-  createIndex: async function (fields) {
+  createIndexForDocType: async function (fields) {
     try {
       var result = await this.remoto.createIndex({
         index: {
