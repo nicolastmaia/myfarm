@@ -80,7 +80,7 @@ export default function Colheita() {
                 itemId: item._id,
                 update: true,
               };
-              navigate('CadColheitas', novoItem);
+              navigate('CadColheita', novoItem);
             }}
           >
             <View style={{ flexDirection: 'row' }}>
