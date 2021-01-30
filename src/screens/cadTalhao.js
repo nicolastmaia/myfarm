@@ -113,7 +113,7 @@ export default function CadTalhao(props) {
         <Card style={{ borderRadius: 5, padding: 10 }}>
           <Formulario
             keyExtractor={(item) => item.key}
-            tamanho={45}
+            tamanho={65}
             campos={form1}
             cor='#000'
             corP='#555'
@@ -139,7 +139,7 @@ export default function CadTalhao(props) {
           {/* TODO verificar se o keyExtractor abaixo faz sentido*/}
           <Formulario
             keyExtractor={(item) => item.key}
-            tamanho={45}
+            tamanho={65}
             campos={form2}
             cor='#000'
             corP='#555'

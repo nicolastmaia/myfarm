@@ -94,7 +94,7 @@ export default function CadColheita(props) {
 
         <Card style={{ borderRadius: 5, padding: 10 }}>
           <Formulario
-            tamanho={45}
+            tamanho={65}
             campos={form1}
             cor='#000'
             corP='#555'

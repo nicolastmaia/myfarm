@@ -113,7 +113,7 @@ export default function CadAplicacao(props) {
             keyExtractor={(item) => {
               item.key;
             }}
-            tamanho={55}
+            tamanho={65}
             campos={form1}
             cor='#000'
             corP='#555'
