@@ -1,5 +1,5 @@
 import React from 'react';
-import { Item, Input, Icon, DatePicker, Toast } from 'native-base';
+import { Item, Input, Icon, DatePicker, Toast, Text } from 'native-base';
 
 //TODO IMPLEMENTAR CHECAGEM DE MINCHARACTERS
 //cada campo do formulario tem esse formato (Texto) abaixo:
@@ -37,25 +37,37 @@ export class Texto extends React.Component {
       );
     } else {
       return (
-        <Item
-          style={{
-            marginBottom: 12,
-            flex: 1,
-            minHeight: this.props.tamanho,
-          }}
-        >
-          <DatePicker
-            defaultDate={new Date()}
-            maximumDate={new Date()}
-            locale={'pt'}
-            modalTransparent={false}
-            animationType={'fade'}
-            androidMode={'default'}
-            placeHolderText={this.props.placeholder}
-            textStyle={{ color: '#000' }}
-            placeHolderTextStyle={{ color: this.props.corP }}
-          />
-        </Item>
+        <>
+          <Item
+            style={{
+              marginBottom: 12,
+              flex: 1,
+              minHeight: this.props.tamanho,
+            }}
+          >
+            <DatePicker
+              defaultDate={new Date()}
+              maximumDate={new Date()}
+              locale='pt'
+              modalTransparent={false}
+              animationType='fade'
+              androidMode='spinner'
+              placeHolderText={this.props.placeholder}
+              textStyle={{ color: '#000' }}
+              placeHolderTextStyle={{ color: this.props.corP }}
+              onDateChange={this.props.onDateChange}
+            />
+            <Input
+              placeholder={
+                this.props.texto
+                  ? '(atual: ' + new Date(this.props.texto).toDateString() + ')'
+                  : ''
+              }
+              style={{ paddingLeft: 10 }}
+              disabled
+            ></Input>
+          </Item>
+        </>
       );
     }
   }
@@ -117,7 +129,7 @@ export class Formulario extends React.Component {
         dafaultValue={this.state[campo.nome]}
         tipo={campo.tipo}
         senha={campo.senha}
-        texto={campo.valor}
+        texto={this.state[campo.nome] || campo.valor}
         onChangeText={(txt) => this.setState({ [campo.nome]: txt })}
         onDateChange={(txt) => this.setState({ [campo.nome]: txt })}
       />
