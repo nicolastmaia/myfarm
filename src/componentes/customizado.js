@@ -1,5 +1,7 @@
 import React from 'react';
 import { Item, Input, Icon, DatePicker, Toast, Text } from 'native-base';
+import TextField from './TextField';
+import DateField from './DateField';
 
 //TODO IMPLEMENTAR CHECAGEM DE MINCHARACTERS
 //cada campo do formulario tem esse formato (Texto) abaixo:
@@ -118,21 +120,36 @@ export class Formulario extends React.Component {
 
   //renderiza um formulario com os campos passados por props
   render() {
-    return this.state.campos.map((campo) => (
-      <Texto
-        key={campo.nome}
-        icone={campo.icone}
-        tamanho={this.props.tamanho}
-        placeholder={campo.placeholder}
-        cor={this.props.cor}
-        corP={this.props.corP}
-        dafaultValue={this.state[campo.nome]}
-        tipo={campo.tipo}
-        senha={campo.senha}
-        texto={this.state[campo.nome] || campo.valor}
-        onChangeText={(txt) => this.setState({ [campo.nome]: txt })}
-        onDateChange={(txt) => this.setState({ [campo.nome]: txt })}
-      />
-    ));
+    return this.state.campos.map((campo) => {
+      if (campo.tipo != 'data') {
+        return (
+          <TextField
+            key={campo.nome}
+            icone={campo.icone}
+            tamanho={this.props.tamanho}
+            placeholder={campo.placeholder}
+            cor={this.props.cor}
+            corP={this.props.corP}
+            tipo={campo.tipo}
+            senha={campo.senha}
+            texto={this.state[campo.nome] || campo.valor}
+            onChangeText={(txt) => this.setState({ [campo.nome]: txt })}
+          />
+        );
+      } else {
+        return (
+          <DateField
+            key={campo.nome}
+            icone={campo.icone}
+            tamanho={this.props.tamanho}
+            placeholder={campo.placeholder}
+            cor={this.props.cor}
+            corP={this.props.corP}
+            data={this.state[campo.nome] || campo.valor}
+            onDateChange={(txt) => this.setState({ [campo.nome]: txt })}
+          />
+        );
+      }
+    });
   }
 }
