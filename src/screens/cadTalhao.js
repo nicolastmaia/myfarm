@@ -11,7 +11,7 @@ var form1 = [
   { nome: 'n_parcela', placeholder: 'Parcela nº', tipo: 'numeric' },
   { nome: 'cultivares', placeholder: 'Cultivares' },
   { nome: 'n_plantas', placeholder: 'Nº de plantas', tipo: 'numeric' },
-  { nome: 'data_plantio', placeholder: 'Data de plantio' },
+  { nome: 'data_plantio', placeholder: 'Data de plantio', tipo: 'data' },
   { nome: 'rendimento', placeholder: 'Rendimento (kg/ha)', tipo: 'numeric' },
 ];
 
