@@ -21,7 +21,7 @@ import { HideWithKeyboard } from 'react-native-hide-with-keyboard';
 
 //meus imports
 //const analytics = require("./instancias/analytics")
-import { Formulario } from '../componentes/customizado';
+import { Formulario } from '../componentes/Formulario';
 import AuthContext from '../contexts/AuthContext';
 import CustomMap from '../componentes/CustomMap';
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, Button, Text, Content, Container } from 'native-base';
 
 // const analytics = require("./instancias/analytics");
-import { Formulario } from '../componentes/customizado';
+import { Formulario } from '../componentes/Formulario';
 import { Banco } from '../instancias/conexao.js';
 
 var form1 = [

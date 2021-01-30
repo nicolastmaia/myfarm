@@ -3,7 +3,7 @@ import { Card, Button, Text, Content, Container } from 'native-base';
 
 import { Banco } from '../instancias/conexao.js';
 
-import { Formulario } from '../componentes/customizado';
+import { Formulario } from '../componentes/Formulario';
 import CustomMap from '../componentes/CustomMap.js';
 import { Dimensions, StyleSheet } from 'react-native';
 

@@ -4,7 +4,7 @@ import { Card, Button, Text, Content, Container } from 'native-base';
 // const analytics = require("./instancias/analytics");
 import { Banco } from '../instancias/conexao.js';
 
-import { Formulario } from '../componentes/customizado';
+import { Formulario } from '../componentes/Formulario';
 
 var form1 = [
   { nome: 'data', placeholder: 'Data da colheita', tipo: 'data' },

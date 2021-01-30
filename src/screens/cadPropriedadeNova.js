@@ -13,7 +13,7 @@ import { HideWithKeyboard } from 'react-native-hide-with-keyboard';
 
 // const analytics = require("./instancias/analytics");
 import { Banco } from '../instancias/conexao.js';
-import { Formulario, mostraToast } from '../componentes/customizado';
+import { Formulario, mostraToast } from '../componentes/Formulario';
 
 class Texto extends React.Component {
   render() {
