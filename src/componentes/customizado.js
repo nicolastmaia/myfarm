@@ -1,80 +1,8 @@
 import React from 'react';
-import { Item, Input, Icon, DatePicker, Toast, Text } from 'native-base';
 import TextField from './TextField';
 import DateField from './DateField';
 
 //TODO IMPLEMENTAR CHECAGEM DE MINCHARACTERS
-//cada campo do formulario tem esse formato (Texto) abaixo:
-export class Texto extends React.Component {
-  render() {
-    if (this.props.tipo != 'data') {
-      return (
-        <Item
-          style={{
-            marginBottom: 12,
-            flex: 1,
-            minHeight: this.props.tamanho,
-          }}
-        >
-          <Icon
-            active
-            name={this.props.icone}
-            style={{ color: this.props.cor }}
-          />
-          <Input
-            style={{
-              height: this.props.tamanho,
-              color: this.props.cor,
-            }}
-            keyboardType={this.props.tipo}
-            placeholder={this.props.placeholder}
-            placeholderTextColor={this.props.corP}
-            returnKeyType={'next'}
-            secureTextEntry={this.props.senha}
-            {...this.props}
-          >
-            {this.props.texto}
-          </Input>
-        </Item>
-      );
-    } else {
-      return (
-        <>
-          <Item
-            style={{
-              marginBottom: 12,
-              flex: 1,
-              minHeight: this.props.tamanho,
-            }}
-          >
-            <DatePicker
-              defaultDate={new Date()}
-              maximumDate={new Date()}
-              locale='pt'
-              modalTransparent={false}
-              animationType='fade'
-              androidMode='spinner'
-              placeHolderText={this.props.placeholder}
-              textStyle={{ color: '#000' }}
-              placeHolderTextStyle={{ color: this.props.corP }}
-              onDateChange={this.props.onDateChange}
-            />
-            <Input
-              placeholder={
-                this.props.texto
-                  ? '(atual: ' + new Date(this.props.texto).toDateString() + ')'
-                  : ''
-              }
-              style={{ paddingLeft: 10 }}
-              disabled
-            ></Input>
-          </Item>
-        </>
-      );
-    }
-  }
-}
-
 export class Formulario extends React.Component {
   //cria formulario com os campos passados por props
   constructor(props) {
