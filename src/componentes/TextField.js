@@ -1,35 +1,29 @@
 import { Icon, Input, Item } from 'native-base';
 import React from 'react';
 
-export default class TextField extends React.Component {
-  render() {
-    return (
-      <Item
+export default TextField = (props) => {
+  return (
+    <Item
+      style={{
+        flex: 1,
+        minHeight: props.tamanho,
+      }}
+    >
+      <Icon active name={props.icone} style={{ color: props.cor }} />
+      <Input
         style={{
-          flex: 1,
-          minHeight: this.props.tamanho,
+          height: props.tamanho,
+          color: props.cor,
         }}
+        keyboardType={props.tipo}
+        placeholder={props.placeholder}
+        placeholderTextColor={props.corP}
+        returnKeyType={'next'}
+        secureTextEntry={props.senha}
+        onChangeText={props.onChangeText}
       >
-        <Icon
-          active
-          name={this.props.icone}
-          style={{ color: this.props.cor }}
-        />
-        <Input
-          style={{
-            height: this.props.tamanho,
-            color: this.props.cor,
-          }}
-          keyboardType={this.props.tipo}
-          placeholder={this.props.placeholder}
-          placeholderTextColor={this.props.corP}
-          returnKeyType={'next'}
-          secureTextEntry={this.props.senha}
-          onChangeText={this.props.onChangeText}
-        >
-          {this.props.texto}
-        </Input>
-      </Item>
-    );
-  }
-}
+        {props.texto}
+      </Input>
+    </Item>
+  );
+};
