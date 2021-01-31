@@ -1,19 +1,15 @@
+import { Button, Icon, Item, Text, View } from 'native-base';
 import React from 'react';
 import {
-  StyleSheet,
+  Dimensions,
   ImageBackground,
   ScrollView,
-  Dimensions,
+  StyleSheet,
 } from 'react-native';
-
-import { Item, Button, Text, Icon, View } from 'native-base';
-
-import MapView, { Polygon } from 'react-native-maps';
 import { HideWithKeyboard } from 'react-native-hide-with-keyboard';
-
+import MapView, { Polygon } from 'react-native-maps';
 // const analytics = require("./instancias/analytics");
 import { Banco } from '../instancias/conexao.js';
-import { Formulario, mostraToast } from '../componentes/customizado';
 
 class Texto extends React.Component {
   render() {
