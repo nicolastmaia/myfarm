@@ -1,11 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Card, Button, Text, Content, Container } from 'native-base';
-
-import { Banco } from '../instancias/conexao.js';
-
-import { Formulario } from '../componentes/Formulario';
-import CustomMap from '../componentes/CustomMap.js';
+import { Button, Card, Container, Content, Text } from 'native-base';
+import React, { useEffect, useRef, useState } from 'react';
 import { Dimensions, StyleSheet } from 'react-native';
+import CustomMap from '../componentes/CustomMap.js';
+import { CustomForm } from '../componentes/Form/CustomForm';
+import { Banco } from '../instancias/conexao.js';
 
 var form1 = [
   { nome: 'n_parcela', placeholder: 'Parcela nº', tipo: 'numeric' },
@@ -111,7 +109,7 @@ export default function CadTalhao(props) {
           Informações sobre o talhão
         </Text>
         <Card style={{ borderRadius: 5, padding: 10 }}>
-          <Formulario
+          <CustomForm
             keyExtractor={(item) => item.key}
             tamanho={65}
             campos={form1}
@@ -137,7 +135,7 @@ export default function CadTalhao(props) {
         </Text>
         <Card style={{ borderRadius: 5, padding: 10 }}>
           {/* TODO verificar se o keyExtractor abaixo faz sentido*/}
-          <Formulario
+          <CustomForm
             keyExtractor={(item) => item.key}
             tamanho={65}
             campos={form2}

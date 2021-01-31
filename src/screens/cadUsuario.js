@@ -1,29 +1,27 @@
-import React, { useContext, useRef, useState } from 'react';
 import {
-  StyleSheet,
-  ImageBackground,
-  ScrollView,
-  Keyboard,
-  Dimensions,
-} from 'react-native';
-import {
+  Button,
+  Card,
+  Icon,
   Input,
   Item,
-  Button,
-  Text,
-  Icon,
-  View,
   Picker,
-  Card,
+  Text,
+  View,
 } from 'native-base';
-import StepIndicator from 'react-native-step-indicator';
+import React, { useContext, useRef, useState } from 'react';
+import {
+  Dimensions,
+  ImageBackground,
+  Keyboard,
+  ScrollView,
+  StyleSheet,
+} from 'react-native';
 import { HideWithKeyboard } from 'react-native-hide-with-keyboard';
-
-//meus imports
-//const analytics = require("./instancias/analytics")
-import { Formulario } from '../componentes/Formulario';
-import AuthContext from '../contexts/AuthContext';
+import StepIndicator from 'react-native-step-indicator';
 import CustomMap from '../componentes/CustomMap';
+//const analytics = require("./instancias/analytics")
+import { CustomForm } from '../componentes/Form/CustomForm';
+import AuthContext from '../contexts/AuthContext';
 
 let mapCardHeight = 0.5 * Dimensions.get('window').height;
 
@@ -167,7 +165,7 @@ export default function CadUsuario(props) {
       <View style={{ flex: 1 }}>
         {/* inserção de dados pessoais */}
         <ScrollView style={posicao == 0 ? {} : { height: 0, opacity: 0 }}>
-          <Formulario
+          <CustomForm
             style={{ paddingHorizontal: 0 }}
             tamanho={60}
             campos={formularios[0]}
@@ -248,7 +246,7 @@ export default function CadUsuario(props) {
             </Picker>
           </Item>
 
-          <Formulario
+          <CustomForm
             style={{ paddingHorizontal: 0 }}
             tamanho={60}
             campos={formularios[1]}

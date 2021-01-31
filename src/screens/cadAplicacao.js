@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { Card, Button, Text, Content, Container } from 'native-base';
-
+import { Button, Card, Container, Content, Text } from 'native-base';
+import React, { useEffect, useState } from 'react';
 // const analytics = require("./instancias/analytics");
-import { Formulario } from '../componentes/Formulario';
+import { CustomForm } from '../componentes/Form/CustomForm';
 import { Banco } from '../instancias/conexao.js';
 
 var form1 = [
@@ -109,7 +108,7 @@ export default function CadAplicacao(props) {
         </Text>
 
         <Card style={{ borderRadius: 5, padding: 10 }}>
-          <Formulario
+          <CustomForm
             keyExtractor={(item) => {
               item.key;
             }}

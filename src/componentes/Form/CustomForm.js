@@ -1,9 +1,9 @@
 import React from 'react';
-import TextField from './TextField';
-import DateField from './DateField';
+import FormDateField from './FormDateField';
+import FormTextField from './FormTextField';
 
 //TODO IMPLEMENTAR CHECAGEM DE MINCHARACTERS
-export class Formulario extends React.Component {
+export class CustomForm extends React.Component {
   //cria formulario com os campos passados por props
   constructor(props) {
     super(props);
@@ -51,7 +51,7 @@ export class Formulario extends React.Component {
     return this.state.campos.map((campo) => {
       if (campo.tipo != 'data') {
         return (
-          <TextField
+          <FormTextField
             key={campo.nome}
             icone={campo.icone}
             tamanho={this.props.tamanho}
@@ -66,7 +66,7 @@ export class Formulario extends React.Component {
         );
       } else {
         return (
-          <DateField
+          <FormDateField
             key={campo.nome}
             icone={campo.icone}
             tamanho={this.props.tamanho}

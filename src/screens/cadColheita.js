@@ -1,10 +1,8 @@
+import { Button, Card, Container, Content, Text } from 'native-base';
 import React, { useEffect, useState } from 'react';
-import { Card, Button, Text, Content, Container } from 'native-base';
-
+import { CustomForm } from '../componentes/Form/CustomForm';
 // const analytics = require("./instancias/analytics");
 import { Banco } from '../instancias/conexao.js';
-
-import { Formulario } from '../componentes/Formulario';
 
 var form1 = [
   { nome: 'data', placeholder: 'Data da colheita', tipo: 'data' },
@@ -93,7 +91,7 @@ export default function CadColheita(props) {
         </Text>
 
         <Card style={{ borderRadius: 5, padding: 10 }}>
-          <Formulario
+          <CustomForm
             tamanho={65}
             campos={form1}
             cor='#000'

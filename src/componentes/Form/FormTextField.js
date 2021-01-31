@@ -1,7 +1,7 @@
 import { Icon, Input, Item } from 'native-base';
 import React from 'react';
 
-export default TextField = (props) => {
+export default FormTextField = (props) => {
   return (
     <Item
       style={{

@@ -1,7 +1,7 @@
 import { DatePicker, Input, Item } from 'native-base';
 import React from 'react';
 
-export default DateField = (props) => {
+export default FormDateField = (props) => {
   return (
     <Item
       style={{
