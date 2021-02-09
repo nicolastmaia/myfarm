@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  db:
+    container_name: myfarm-couch
+    image: 'couchdb:2.3.1'
+    ports:
+      - '5984:5984'
+    volumes:
+      - ~/projetos/real/myfarm/aux-dirs/couchdb/etc/local.d:/opt/couchdb/etc/local.d
+      - ~/projetos/real/myfarm/aux-dirs/couchdb/data:/opt/couchdb/data
