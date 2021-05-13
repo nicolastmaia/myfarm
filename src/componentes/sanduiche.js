@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, Button, Icon, Toast } from 'native-base';
 import { StyleSheet } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Share from 'react-native-share';
 import { bancoRemoto, PouchDB, Banco } from '../instancias/conexao.js';
 import { useNavigation } from '@react-navigation/native';

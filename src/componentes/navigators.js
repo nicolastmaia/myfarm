@@ -12,6 +12,7 @@ import Sanduiche from './sanduiche';
 import Principal from '../screens/principal';
 import Sobre from '../screens/sobre';
 import CadUsuario from '../screens/cadUsuario';
+import ConfirmationPage from '../screens/confirmationPage';
 import cadPropriedadeNova from '../screens/cadPropriedadeNova';
 import Talhao from '../screens/talhao';
 import CadTalhao from '../screens/cadTalhao';
@@ -184,6 +185,10 @@ function DeslogadoStackNavigator() {
       <DeslogadoStack.Screen name='LoginPage' component={Principal} />
       <DeslogadoStack.Screen name='About' component={Sobre} />
       <DeslogadoStack.Screen name='SignUpPage' component={CadUsuario} />
+      <DeslogadoStack.Screen
+        name='ConfirmationPage'
+        component={ConfirmationPage}
+      />
     </DeslogadoStack.Navigator>
   );
 }

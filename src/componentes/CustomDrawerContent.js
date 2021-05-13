@@ -6,7 +6,7 @@ import {
 } from '@react-navigation/drawer';
 import { useNavigation } from '@react-navigation/native';
 import { Banco } from '../instancias/conexao';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from 'react-native';
 import AuthContext from '../contexts/AuthContext';
 
