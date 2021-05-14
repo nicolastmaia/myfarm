@@ -17,3 +17,7 @@ export const signInWithCognito = async (username, password) => {
 export const confirmEmailWithCognito = async (username, code) => {
   await Auth.confirmSignUp(username, code);
 };
+
+export const resendCodeWithCognito = async (username) => {
+  await Auth.resendSignUp(username);
+};

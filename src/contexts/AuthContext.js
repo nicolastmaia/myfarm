@@ -6,6 +6,7 @@ import {
   signInWithCognito,
   signUpWithCognito,
   confirmEmailWithCognito,
+  resendCodeWithCognito,
 } from '../instancias/awsCognito';
 
 const AuthContext = createContext({
@@ -15,6 +16,7 @@ const AuthContext = createContext({
   signIn: null,
   signUp: null,
   confirmEmail: null,
+  resendConfirmCode: null,
 });
 
 export const AuthProvider = ({ children }) => {
@@ -55,6 +57,17 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const resendConfirmCode = async (username) => {
+    try {
+      await resendCodeWithCognito(username);
+      alert('Código enviado com sucesso. Verifique seu e-mail');
+    } catch (error) {
+      alert(
+        'Erro ao reenviar o código. Verifique se o usuário digitado está correto.'
+      );
+    }
+  };
+
   const signUp = async function (username, password, otherData) {
     username = username.toLowerCase();
     await signUpWithCognito(username, password, otherData);
@@ -87,6 +100,7 @@ export const AuthProvider = ({ children }) => {
         signIn,
         signUp,
         confirmEmail,
+        resendConfirmCode,
       }}
     >
       {children}

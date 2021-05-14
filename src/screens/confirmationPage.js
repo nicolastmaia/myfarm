@@ -6,17 +6,34 @@ import HideWithKeyboard from 'react-native-hide-with-keyboard';
 import { CustomForm } from '../componentes/Form/CustomForm';
 import AuthContext from '../contexts/AuthContext';
 
+const campos = [
+  {
+    nome: 'username',
+    placeholder: 'Usuário a confirmar',
+    icone: 'person',
+  },
+  {
+    nome: 'code',
+    placeholder: 'Código de verificação',
+    icone: 'medical',
+  },
+];
+
 const confirmationPage = ({ route }) => {
   const [formulario, setFormulario] = useState({});
-  const { confirmEmail } = useContext(AuthContext);
+  const { confirmEmail, resendConfirmCode } = useContext(AuthContext);
   const { navigate } = useNavigation();
 
   const handleConfirm = async () => {
-    const username = route.params?.username ?? '';
-    const { code } = formulario.getValores();
+    const { username, code } = formulario.getValores();
 
     await confirmEmail(username, code);
     navigate('LoginPage');
+  };
+
+  const handleResend = async () => {
+    const { username } = formulario.getValores();
+    await resendConfirmCode(username);
   };
 
   return (
@@ -49,13 +66,7 @@ const confirmationPage = ({ route }) => {
           <CustomForm
             style={{ paddingHorizontal: 0 }}
             tamanho={60}
-            campos={[
-              {
-                nome: 'code',
-                placeholder: 'Código de verificação',
-                icone: 'mail',
-              },
-            ]}
+            campos={campos}
             cor='#fff'
             corP='#fff'
             ref={(tmp) => {
@@ -78,6 +89,22 @@ const confirmationPage = ({ route }) => {
             }}
           >
             <Icon name='arrow-back' />
+          </Button>
+
+          {/* botão de reenvio de codigo*/}
+          <Button
+            block
+            style={{
+              borderRadius: 5,
+              margin: 15,
+              flex: 1,
+              backgroundColor: '#004238',
+            }}
+            onPress={handleResend}
+          >
+            <Text style={{ textAlign: 'center', flex: 1 }}>
+              Reenviar Código
+            </Text>
           </Button>
 
           {/* botao de prosseguir */}
