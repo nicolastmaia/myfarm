@@ -7,6 +7,7 @@ import { NavigationContainer } from '@react-navigation/native';
 // import Notificacoes from "./instancias/notificacoes";
 import Routes from '../componentes/navigators';
 import { AuthProvider } from '../contexts/AuthContext';
+import { ImgProvider } from '../contexts/ImgContext';
 // const analytics = require("./instancias/analytics");
 
 export default function App(props) {
@@ -20,7 +21,9 @@ export default function App(props) {
         />
         {/* <Notificacoes /> */}
         <AuthProvider>
-          <Routes />
+          <ImgProvider>
+            <Routes />
+          </ImgProvider>
         </AuthProvider>
       </Root>
     </NavigationContainer>

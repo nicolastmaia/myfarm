@@ -159,7 +159,7 @@ function LogadoStackNavigator() {
       <LogadoStack.Screen
         name='Talhao'
         component={Talhao}
-        options={{ headerTitle: 'Talhoes' }}
+        options={{ headerTitle: 'Talhões' }}
       />
       <LogadoStack.Screen
         name='CadTalhao'
