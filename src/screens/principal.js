@@ -139,11 +139,9 @@ export default class Principal extends React.Component {
             </Text>
             <Text
               style={[{ textAlign: 'right', flex: 1 }, styles.texto]}
-              onPress={() => {
-                fdc();
-              }}
+              onPress={() => navigate('ConfirmationPage')}
             >
-              Esqueci a senha
+              Confirmar usuário
             </Text>
           </View>
         </KeyboardAvoidingView>

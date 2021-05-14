@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/core';
 import {
   Button,
   Card,
@@ -81,7 +82,8 @@ function Texto(props) {
 //pagina de cadastro
 export default function CadUsuario(props) {
   const mapRef = useRef(null);
-  const { cadastrar } = useContext(AuthContext);
+  const { signUp } = useContext(AuthContext);
+  const { navigate } = useNavigation();
 
   const [cep, setCep] = useState('');
   const [posicao, setPosicao] = useState(0);
@@ -93,7 +95,7 @@ export default function CadUsuario(props) {
 
   const { goBack } = props.navigation;
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (posicao == 2) {
       const { usuario, senha } = formulario;
       delete formulario.usuario;
@@ -103,7 +105,14 @@ export default function CadUsuario(props) {
       const propriedades = createPropertyArea(coordenadas);
       const otherData = { ...formulario, propriedades };
 
-      cadastrar(usuario, senha, otherData);
+      try {
+        await signUp(usuario, senha, otherData);
+        navigate('ConfirmationPage', { username: usuario });
+      } catch (error) {
+        console.log(error);
+        alert(error.message);
+        navigate('LoginPage');
+      }
     }
 
     if (posicao == 1) {
@@ -204,7 +213,7 @@ export default function CadUsuario(props) {
             }}
           />
 
-          <Item style={{ marginBottom: 10 }}>
+          {/* <Item style={{ marginBottom: 10 }}>
             <Icon active name='md-globe' style={{ color: '#ffffff' }} />
             <Picker
               mode='dropdown'
@@ -244,7 +253,7 @@ export default function CadUsuario(props) {
               <Item label='Sergipe' value='SE' />
               <Item label='Tocantins' value='TO' />
             </Picker>
-          </Item>
+          </Item> */}
 
           <CustomForm
             style={{ paddingHorizontal: 0 }}

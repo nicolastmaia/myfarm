@@ -2,9 +2,9 @@ import PouchDB from '../constantes/pouchdbPlugins.js';
 import { ToastAndroid } from 'react-native';
 
 const ipHome = '192.168.0.109';
-const ipAway = '192.168.43.54';
+const ipAway = '18.217.208.186';
 
-const LOCALHOST = `http://${ipHome}:5984`;
+const LOCALHOST = `http://admin:b1U5JqHy4JNU@${ipAway}:5984`;
 
 //objeto banco (local e remoto)
 export const Banco = {
