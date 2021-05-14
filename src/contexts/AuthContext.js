@@ -5,6 +5,7 @@ import { ToastAndroid } from 'react-native';
 import {
   signInWithCognito,
   signUpWithCognito,
+  signOutWithCognito,
   confirmEmailWithCognito,
   resendCodeWithCognito,
 } from '../instancias/awsCognito';
@@ -78,6 +79,7 @@ export const AuthProvider = ({ children }) => {
 
   const signOut = async function () {
     try {
+      await signOutWithCognito();
       await Banco.remoto.logOut();
       await AsyncStorage.clear();
       unsubscribe.cancel();
