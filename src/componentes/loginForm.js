@@ -20,10 +20,10 @@ import AuthContext from '../contexts/AuthContext';
 function LoginForm(props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const { logar } = useContext(AuthContext);
+  const { signIn } = useContext(AuthContext);
 
   async function handleSignIn() {
-    await logar(username, password);
+    await signIn(username, password);
   }
   return (
     <View>

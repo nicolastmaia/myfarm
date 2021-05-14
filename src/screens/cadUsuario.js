@@ -82,7 +82,7 @@ function Texto(props) {
 //pagina de cadastro
 export default function CadUsuario(props) {
   const mapRef = useRef(null);
-  const { cadastrar } = useContext(AuthContext);
+  const { signUp } = useContext(AuthContext);
   const { navigate } = useNavigation();
 
   const [cep, setCep] = useState('');
@@ -106,7 +106,7 @@ export default function CadUsuario(props) {
       const otherData = { ...formulario, propriedades };
 
       try {
-        await cadastrar(usuario, senha, otherData);
+        await signUp(usuario, senha, otherData);
         navigate('ConfirmationPage', { username: usuario });
       } catch (error) {
         console.log(error);

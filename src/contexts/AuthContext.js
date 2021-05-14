@@ -11,9 +11,9 @@ import {
 const AuthContext = createContext({
   isSignedIn: null,
   user: null,
-  deslogar: null,
-  logar: null,
-  cadastrar: null,
+  signOut: null,
+  signIn: null,
+  signUp: null,
   confirmEmail: null,
 });
 
@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [unsubscribe, setUnsubscribe] = useState(null);
 
-  const logar = async function (username = '', password = '') {
+  const signIn = async function (username = '', password = '') {
     username = username.toLowerCase();
     try {
       const tmpUser = await signInWithCognito(username, password);
@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const cadastrar = async function (username, password, otherData) {
+  const signUp = async function (username, password, otherData) {
     username = username.toLowerCase();
     await signUpWithCognito(username, password, otherData);
     await Banco.remoto.signUp(username, password, {
@@ -63,7 +63,7 @@ export const AuthProvider = ({ children }) => {
     });
   };
 
-  const deslogar = async function () {
+  const signOut = async function () {
     try {
       await Banco.remoto.logOut();
       await AsyncStorage.clear();
@@ -72,7 +72,9 @@ export const AuthProvider = ({ children }) => {
       setUser(null);
     } catch (error) {
       console.log(error.message);
-      ToastAndroid.show('Não foi possível deslogar.');
+      alert(
+        'Não foi possível deslogar. Tente novamente ou contacte nosso suporte'
+      );
     }
   };
 
@@ -81,9 +83,9 @@ export const AuthProvider = ({ children }) => {
       value={{
         isSignedIn: !!user,
         user,
-        deslogar,
-        logar,
-        cadastrar,
+        signOut,
+        signIn,
+        signUp,
         confirmEmail,
       }}
     >
