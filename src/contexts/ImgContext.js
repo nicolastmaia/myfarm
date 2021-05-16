@@ -1,10 +1,10 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import {
-  uploadToS3,
-  fetchOneFromS3,
   fetchManyFromS3,
   removeOneFromS3,
+  uploadToS3,
 } from '../instancias/awsStorage';
+import AuthContext from './AuthContext';
 
 const ImgContext = createContext({
   images: null,
@@ -16,6 +16,7 @@ const ImgContext = createContext({
 export const ImgProvider = ({ children }) => {
   const [images, setImages] = useState([]);
   const [outDated, setOutDated] = useState(true);
+  const { user } = useContext(AuthContext);
 
   const uploadImage = async (data) => {
     try {
@@ -59,6 +60,10 @@ export const ImgProvider = ({ children }) => {
   useEffect(() => {
     if (outDated) updateImages();
   }, [outDated]);
+
+  useEffect(() => {
+    if (user) updateImages();
+  }, [user]);
 
   return (
     <ImgContext.Provider
