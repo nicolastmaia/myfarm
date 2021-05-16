@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Dimensions,
   Image,
@@ -11,17 +11,24 @@ import {
 import { View, Button, Fab, Icon, Container } from 'native-base';
 import Lightbox from 'react-native-lightbox';
 import Ionicon from 'react-native-vector-icons/Ionicons';
+import { S3Image } from 'aws-amplify-react-native';
 
 import { Banco } from '../instancias/conexao.js';
+import ImgContext from '../contexts/ImgContext.js';
+import { S3Album } from 'aws-amplify-react-native/dist/Storage';
 
 var contador = 0;
 
 export default function Galeria({ navigation }) {
   const [fabAtivo, setFabAtivo] = useState(false);
   const [apagar, setApagar] = useState(false);
-  const [fotos, setFotos] = useState([]);
+  const { images, fetchImages } = useContext(ImgContext);
 
   const { navigate, openDrawer } = navigation;
+
+  useEffect(() => {
+    fetchImages();
+  }, []);
 
   const navigationOptions = {
     tabBarIcon: ({ tintColor }) => (
@@ -30,78 +37,82 @@ export default function Galeria({ navigation }) {
   };
 
   const renderizaFotos = () => {
-    var tmp = (Dimensions.get('window').width - 40) / 3;
-    return fotos.map((foto) => (
-      <Lightbox
-        style={{ margin: 5, backgroundColor: '#aaa' }}
-        key={++contador}
-        renderContent={() => {
-          return (
-            <View style={{ flex: 1 }}>
-              <StatusBar
-                translucent
-                backgroundColor='#000'
-                barStyle='light-content'
-              />
-              <Image
-                style={{ flex: 1 }}
-                resizeMode='contain'
-                source={{ uri: foto.local.toString() }}
-              />
-            </View>
-          );
-        }}
-      >
-        <View>
-          {apagar == true && (
-            <Button
-              danger
-              style={{
-                position: 'absolute',
-                justifyContent: 'center',
-                alignItems: 'center',
-                right: 2,
-                top: 2,
-                height: 40,
-                width: 46,
-                padding: 2,
-                zIndex: 999,
-              }}
-              onPress={() => {
-                Alert.alert(
-                  'Confirmar exclusão',
-                  'Deseja realmente apagar esta foto?',
-                  [
-                    {
-                      text: 'Não',
-                      onPress: () => {},
-                      style: 'cancel',
-                    },
-                    {
-                      text: 'Sim',
-                      onPress: async () => {},
-                    },
-                  ],
-                  { cancelable: false }
-                );
-              }}
-            >
-              <Ionicon
-                name='md-trash'
+    var tmp = (Dimensions.get('window').width - 70) / 3;
+    return (
+      images &&
+      images.map((image) => (
+        <Lightbox
+          style={{ margin: 5, backgroundColor: '#aaa' }}
+          key={image.key}
+          renderContent={() => {
+            return (
+              <View style={{ flex: 1 }}>
+                <StatusBar
+                  translucent
+                  backgroundColor='#000'
+                  barStyle='light-content'
+                />
+                <S3Image
+                  level='private'
+                  imgKey={image.key}
+                  style={{ flex: 1 }}
+                />
+              </View>
+            );
+          }}
+        >
+          <View>
+            {apagar == true && (
+              <Button
+                danger
                 style={{
-                  color: '#FFFFFF',
-                  fontSize: 20,
+                  position: 'absolute',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  right: 2,
+                  top: 2,
+                  height: 40,
+                  width: 46,
+                  padding: 2,
+                  zIndex: 999,
                 }}
-              />
-            </Button>
-          )}
-          <Image
-            style={{ height: tmp * 0.7, width: tmp }}
-            source={{ uri: foto.local.toString() }}
-          />
-        </View>
-      </Lightbox>
-    ));
+                onPress={() => {
+                  Alert.alert(
+                    'Confirmar exclusão',
+                    'Deseja realmente apagar esta foto?',
+                    [
+                      {
+                        text: 'Não',
+                        onPress: () => {},
+                        style: 'cancel',
+                      },
+                      {
+                        text: 'Sim',
+                        onPress: async () => {},
+                      },
+                    ],
+                    { cancelable: false }
+                  );
+                }}
+              >
+                <Ionicon
+                  name='md-trash'
+                  style={{
+                    color: '#FFFFFF',
+                    fontSize: 20,
+                  }}
+                />
+              </Button>
+            )}
+            <S3Image
+              level='private'
+              imgKey={image.key}
+              style={{ width: tmp, height: tmp * 0.7 }}
+            />
+          </View>
+        </Lightbox>
+      ))
+    );
   };
 
   return (
@@ -132,8 +143,9 @@ export default function Galeria({ navigation }) {
           style={{
             flex: 1,
             marginTop: 100,
-            justifyContent: 'center',
-            alignItems: 'center',
+            marginHorizontal: 20,
+            justifyContent: 'flex-start',
+            alignItems: 'flex-start',
             flexDirection: 'column',
           }}
         >

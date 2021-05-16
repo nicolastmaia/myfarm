@@ -1,45 +1,35 @@
-import React from 'react';
+import React, { useContext, useRef } from 'react';
 import { Alert, TouchableOpacity } from 'react-native';
 import { View, Icon } from 'native-base';
 import { RNCamera } from 'react-native-camera';
+import ImgContext from '../contexts/ImgContext';
 
-export default class Camera extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+export default function Camera({ navigation }) {
+  const { goBack } = navigation;
+  const cameraRef = useRef(null);
+  const { uploadImage } = useContext(ImgContext);
 
-  // takePicture = async function() {
-  //     var tmp = Alert.alert(
-  //         'Confirmar envio',
-  //         'Deseja registrar esta foto?',
-  //         [
-  //           {text: 'Não', onPress: () => {}, style: 'cancel'},
-  //           {text: 'Sim', onPress: async () => {
-  //               if (this.camera) {
-  //                   const options = { quality: 0.5, base64: true };
-  //                   const data = await this.camera.takePictureAsync(options)
-  //                   console.warn(data.uri);
-  //               }
-  //           }}
-  //         ],
-  //         { cancelable: false }
-  //     );
-  // }
+  const handleSavePicture = async (data) => {
+    await uploadImage(data);
+  };
 
-  tiraFoto = async function () {
-    var data;
-    if (this.camera) {
-      const options = { quality: 0.6, base64: true };
-      data = await this.camera.takePictureAsync(options);
-      var tmp = Alert.alert(
+  const takePicture = async () => {
+    if (cameraRef.current) {
+      const picOptions = { quality: 0.6 };
+      const picData = await cameraRef.current.takePictureAsync(picOptions);
+      const picture = await fetch(picData.uri);
+      const blobPicture = await picture.blob();
+
+      Alert.alert(
         'Confirmar envio',
         'Deseja registrar esta foto?',
         [
           { text: 'Não', onPress: () => {}, style: 'cancel' },
           {
             text: 'Sim',
-            onPress: async () => {
-              console.warn(data.uri);
+            onPress: () => {
+              handleSavePicture(blobPicture);
+              goBack();
             },
           },
         ],
@@ -48,53 +38,45 @@ export default class Camera extends React.Component {
     }
   };
 
-  render() {
-    const { goBack } = this.props.navigation;
-    return (
-      <View style={{ flex: 1 }}>
-        <Icon
-          style={{
-            color: '#fff',
-            position: 'absolute',
-            top: 35,
-            left: 15,
-            fontSize: 30,
-            zIndex: 99,
-          }}
-          name='arrow-back'
-          onPress={() => goBack()}
-        />
-        <RNCamera
-          ref={(ref) => {
-            this.camera = ref;
-          }}
-          style={{ flex: 1 }}
-          type={RNCamera.Constants.Type.back}
-          flashMode={RNCamera.Constants.FlashMode.on}
-          permissionDialogTitle={'Permission to use camera'}
-          permissionDialogMessage={
-            'We need your permission to use your camera phone'
-          }
-        />
-        <View
-          style={{
-            position: 'absolute',
-            bottom: 15,
-            left: 0,
-            right: 0,
-            flexDirection: 'row',
-            justifyContent: 'center',
-            backgroundColor: 'transparent',
-          }}
-        >
-          <TouchableOpacity
-            style={{ height: 60 }}
-            onPress={this.tiraFoto.bind(this)}
-          >
-            <Icon name='md-aperture' style={{ color: '#fff', fontSize: 60 }} />
-          </TouchableOpacity>
-        </View>
+  return (
+    <View style={{ flex: 1 }}>
+      <Icon
+        style={{
+          color: '#fff',
+          position: 'absolute',
+          top: 35,
+          left: 15,
+          fontSize: 30,
+          zIndex: 99,
+        }}
+        name='arrow-back'
+        onPress={() => goBack()}
+      />
+      <RNCamera
+        ref={cameraRef}
+        style={{ flex: 1 }}
+        type={RNCamera.Constants.Type.back}
+        flashMode={RNCamera.Constants.FlashMode.on}
+        permissionDialogTitle={'Permissão para usar câmera'}
+        permissionDialogMessage={
+          'Precisamos da sua permissão para utilizar sua câmera.'
+        }
+      />
+      <View
+        style={{
+          position: 'absolute',
+          bottom: 15,
+          left: 0,
+          right: 0,
+          flexDirection: 'row',
+          justifyContent: 'center',
+          backgroundColor: 'transparent',
+        }}
+      >
+        <TouchableOpacity style={{ height: 60 }} onPress={takePicture}>
+          <Icon name='md-aperture' style={{ color: '#fff', fontSize: 60 }} />
+        </TouchableOpacity>
       </View>
-    );
-  }
+    </View>
+  );
 }
