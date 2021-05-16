@@ -9,16 +9,20 @@ export default function Camera({ navigation }) {
   const cameraRef = useRef(null);
   const { uploadImage } = useContext(ImgContext);
 
-  const handleSavePicture = async (data) => {
+  const handleSaveImageConfirm = async (data) => {
     await uploadImage(data);
   };
 
-  const takePicture = async () => {
+  const handleBackPress = () => {
+    goBack();
+  };
+
+  const handleTakePictureButton = async () => {
     if (cameraRef.current) {
-      const picOptions = { quality: 0.6 };
-      const picData = await cameraRef.current.takePictureAsync(picOptions);
-      const picture = await fetch(picData.uri);
-      const blobPicture = await picture.blob();
+      const imgOptions = { quality: 0.6 };
+      const imgData = await cameraRef.current.takePictureAsync(imgOptions);
+      const image = await fetch(imgData.uri);
+      const blobImage = await image.blob();
 
       Alert.alert(
         'Confirmar envio',
@@ -28,7 +32,7 @@ export default function Camera({ navigation }) {
           {
             text: 'Sim',
             onPress: () => {
-              handleSavePicture(blobPicture);
+              handleSaveImageConfirm(blobImage);
               goBack();
             },
           },
@@ -50,7 +54,7 @@ export default function Camera({ navigation }) {
           zIndex: 99,
         }}
         name='arrow-back'
-        onPress={() => goBack()}
+        onPress={handleBackPress}
       />
       <RNCamera
         ref={cameraRef}
@@ -59,7 +63,7 @@ export default function Camera({ navigation }) {
         flashMode={RNCamera.Constants.FlashMode.on}
         permissionDialogTitle={'Permissão para usar câmera'}
         permissionDialogMessage={
-          'Precisamos da sua permissão para utilizar sua câmera.'
+          'Precisamos da sua permissão para utilizar a câmera.'
         }
       />
       <View
@@ -73,7 +77,10 @@ export default function Camera({ navigation }) {
           backgroundColor: 'transparent',
         }}
       >
-        <TouchableOpacity style={{ height: 60 }} onPress={takePicture}>
+        <TouchableOpacity
+          style={{ height: 60 }}
+          onPress={handleTakePictureButton}
+        >
           <Icon name='md-aperture' style={{ color: '#fff', fontSize: 60 }} />
         </TouchableOpacity>
       </View>

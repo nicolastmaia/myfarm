@@ -3,21 +3,24 @@ import {
   uploadToS3,
   fetchOneFromS3,
   fetchManyFromS3,
+  removeOneFromS3,
 } from '../instancias/awsStorage';
 
 const ImgContext = createContext({
   images: null,
   uploadImage: null,
   fetchImages: null,
+  removeImage: null,
 });
 
 export const ImgProvider = ({ children }) => {
   const [images, setImages] = useState([]);
+  const [outDated, setOutDated] = useState(true);
 
   const uploadImage = async (data) => {
     try {
-      const response = await uploadToS3(data);
-      setImages((prevState) => [...prevState, response]);
+      await uploadToS3(data);
+      setOutDated(true);
     } catch (error) {
       alert(
         'Erro ao salvar imagem. Tente novamente ou contacte nosso suporte.'
@@ -36,10 +39,11 @@ export const ImgProvider = ({ children }) => {
     }
   };
 
-  const fetchImage = async (fileKey) => {
+  const removeImage = async (fileKey) => {
     try {
-      const response = await fetchOneFromS3(fileKey);
-      setImages((prevState) => [...prevState, response]);
+      const response = await removeOneFromS3(fileKey);
+      console.log(response);
+      setOutDated(true);
     } catch (error) {
       alert(
         'Erro ao recuperar imagem. Tente novamente ou contacte nosso suporte.'
@@ -47,8 +51,19 @@ export const ImgProvider = ({ children }) => {
     }
   };
 
+  const updateImages = async () => {
+    await fetchImages();
+    setOutDated(false);
+  };
+
+  useEffect(() => {
+    if (outDated) updateImages();
+  }, [outDated]);
+
   return (
-    <ImgContext.Provider value={{ images, uploadImage, fetchImages }}>
+    <ImgContext.Provider
+      value={{ images, uploadImage, fetchImages, removeImage }}
+    >
       {children}
     </ImgContext.Provider>
   );

@@ -12,7 +12,6 @@ export const uploadToS3 = async (data) => {
 export const fetchManyFromS3 = async () => {
   const response = await Storage.list('', {
     level: 'private',
-    cacheControl: 'no-cache',
   });
 
   return response;
@@ -21,7 +20,14 @@ export const fetchManyFromS3 = async () => {
 export const fetchOneFromS3 = async (fileKey) => {
   const response = await Storage.get(fileKey, {
     level: 'private',
-    cacheControl: 'no-cache',
+  });
+
+  return response;
+};
+
+export const removeOneFromS3 = async (fileKey) => {
+  const response = await Storage.remove(fileKey, {
+    level: 'private',
   });
 
   return response;
