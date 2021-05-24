@@ -1,21 +1,18 @@
 import PouchDB from '../constantes/pouchdbPlugins.js';
-import { ToastAndroid } from 'react-native';
+import { COUCH_USER, COUCH_PASS, COUCH_REMOTE_IP } from '../couchConfig.json';
 
-const ipHome = '192.168.0.109';
-const ipAway = '18.217.208.186';
-
-const LOCALHOST = `http://admin:b1U5JqHy4JNU@${ipAway}:5984`;
+const couch_address = `http://${COUCH_USER}:${COUCH_PASS}@${COUCH_REMOTE_IP}:5984`;
 
 //objeto banco (local e remoto)
 export const Banco = {
   local: new PouchDB('myfarmlocal'),
-  remoto: new PouchDB(`${LOCALHOST}`),
+  remoto: new PouchDB(`${couch_address}`),
 
   //sincroniza com banco especifico do usuario
   syncDB: function (username = '') {
     this.local = new PouchDB(username);
     this.remoto = new PouchDB(
-      `${LOCALHOST}/userdb-${Buffer.from(username).toString('hex')}`
+      `${couch_address}/userdb-${Buffer.from(username).toString('hex')}`
     );
     return PouchDB.sync(this.local, this.remoto, {
       live: true,
