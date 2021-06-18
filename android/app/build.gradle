@@ -76,7 +76,8 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-    entryFile: "index.js"
+  cliPath: "$rootDir/../node_modules/react-native/cli.js",
+  entryFile: "index.js"
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -114,11 +115,11 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.myfarm"
+        applicationId "com.petsi.myfarm"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 101
+        versionName "1.0.1"
         missingDimensionStrategy 'react-native-camera', 'general'
 				multiDexEnabled true
 
@@ -171,7 +172,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation 'com.facebook.react:react-native:0.62.2'  // From node_modules
+    implementation 'com.facebook.react:react-native:0.62.3'  // From node_modules
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 		implementation 'com.android.support:multidex:1.0.3'
 

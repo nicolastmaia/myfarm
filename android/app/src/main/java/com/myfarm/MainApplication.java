@@ -1,4 +1,4 @@
-package com.myfarm;
+package com.petsi.myfarm;
 
 import android.app.Application;
 
