@@ -77,3 +77,6 @@ amplify-gradle-config.json
 amplifytools.xcconfig
 .secret-*
 src/couchConfig.json
+release
+debug
+*.hprof
