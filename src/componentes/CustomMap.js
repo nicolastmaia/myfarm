@@ -99,6 +99,7 @@ const CustomMap = (props, ref) => {
       <MapView
         style={props.style}
         loadingEnabled={true}
+        moveOnMarkerPress={false}
         initialRegion={{
           latitude: 37.78825,
           longitude: -122.4324,
